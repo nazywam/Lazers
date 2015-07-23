@@ -93,7 +93,6 @@ class PlayState extends FlxState {
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		handleMouse();
-		
 
 		for(l in lasers){
 			if(l.head){
@@ -103,77 +102,74 @@ class PlayState extends FlxState {
 				var _moveY:Int;
 				_moveX = _moveY = 0;
 
-
 				var currentTile = board[Std.int(l.y/Settings.TILE_HEIGHT)][Std.int(l.x/Settings.TILE_WIDTH)];
-				currentTile.color = FlxColor.RED;
+				currentTile.color = l.color;
 				
 				var nextDirection:Int = l.direction;
 
-				switch (l.direction) {
-					case FlxObject.UP:
-						switch (currentTile.type) {
-							case 0:
+				switch (currentTile.type){
+					case Tile.BLANK:
+						switch (l.direction) {
+							case FlxObject.UP:
 								nextDirection = l.direction;
 								_moveX = 0;
 								_moveY = -1;
-							case 1:
-								nextDirection = FlxObject.RIGHT;
+							case FlxObject.RIGHT:
+								nextDirection = l.direction;
 								_moveX = 1;
 								_moveY = 0;
-							case 2:
-								nextDirection = FlxObject.LEFT;
+							case FlxObject.DOWN:
+								nextDirection = l.direction;
+								_moveX = 0;
+								_moveY = 1;
+							case FlxObject.LEFT:
+								nextDirection = l.direction;
 								_moveX = -1;
 								_moveY = 0;
 						}
-					case FlxObject.RIGHT:
-						switch(currentTile.type){
-							case 0:
-								nextDirection = l.direction;
+					case Tile.MIRROR:
+						switch (l.direction) {
+							case FlxObject.UP:
+								nextDirection = FlxObject.RIGHT;
 								_moveX = 1;
 								_moveY = 0;
-							case 1:
+							case FlxObject.RIGHT:
 								nextDirection = FlxObject.UP;
 								_moveX = 0;
 								_moveY = -1;
-							case 2:
+							case FlxObject.DOWN:
+								nextDirection = FlxObject.LEFT;
+								_moveX = -1;
+								_moveY = 0;
+							case FlxObject.LEFT:
 								nextDirection = FlxObject.DOWN;
 								_moveX = 0;
 								_moveY = 1;
 						}
-						
-					case FlxObject.DOWN:
-						switch (currentTile.type) {
-							case 0:
-								nextDirection = l.direction;
-								_moveX = 0;
-								_moveY = 1;
-							case 1:
+					case Tile.BACK_MIRROR:
+						switch (l.direction) {
+							case FlxObject.UP:
 								nextDirection = FlxObject.LEFT;
 								_moveX = -1;
 								_moveY = 0;
-							case 2:
-								nextDirection = FlxObject.RIGHT;
-								_moveX = 1;
-								_moveY = 0;
-						}
-					case FlxObject.LEFT:
-						switch (currentTile.type) {
-							case 0:
-								nextDirection = l.direction;
-								_moveX = -1;
-								_moveY = 0;
-							case 1:
+							case FlxObject.RIGHT:
 								nextDirection = FlxObject.DOWN;
 								_moveX = 0;
 								_moveY = 1;
-							case 2:
+							case FlxObject.DOWN:
+								nextDirection = FlxObject.RIGHT;
+								_moveX = 1;
+								_moveY = 0;
+							case FlxObject.LEFT:
 								nextDirection = FlxObject.UP;
 								_moveX = 0;
 								_moveY = -1;
 						}
+					case Tile.BLOCK:
+						_moveX = 0;
+						_moveY = 0;
+						nextDirection = l.direction;
 				}
-
-
 
 				if (inBounds(Std.int(l.x/Settings.TILE_WIDTH) + _moveX, Std.int(l.y/Settings.TILE_HEIGHT) + _moveY)){
 

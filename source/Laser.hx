@@ -2,10 +2,6 @@ import flixel.FlxSprite;
 import flixel.FlxObject;
 import flixel.util.FlxTimer;
 
-//0 - blank
-//1 - mirror
-//2 - backMirror
-
 class Laser extends FlxSprite {
 
 	public var direction:Int;
