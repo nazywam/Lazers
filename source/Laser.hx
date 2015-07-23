@@ -12,7 +12,7 @@ class Laser extends FlxSprite {
 		direction = _d;
 
 		loadGraphic("assets/images/Laser.png", true, 32, 32);
-		animation.add("default", [0]);
+		animation.add("default", [0, 1, 2, 3, 4, 5, 6, 7], Std.int(8/Settings.LASER_SPEED), false);
 		animation.play("default");
 
 		ID = _id;
@@ -20,16 +20,18 @@ class Laser extends FlxSprite {
 		
 		switch(direction){
 			case FlxObject.UP:
-				angle = 90;
+				angle = 270;
 			case FlxObject.RIGHT:
 
 			case FlxObject.DOWN:
 				angle = 90;
+				flipY = true;
 			case FlxObject.LEFT:
+				flipX = true;
 		}
 
 		var t = new FlxTimer();
-		t.start(.0666, function(_){
+		t.start(Settings.LASER_SPEED, function(_){
 			head = true;
 		});
 	}

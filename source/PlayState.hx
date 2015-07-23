@@ -37,7 +37,7 @@ class PlayState extends FlxState {
 			for(j in 0...Settings.BOARD_WIDTH){
 				var possibleId = 0;
 				if(Std.random(3) == 0){
-					possibleId = Std.random(4);
+					possibleId = Std.random(5);
 				}
 
 				board[i][j] = new Tile(j*Settings.TILE_WIDTH, i*Settings.TILE_HEIGHT, possibleId, false);
@@ -182,9 +182,8 @@ class PlayState extends FlxState {
 								_moveY = -1;
 						}
 				}
-
+				
 				if (inBounds(Std.int(l.x/Settings.TILE_WIDTH) + _moveX, Std.int(l.y/Settings.TILE_HEIGHT) + _moveY)){
-
 					var uniqueLaser:Bool = true;
 					for(laser in lasers){
 						if(laser.x == l.x + _moveX*Settings.TILE_WIDTH && laser.y == l.y + _moveY*Settings.TILE_HEIGHT && laser.direction == nextDirection && l.ID == laser.ID){
@@ -192,7 +191,7 @@ class PlayState extends FlxState {
 						}
 					}
 
-					if(board[Std.int(l.y/Settings.TILE_HEIGHT) + _moveY][Std.int(l.x/Settings.TILE_WIDTH) + _moveX].type == Tile.BLOCK){
+					if(board[Std.int(l.y/Settings.TILE_HEIGHT) + _moveY][Std.int(l.x/Settings.TILE_WIDTH) + _moveX].type == Tile.BLOCK || board[Std.int(l.y/Settings.TILE_HEIGHT) + _moveY][Std.int(l.x/Settings.TILE_WIDTH) + _moveX].type == Tile.SOURCE){
 						uniqueLaser = false;
 					}
 

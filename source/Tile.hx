@@ -10,10 +10,11 @@ class Tile extends FlxSprite {
 
 
 
-	public static inline var BLANK :Int = 0;
-	public static inline var MIRROR :Int = 1;
-	public static inline var BACK_MIRROR :Int = 2;
-	public static inline var BLOCK :Int = 3;
+	public static inline var BLANK 			:Int = 0;
+	public static inline var MIRROR 		:Int = 1;
+	public static inline var BACK_MIRROR 	:Int = 2;
+	public static inline var BLOCK 			:Int = 3;
+	public static inline var SOURCE 		:Int = 4;
 
 	override public function new(_x:Float, _y:Float, _t:Int, _m:Bool){
 		super(_x, _y);
