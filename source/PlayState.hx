@@ -40,7 +40,7 @@ class PlayState extends FlxState {
 					possibleId = Std.random(5);
 				}
 
-				board[i][j] = new Tile(j*Settings.TILE_WIDTH, i*Settings.TILE_HEIGHT, possibleId, false);
+				board[i][j] = new Tile(j*Settings.TILE_WIDTH, i*Settings.TILE_HEIGHT, possibleId, false, FlxObject.UP);
 				originalBoard[i][j] = board[i][j];
 				add(board[i][j]);
 			}
@@ -53,7 +53,7 @@ class PlayState extends FlxState {
 		add(lasers);
 
 		for (i in 0...8) {
-			var t = new Tile(Settings.TILE_WIDTH * Settings.BOARD_WIDTH + 20, i*40, Std.random(4), true);
+			var t = new Tile(Settings.TILE_WIDTH * Settings.BOARD_WIDTH + 20, i*40, Std.random(4), true, FlxObject.UP);
 			availableTiles.add(t);
 		}
 		
@@ -106,9 +106,52 @@ class PlayState extends FlxState {
 		}
  	}
 
+ 	function generateLasers(){
+ 		for(j in 0...board.length){
+ 			for(i in 0...board[j].length){
+ 				var t = board[j][i];
+	 			if(t.type == Tile.SOURCE){
+	 				var moveX:Int = 0;
+	 				var moveY:Int = 0;
+
+
+	 				switch (t.direction) {
+	 					case FlxObject.UP:
+	 						moveX = 0;
+	 						moveY = -1;
+	 					case FlxObject.RIGHT:
+							moveX = 1;
+	 						moveY = 0;
+	 					case FlxObject.DOWN:
+							moveX = 0;
+	 						moveY = 1;
+	 					case FlxObject.LEFT:
+							moveX = -1;
+	 						moveY = 0;
+	 				}
+	 				var possibleX:Int = Std.int(t.x/Settings.TILE_WIDTH) + moveX;
+	 				var possibleY:Int = Std.int(t.y/Settings.TILE_HEIGHT) + moveY;
+
+	 				if(inBounds(possibleX, possibleY) && board[possibleY][possibleX].type != Tile.BLOCK && board[possibleY][possibleX].type != Tile.SOURCE){
+	 					var l = new Laser(t.x + moveX * Settings.TILE_WIDTH, t.y + moveY * Settings.TILE_HEIGHT, t.direction, currentLaserId, Std.random(0xFFFFFF) + 0xFF000000);
+		 				lasers.add(l);
+
+		 				currentLaserId++;	
+	 				}
+ 				}		
+ 			}
+ 		}
+ 	}
+
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		handleMouse();
+
+		if(FlxG.keys.justPressed.L){
+			lasers.clear();
+			generateLasers();
+		}
+
 
 		for(l in lasers){
 			if(l.head){
@@ -182,8 +225,8 @@ class PlayState extends FlxState {
 								_moveY = -1;
 						}
 				}
-				
-				if (inBounds(Std.int(l.x/Settings.TILE_WIDTH) + _moveX, Std.int(l.y/Settings.TILE_HEIGHT) + _moveY)){
+
+				if (inBounds(Std.int(l.x / Settings.TILE_WIDTH) + _moveX, Std.int(l.y / Settings.TILE_HEIGHT) + _moveY)){
 					var uniqueLaser:Bool = true;
 					for(laser in lasers){
 						if(laser.x == l.x + _moveX*Settings.TILE_WIDTH && laser.y == l.y + _moveY*Settings.TILE_HEIGHT && laser.direction == nextDirection && l.ID == laser.ID){
