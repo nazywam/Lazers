@@ -11,7 +11,7 @@ class Laser extends FlxSprite {
 	public var direction:Int;
 	public var head:Bool = false;
 
-	override public function new(_x:Float, _y:Float, _d:Int){
+	override public function new(_x:Float, _y:Float, _d:Int, _id:Int, _c:Int){
 		super(_x, _y);
 		direction = _d;
 
@@ -19,6 +19,9 @@ class Laser extends FlxSprite {
 		animation.add("default", [0]);
 		animation.play("default");
 
+		ID = _id;
+		color = _c;
+		
 		switch(direction){
 			case FlxObject.UP:
 				angle = 90;
@@ -30,7 +33,7 @@ class Laser extends FlxSprite {
 		}
 
 		var t = new FlxTimer();
-		t.start(.1, function(_){
+		t.start(.0666, function(_){
 			head = true;
 		});
 	}

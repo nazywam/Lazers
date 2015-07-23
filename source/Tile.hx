@@ -1,8 +1,11 @@
 import flixel.FlxSprite;
+import flixel.math.FlxPoint;
 
 class Tile extends FlxSprite {
 
 	public var type:Int;
+
+	public var originalPosition:FlxPoint;
 
 	override public function new(_x:Float, _y:Float, _t:Int){
 		super(_x, _y);
@@ -10,5 +13,8 @@ class Tile extends FlxSprite {
 		type = _t;
 		animation.add("default", [type]);
 		animation.play("default");
+
+		originalPosition = new FlxPoint(x, y);
 	}	
+
 }
