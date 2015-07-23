@@ -30,7 +30,7 @@ class PlayState extends FlxState {
 			for(j in 0...Settings.BOARD_WIDTH){
 				var possibleId = 0;
 				if(Std.random(4) == 0){
-					possibleId = Std.random(3);
+					possibleId = Std.random(4);
 				}
 
 				board[i][j] = new Tile(j*Settings.TILE_WIDTH, i*Settings.TILE_HEIGHT, possibleId);
@@ -169,6 +169,7 @@ class PlayState extends FlxState {
 						_moveX = 0;
 						_moveY = 0;
 						nextDirection = l.direction;
+						l.visible = false;
 				}
 
 				if (inBounds(Std.int(l.x/Settings.TILE_WIDTH) + _moveX, Std.int(l.y/Settings.TILE_HEIGHT) + _moveY)){
