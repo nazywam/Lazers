@@ -11,6 +11,16 @@ import flixel.util.FlxColor;
 
 class PlayState extends FlxState {
 	
+	var map:Array<Array<Int>> = 
+[[2,1,1,1,1,1,1,3],
+[1,2,1,1,1,1,3,1],
+[1,1,2,1,1,3,1,1],
+[1,1,1,2,3,1,1,1],
+[1,1,1,1,1,1,1,1],
+[1,1,1,3,1,2,1,1],
+[1,1,3,1,1,1,2,1],
+[5,3,1,1,1,1,1,2]];
+
 	var currentLaserId:Int = 0;
 
 	var board:Array<Array<Tile>>;
@@ -26,25 +36,7 @@ class PlayState extends FlxState {
 	override public function create():Void {
 		super.create();
 
-		board = new Array<Array<Tile>>();
-		originalBoard = new Array<Array<Tile>>();
-
-
-		for(i in 0...Settings.BOARD_HEIGHT){
-			board[i] = new Array<Tile>();
-			originalBoard[i] = new Array<Tile>();
-
-			for(j in 0...Settings.BOARD_WIDTH){
-				var possibleId = 0;
-				if(Std.random(3) == 0){
-					possibleId = Std.random(5);
-				}
-
-				board[i][j] = new Tile(j*Settings.TILE_WIDTH, i*Settings.TILE_HEIGHT, possibleId, false, FlxObject.UP);
-				originalBoard[i][j] = board[i][j];
-				add(board[i][j]);
-			}
-		}
+		loadMap(map);
 
 		availableTiles = new FlxTypedGroup<Tile>();
 		add(availableTiles);
@@ -58,6 +50,23 @@ class PlayState extends FlxState {
 		}
 		
  	}
+
+ 	function loadMap(map:Array<Array<Int>>){
+ 		board = new Array<Array<Tile>>();
+		originalBoard = new Array<Array<Tile>>();
+
+
+		for(i in 0...map.length){
+			board[i] = new Array<Tile>();
+			originalBoard[i] = new Array<Tile>();
+			for(j in 0...map[i].length){
+				board[i][j] = new Tile(j*Settings.TILE_WIDTH, i*Settings.TILE_HEIGHT, map[i][j]-1, false, FlxObject.UP);
+				originalBoard[i][j] = board[i][j];
+				add(board[i][j]);
+			}
+		}
+ 	}
+
 
  	function inBounds(_x:Int, _y:Int):Bool {
  		return (_x >= 0 && _x < Settings.BOARD_WIDTH) && (_y >= 0 && _y < Settings.BOARD_HEIGHT);
