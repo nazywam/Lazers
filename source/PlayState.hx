@@ -42,10 +42,20 @@ class PlayState extends FlxState {
 			availableTiles.add(t);
 		}
  	}
+	
+	function isNumeric(str:String):Bool {
+		for (i in 0...str.length) {				
+			if (str.charCodeAt(i) >= '0'.charCodeAt(0) && str.charCodeAt(i) <= '9'.charCodeAt(0)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 
  	function loadMap(mapText:String):Void {
  		var xml = Xml.parse(mapText).firstElement();
-
+		
 		board = new Array<Array<Tile>>();
 		originalBoard = new Array<Array<Tile>>();
 
@@ -61,9 +71,8 @@ class PlayState extends FlxState {
 	        		for(t in 0...line.split(',').length){
 	        			var tile = line.split(',')[t];
 
-	        			if(tile != ''){
+	        			if(isNumeric(tile)){
 							board[l-1][t] = new Tile(t*Settings.TILE_WIDTH, (l-1)*Settings.TILE_HEIGHT, Std.parseInt(tile)-1, false);
-
 							originalBoard[l-1][t] = board[l-1][t];
 							add(board[l-1][t]);
 						}
