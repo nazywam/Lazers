@@ -8,6 +8,8 @@ import flixel.ui.FlxButton;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxObject;
 import flixel.util.FlxColor;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
 
 class PlayState extends FlxState {
 	
@@ -45,7 +47,7 @@ class PlayState extends FlxState {
 		add(lasers);
 
 		for (i in 0...7) {
-			var t = new Tile(i*35, Settings.BOARD_HEIGHT*Settings.TILE_HEIGHT, Std.random(4), true, FlxObject.UP);
+			var t = new Tile(i*35, Settings.BOARD_HEIGHT*Settings.TILE_HEIGHT, Std.random(12), true);
 			availableTiles.add(t);
 		}
 		
@@ -60,7 +62,7 @@ class PlayState extends FlxState {
 			board[i] = new Array<Tile>();
 			originalBoard[i] = new Array<Tile>();
 			for(j in 0...map[i].length){
-				board[i][j] = new Tile(j*Settings.TILE_WIDTH, i*Settings.TILE_HEIGHT, map[i][j]-1, false, FlxObject.UP);
+				board[i][j] = new Tile(j*Settings.TILE_WIDTH, i*Settings.TILE_HEIGHT, map[i][j]-1, false);
 				originalBoard[i][j] = board[i][j];
 				add(board[i][j]);
 			}
@@ -83,6 +85,9 @@ class PlayState extends FlxState {
 					pressed = true;
 					pressedTile = t;
 
+					FlxTween.tween(pressedTile.scale, {x:1.2, y:1.2}, .1, {ease:FlxEase.quadInOut});
+
+
 					if(inBounds(pressedX, pressedY)){
 						board[pressedY][pressedX] = originalBoard[pressedY][pressedX];
 					}
@@ -90,7 +95,11 @@ class PlayState extends FlxState {
 			}
 
 			if(inBounds(pressedX, pressedY) && !pressed){
-				if(board[pressedY][pressedX].type == Tile.SOURCE){
+				if(board[pressedY][pressedX].type == Tile.SOURCE_UP || 
+					board[pressedY][pressedX].type == Tile.SOURCE_RIGHT || 
+						board[pressedY][pressedX].type == Tile.SOURCE_DOWN || 
+							board[pressedY][pressedX].type == Tile.SOURCE_LEFT){
+					lasers.clear();
 					fireLaser(board[pressedY][pressedX]);
 				}
 			}			
@@ -107,13 +116,15 @@ class PlayState extends FlxState {
 			var possibleX:Int = Std.int(FlxG.mouse.x/Settings.TILE_WIDTH);
 			var possibleY:Int = Std.int(FlxG.mouse.y/Settings.TILE_HEIGHT);
 
+				FlxTween.tween(pressedTile.scale, {x:1, y:1}, .1, {ease:FlxEase.quadIn});
+
 			if(inBounds(possibleX, possibleY) && !board[possibleY][possibleX].movable){
 				board[Std.int(FlxG.mouse.y/Settings.TILE_HEIGHT)][Std.int(FlxG.mouse.x/Settings.TILE_WIDTH)] = pressedTile;
 				pressedTile.x = Std.int(FlxG.mouse.x/Settings.TILE_WIDTH)*Settings.TILE_WIDTH;
 				pressedTile.y = Std.int(FlxG.mouse.y/Settings.TILE_HEIGHT)*Settings.TILE_HEIGHT;
 			} else {
-				pressedTile.x = pressedTile.originalPosition.x;
-				pressedTile.y = pressedTile.originalPosition.y;
+
+				FlxTween.tween(pressedTile, {x:pressedTile.originalPosition.x, y:pressedTile.originalPosition.y}, .5, {ease:FlxEase.quadIn});
 			}
 		}
  	}
@@ -123,17 +134,17 @@ class PlayState extends FlxState {
 		var moveY:Int = 0;
 
 
-		switch (t.direction) {
-			case FlxObject.UP:
+		switch (t.type) {
+			case Tile.SOURCE_UP:
 				moveX = 0;
 				moveY = -1;
-			case FlxObject.RIGHT:
+			case Tile.SOURCE_RIGHT:
 				moveX = 1;
 				moveY = 0;
-			case FlxObject.DOWN:
+			case Tile.SOURCE_DOWN:
 				moveX = 0;
 				moveY = 1;
-			case FlxObject.LEFT:
+			case Tile.SOURCE_LEFT:
 				moveX = -1;
 				moveY = 0;
 		}
@@ -141,7 +152,7 @@ class PlayState extends FlxState {
 		var possibleX:Int = Std.int(t.x/Settings.TILE_WIDTH) + moveX;
 		var possibleY:Int = Std.int(t.y/Settings.TILE_HEIGHT) + moveY;
 
-		if(inBounds(possibleX, possibleY) && board[possibleY][possibleX].type != Tile.BLOCK && board[possibleY][possibleX].type != Tile.SOURCE){
+		if(inBounds(possibleX, possibleY) && board[possibleY][possibleX].passable){
 			var l = new Laser(t.x + moveX * Settings.TILE_WIDTH, t.y + moveY * Settings.TILE_HEIGHT, t.direction, currentLaserId, Std.random(0xFFFFFF) + 0xFF000000);
 			lasers.add(l);
 
@@ -150,10 +161,11 @@ class PlayState extends FlxState {
  	}
 
  	function generateLasers(){
+
  		for(j in 0...board.length){
  			for(i in 0...board[j].length){
  				var t = board[j][i];
-				if(t.type == Tile.SOURCE){
+				if(t.type == Tile.SOURCE_UP || t.type == Tile.SOURCE_LEFT || t.type == Tile.SOURCE_DOWN || t.type == Tile.SOURCE_DOWN){
 					fireLaser(t);
 				}
  			}
@@ -254,7 +266,7 @@ class PlayState extends FlxState {
 						}
 					}
 
-					if(board[possibleY][possibleX].type == Tile.BLOCK || board[possibleY][possibleX].type == Tile.SOURCE){
+					if(board[possibleY][possibleX].type == Tile.BLOCK || board[possibleY][possibleX].type == Tile.SOURCE_UP || board[possibleY][possibleX].type == Tile.SOURCE_RIGHT || board[possibleY][possibleX].type == Tile.SOURCE_DOWN || board[possibleY][possibleX].type == Tile.SOURCE_LEFT){
 						uniqueLaser = false;
 					}
 
