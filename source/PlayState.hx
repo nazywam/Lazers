@@ -185,8 +185,8 @@ class PlayState extends FlxState {
 		handleMouse();
 		
 		if(FlxG.keys.justPressed.L){
-			lasers.clear();
-			laserHeads.clear();
+			//lasers.clear();
+			//laserHeads.clear();
 			generateLasers();
 		}
 
