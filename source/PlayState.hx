@@ -48,6 +48,7 @@ class PlayState extends FlxState {
 
 		for (i in 0...7) {
 			var t = new Tile(i*35, Settings.BOARD_HEIGHT*Settings.TILE_HEIGHT, Std.random(12), true);
+			trace(t.type);
 			availableTiles.add(t);
 		}
 		

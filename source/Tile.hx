@@ -32,7 +32,7 @@ class Tile extends FlxSprite {
 		movable = _m;
 
 		if(movable){
-			animation.add("default", [type + 6]);
+			animation.add("default", [type + 20]);
 		} else {
 			animation.add("default", [type]);
 		}

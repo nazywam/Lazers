@@ -6,6 +6,6 @@ class Settings {
 	public static var TILE_WIDTH 	:Int = 		32;
 	public static var TILE_HEIGHT 	:Int = 		32;
 
-	public static var LASER_SPEED	:Float = 	0.06;
+	public static var LASER_SPEED	:Float = 	0.04;
 
 }
