@@ -10,18 +10,9 @@ import flixel.FlxObject;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
+import openfl.Assets;
 
 class PlayState extends FlxState {
-	
-	var map:Array<Array<Int>> = 
-[[2,1,1,1,1,1,1,3],
-[1,2,1,1,1,1,3,1],
-[1,1,2,1,1,3,1,1],
-[1,1,1,2,3,1,1,1],
-[1,1,1,1,1,1,1,1],
-[1,1,1,3,1,2,1,1],
-[1,1,3,1,1,1,2,1],
-[5,3,1,1,1,1,1,2]];
 
 	var currentLaserId:Int = 0;
 
@@ -38,7 +29,7 @@ class PlayState extends FlxState {
 	override public function create():Void {
 		super.create();
 
-		loadMap(map);
+		loadMap(Assets.getText("assets/data/level.tmx"));
 
 		availableTiles = new FlxTypedGroup<Tile>();
 		add(availableTiles);
@@ -48,26 +39,39 @@ class PlayState extends FlxState {
 
 		for (i in 0...7) {
 			var t = new Tile(i*35, Settings.BOARD_HEIGHT*Settings.TILE_HEIGHT, Std.random(12), true);
-			trace(t.type);
 			availableTiles.add(t);
 		}
-		
  	}
 
- 	function loadMap(map:Array<Array<Int>>){
- 		board = new Array<Array<Tile>>();
+ 	function loadMap(mapText:String):Void {
+ 		var xml = Xml.parse(mapText).firstElement();
+
+		board = new Array<Array<Tile>>();
 		originalBoard = new Array<Array<Tile>>();
 
 
-		for(i in 0...map.length){
-			board[i] = new Array<Tile>();
-			originalBoard[i] = new Array<Tile>();
-			for(j in 0...map[i].length){
-				board[i][j] = new Tile(j*Settings.TILE_WIDTH, i*Settings.TILE_HEIGHT, map[i][j]-1, false);
-				originalBoard[i][j] = board[i][j];
-				add(board[i][j]);
-			}
-		}
+		for(layer in xml.elementsNamed("layer") ) {
+	        for(e in layer.elementsNamed("data")){
+	        	for(l in 0...e.firstChild().nodeValue.split('\n').length){
+	        		var line = e.firstChild().nodeValue.split('\n')[l];
+
+	        		board[l-1] = new Array<Tile>();
+					originalBoard[l-1] = new Array<Tile>();
+
+	        		for(t in 0...line.split(',').length){
+	        			var tile = line.split(',')[t];
+
+	        			if(tile != ''){
+							board[l-1][t] = new Tile(t*Settings.TILE_WIDTH, (l-1)*Settings.TILE_HEIGHT, Std.parseInt(tile)-1, false);
+
+							originalBoard[l-1][t] = board[l-1][t];
+							add(board[l-1][t]);
+						}
+	        		}
+	        	}
+	        	return;
+	        }
+	    }
  	}
 
 
