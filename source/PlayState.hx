@@ -11,6 +11,7 @@ import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import openfl.Assets;
+import flixel.util.FlxTimer;
 
 class PlayState extends FlxState {
 
@@ -18,8 +19,10 @@ class PlayState extends FlxState {
 
 	var board:Array<Array<Tile>>;
 	var originalBoard:Array<Array<Tile>>;
-
+	
+	
 	var lasers:FlxTypedGroup<Laser>;
+	var laserHeads:FlxTypedGroup<Laser>;
 
 	var availableTiles:FlxTypedGroup<Tile>;
 
@@ -35,6 +38,7 @@ class PlayState extends FlxState {
 		add(availableTiles);
 
 		lasers = new FlxTypedGroup<Laser>();
+		laserHeads = new FlxTypedGroup<Laser>();
 		add(lasers);
 
 		for (i in 0...7) {
@@ -144,34 +148,23 @@ class PlayState extends FlxState {
  	}
 
  	function fireLaser(t:Tile){
-		var moveX:Int = 0;
-		var moveY:Int = 0;
 
+		var possibleX:Int = Std.int(t.x/Settings.TILE_WIDTH);
+		var possibleY:Int = Std.int(t.y/Settings.TILE_HEIGHT);
 
-		switch (t.type) {
-			case Tile.SOURCE_UP:
-				moveX = 0;
-				moveY = -1;
-			case Tile.SOURCE_RIGHT:
-				moveX = 1;
-				moveY = 0;
-			case Tile.SOURCE_DOWN:
-				moveX = 0;
-				moveY = 1;
-			case Tile.SOURCE_LEFT:
-				moveX = -1;
-				moveY = 0;
-		}
-
-		var possibleX:Int = Std.int(t.x/Settings.TILE_WIDTH) + moveX;
-		var possibleY:Int = Std.int(t.y/Settings.TILE_HEIGHT) + moveY;
-
-		if(inBounds(possibleX, possibleY) && board[possibleY][possibleX].passable){
-			var l = new Laser(t.x + moveX * Settings.TILE_WIDTH, t.y + moveY * Settings.TILE_HEIGHT, t.direction, currentLaserId, Std.random(0xFFFFFF) + 0xFF000000);
-			lasers.add(l);
-
-			currentLaserId++;	
-		}
+		
+		var l = new Laser(t.x, t.y, t.direction, currentLaserId, Settings.AVAILABLE_COLORS[Std.random(Settings.AVAILABLE_COLORS.length)], board[possibleY][possibleX]);
+		lasers.add(l);
+		currentLaserId++;	
+		
+	
+		var t = new FlxTimer();
+		t.start(Settings.LASER_SPEED, function(_){
+			laserHeads.add(l);
+		});
+		
+		
+		
  	}
 
  	function generateLasers(){
@@ -189,27 +182,103 @@ class PlayState extends FlxState {
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		handleMouse();
-
+		
 		if(FlxG.keys.justPressed.L){
 			lasers.clear();
+			laserHeads.clear();
 			generateLasers();
 		}
 
-
-		for(l in lasers){
-			if(l.head){
-				l.head = false;
-
-				var _moveX:Int;
-				var _moveY:Int;
-				_moveX = _moveY = 0;
+		
+		for (l in laserHeads) {
+			
+				var _moveX:Int = 0;
+				var _moveY:Int = 0;
 
 				var currentTile = board[Std.int(l.y/Settings.TILE_HEIGHT)][Std.int(l.x/Settings.TILE_WIDTH)];
 				//currentTile.color = l.color;
 				
 				var nextDirection:Int = l.direction;
 
-				switch (currentTile.type){
+				switch (currentTile.type) {
+					case Tile.SOURCE_UP:
+						switch (l.direction) {
+							case FlxObject.UP:
+								nextDirection = l.direction;
+								_moveX = 0;
+								_moveY = -1;
+							case FlxObject.RIGHT:
+								nextDirection = l.direction;
+								_moveX = 1;
+								_moveY = 0;
+							case FlxObject.DOWN:
+								nextDirection = l.direction;
+								_moveX = 0;
+								_moveY = 1;
+							case FlxObject.LEFT:
+								nextDirection = l.direction;
+								_moveX = -1;
+								_moveY = 0;
+							}
+					case Tile.SOURCE_RIGHT:
+						switch (l.direction) {
+							case FlxObject.UP:
+								nextDirection = l.direction;
+								_moveX = 0;
+								_moveY = -1;
+							case FlxObject.RIGHT:
+								nextDirection = l.direction;
+								_moveX = 1;
+								_moveY = 0;
+							case FlxObject.DOWN:
+								nextDirection = l.direction;
+								_moveX = 0;
+								_moveY = 1;
+							case FlxObject.LEFT:
+								nextDirection = l.direction;
+								_moveX = -1;
+								_moveY = 0;
+							}
+					case Tile.SOURCE_DOWN:				
+						switch (l.direction) {
+							case FlxObject.UP:
+								nextDirection = l.direction;
+								_moveX = 0;
+								_moveY = -1;
+							case FlxObject.RIGHT:
+								nextDirection = l.direction;
+								_moveX = 1;
+								_moveY = 0;
+							case FlxObject.DOWN:
+								nextDirection = l.direction;
+								_moveX = 0;
+								_moveY = 1;
+							case FlxObject.LEFT:
+								nextDirection = l.direction;
+								_moveX = -1;
+								_moveY = 0;
+						}
+					case Tile.SOURCE_LEFT:
+						switch (l.direction) {
+							case FlxObject.UP:
+								nextDirection = l.direction;
+								_moveX = 0;
+								_moveY = -1;
+							case FlxObject.RIGHT:
+								nextDirection = l.direction;
+								_moveX = 1;
+								_moveY = 0;
+							case FlxObject.DOWN:
+								nextDirection = l.direction;
+								_moveX = 0;
+								_moveY = 1;
+							case FlxObject.LEFT:
+								nextDirection = l.direction;
+								_moveX = -1;
+								_moveY = 0;
+						}
+							
+						
 					case Tile.BLANK:
 						switch (l.direction) {
 							case FlxObject.UP:
@@ -285,11 +354,18 @@ class PlayState extends FlxState {
 					}
 
 					if(uniqueLaser){
-						var laser = new Laser(l.x + _moveX*Settings.TILE_WIDTH, l.y + _moveY*Settings.TILE_HEIGHT, nextDirection, l.ID, l.color);
+						var laser = new Laser(l.x + _moveX*Settings.TILE_WIDTH, l.y + _moveY*Settings.TILE_HEIGHT, nextDirection, l.ID, l.color, board[possibleY][possibleX]);
 						lasers.add(laser);	
+						
+						var t = new FlxTimer();
+						t.start(Settings.LASER_SPEED, function(_){
+							laserHeads.add(laser);
+						});
 					}
 				}
+				
+				laserHeads.remove(l);
+				
 			}
 		}
-	}	
 }
