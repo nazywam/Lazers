@@ -17,7 +17,8 @@ class Laser extends FlxSprite {
 		loadGraphic("assets/images/Laser.png", true, Settings.LASER_WIDTH, Settings.LASER_HEIGHT);
 		animation.add("default", [0, 1, 2, 3, 4, 5, 6, 7], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("mirror", [8, 9, 10, 11, 12, 13 , 14, 15], Std.int(8 / Settings.LASER_SPEED), false);
-		animation.add("source", [16, 17, 18, 19, 20, 21 ,22, 23], Std.int(8 / Settings.LASER_SPEED), false);
+		animation.add("backMirror", [16, 17, 18, 19, 20, 21 , 22, 23], Std.int(8 / Settings.LASER_SPEED), false);
+		animation.add("source", [24, 25, 26, 27, 28, 29, 30, 31], Std.int(8 / Settings.LASER_SPEED), false);
 		
 		animation.play("default");
 
@@ -27,10 +28,12 @@ class Laser extends FlxSprite {
 		switch(direction){
 			case FlxObject.UP:
 				angle = 270;
+				flipY = true;
 			case FlxObject.RIGHT:
 
 			case FlxObject.DOWN:
 				angle = 90;
+				flipY = true;
 			case FlxObject.LEFT:
 				flipX = true;
 				flipY = true;
@@ -42,8 +45,9 @@ class Laser extends FlxSprite {
 			case Tile.MIRROR:
 				animation.play("mirror");
 			case Tile.BACK_MIRROR:
-				animation.play("mirror");
-				
+				animation.play("backMirror");
+
+
 			case Tile.BLOCK:
 				
 			case Tile.SOURCE_UP:
