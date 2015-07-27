@@ -2,7 +2,8 @@
 <project>
 	<!------------------------------APPLICATION SETTINGS---------------------------->
 	
-	<app title="FlxProject" file="FlxProject" main="Main" version="0.0.1" company="HaxeFlixel" />
+	<app title="Lasers" file="Lasers" main="Main" version="0.0.1" company="Nazywam" />
+	<meta title="Lasers" package="com.nazywam.Lasers"/>
 	
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 	<!--or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"!-->
@@ -15,7 +16,7 @@
 	<!--------------------------------WINDOW SETTINGS------------------------------->
 	
 	<!--These window settings apply to all targets-->
-	<window width="700" height="600" fps="60" background="#000000" hardware="true" vsync="true" />
+	<window width="360" height="640" fps="60" background="#000000" hardware="true" vsync="true" />
 	
 	<!--Web-specific-->
 	<window if="web" orientation="portrait"  />
@@ -24,7 +25,7 @@
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" />
 	
 	<!--Mobile-specific-->
-	<window if="mobile" orientation="portrait" fullscreen="true" width="0" height="0" />
+	<window if="mobile" orientation="portrait" fullscreen="true" width="360" height="640" />
 	
 	<!--------------------------------PATHS SETTINGS-------------------------------->
 	

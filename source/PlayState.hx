@@ -3,6 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -42,7 +43,7 @@ class PlayState extends FlxState {
 		add(lasers);
 
 		for (i in 0...7) {
-			var t = new Tile(i*35, Settings.BOARD_HEIGHT*Settings.TILE_HEIGHT, Std.random(12), true);
+			var t = new Tile(i*Settings.TILE_WIDTH*1.2, Settings.BOARD_HEIGHT*Settings.TILE_HEIGHT, Std.random(12), true);
 			availableTiles.add(t);
 		}
  	}
@@ -172,7 +173,7 @@ class PlayState extends FlxState {
  		for(j in 0...board.length){
  			for(i in 0...board[j].length){
  				var t = board[j][i];
-				if(t.type == Tile.SOURCE_UP || t.type == Tile.SOURCE_LEFT || t.type == Tile.SOURCE_DOWN || t.type == Tile.SOURCE_DOWN){
+				if(t.type == Tile.SOURCE_UP || t.type == Tile.SOURCE_LEFT || t.type == Tile.SOURCE_DOWN || t.type == Tile.SOURCE_RIGHT){
 					fireLaser(t);
 				}
  			}

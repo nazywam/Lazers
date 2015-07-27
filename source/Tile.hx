@@ -27,7 +27,7 @@ class Tile extends FlxSprite {
 
 	override public function new(_x:Float, _y:Float, _t:Int, _m:Bool){
 		super(_x, _y);
-		loadGraphic("assets/images/Tiles.png", true, 32, 32);
+		loadGraphic("assets/images/Tiles.png", true, Settings.TILE_WIDTH, Settings.TILE_HEIGHT);
 		type = _t;
 		movable = _m;
 

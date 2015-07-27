@@ -14,7 +14,7 @@ class Laser extends FlxSprite {
 
 		tile = _t;
 		
-		loadGraphic("assets/images/Laser.png", true, 32, 32);
+		loadGraphic("assets/images/Laser.png", true, Settings.LASER_WIDTH, Settings.LASER_HEIGHT);
 		animation.add("default", [0, 1, 2, 3, 4, 5, 6, 7], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("mirror", [8, 9, 10, 11, 12, 13 , 14, 15], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("source", [16, 17, 18, 19, 20, 21 ,22, 23], Std.int(8 / Settings.LASER_SPEED), false);
