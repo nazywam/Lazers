@@ -39,26 +39,17 @@ class PlayState extends FlxState {
 	
 	override public function create():Void {
 		super.create();
-
+		
 		if (Assets.getText("assets/data/level"+Std.string(currentLevel)+".tmx") == null) {
 			loadMap(Assets.getText("assets/data/404.tmx"));
 		} else {
 			loadMap(Assets.getText("assets/data/level" + Std.string(currentLevel) + ".tmx"));	
 		}
-		
-		
 
-		availableTiles = new FlxTypedGroup<Tile>();
-		add(availableTiles);
 
 		lasers = new FlxTypedGroup<Laser>();
 		laserHeads = new FlxTypedGroup<Laser>();
 		add(lasers);
-
-		for (i in 0...7) {
-			var t = new Tile(i*Settings.TILE_WIDTH*1.2, Settings.BOARD_HEIGHT*Settings.TILE_HEIGHT, Std.random(12), true);
-			availableTiles.add(t);
-		}
  	}
 	
 	function isNumeric(str:String):Bool {
@@ -76,7 +67,6 @@ class PlayState extends FlxState {
 		
 		board = new Array<Array<Tile>>();
 		originalBoard = new Array<Array<Tile>>();
-
 
 		for(layer in xml.elementsNamed("layer") ) {
 	        for(e in layer.elementsNamed("data")){
@@ -96,9 +86,23 @@ class PlayState extends FlxState {
 						}
 	        		}
 	        	}
-	        	return;
 	        }
 	    }
+
+		availableTiles = new FlxTypedGroup<Tile>();
+		add(availableTiles);
+		
+		for (props in xml.elementsNamed("properties")) {
+			for (p in props.elementsNamed("property")) {
+				var avail = p.get("value").split(',');
+				for (i in 0...avail.length) {
+					
+					var a = new Tile(i*Settings.TILE_WIDTH*1.2, Settings.BOARD_HEIGHT*Settings.TILE_HEIGHT, Std.parseInt(avail[i]), true);
+					availableTiles.add(a);
+					
+				}
+			}
+		}
  	}
 
 
