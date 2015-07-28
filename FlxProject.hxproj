@@ -19,7 +19,7 @@
     <class path="C:\Development\openfl\3,2,2" />
     <class path="C:\Development\lime\2,5,2" />
     <class path="source" />
-    <class path="export\windows\neko\haxe" />
+    <class path="export\windows\cpp\haxe" />
   </classpaths>
   <!-- Build options -->
   <build>

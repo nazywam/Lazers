@@ -32,6 +32,9 @@ class PlayState extends FlxState {
 	var pressedTile:Tile;
 	var pressed:Bool=false;
 
+	var fireButton:FlxSprite;	
+	var avaibleTilesBackground:FlxSprite;
+	
 	override public function new(_c:Int) {
 		currentLevel = _c;
 		super();
@@ -39,6 +42,9 @@ class PlayState extends FlxState {
 	
 	override public function create():Void {
 		super.create();
+		
+		avaibleTilesBackground = new FlxSprite(0, Settings.TILE_HEIGHT * Settings.BOARD_HEIGHT, "assets/images/AvailableTiles.png");
+		add(avaibleTilesBackground);
 		
 		if (Assets.getText("assets/data/level"+Std.string(currentLevel)+".tmx") == null) {
 			loadMap(Assets.getText("assets/data/404.tmx"));
@@ -50,6 +56,10 @@ class PlayState extends FlxState {
 		lasers = new FlxTypedGroup<Laser>();
 		laserHeads = new FlxTypedGroup<Laser>();
 		add(lasers);
+		
+		fireButton = new FlxSprite(FlxG.width / 2, avaibleTilesBackground.y + avaibleTilesBackground.height, "assets/images/FireButton.png");
+		fireButton.x -= fireButton.width / 2;
+		add(fireButton);
  	}
 	
 	function isNumeric(str:String):Bool {
@@ -96,8 +106,7 @@ class PlayState extends FlxState {
 			for (p in props.elementsNamed("property")) {
 				var avail = p.get("value").split(',');
 				for (i in 0...avail.length) {
-					
-					var a = new Tile(i*Settings.TILE_WIDTH*1.2, Settings.BOARD_HEIGHT*Settings.TILE_HEIGHT, Std.parseInt(avail[i]), true);
+					var a = new Tile(avaibleTilesBackground.x + 11 + i*58, avaibleTilesBackground.y + 10, Std.parseInt(avail[i]), true);
 					availableTiles.add(a);
 					
 				}
@@ -129,16 +138,10 @@ class PlayState extends FlxState {
 					}
 				}
 			}
-
-			if(inBounds(pressedX, pressedY) && !pressed){
-				if(board[pressedY][pressedX].type == Tile.SOURCE_UP || 
-					board[pressedY][pressedX].type == Tile.SOURCE_RIGHT || 
-						board[pressedY][pressedX].type == Tile.SOURCE_DOWN || 
-							board[pressedY][pressedX].type == Tile.SOURCE_LEFT){
-					lasers.clear();
-					fireLaser(board[pressedY][pressedX]);
-				}
-			}			
+			
+			if (FlxG.mouse.overlaps(fireButton)) {
+				generateLasers();
+			}
 		}
 
 		if(pressed){
@@ -201,11 +204,6 @@ class PlayState extends FlxState {
 		super.update(elapsed);
 		handleMouse();
 		
-		if(FlxG.keys.justPressed.L){
-			//lasers.clear();
-			//laserHeads.clear();
-			generateLasers();
-		}
 		if (FlxG.keys.justPressed.ESCAPE) {
 			FlxG.switchState(new MenuState());
 		}
