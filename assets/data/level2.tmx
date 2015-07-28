@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="7" height="7" tilewidth="48" tileheight="48">
+ <properties>
+  <property name="availableTiles" value="1, 1, 2"/>
+ </properties>
+ <tileset firstgid="1" source="tiles.tsx"/>
+ <tileset firstgid="41" source="tiles.tsx"/>
+ <layer name="Tile Layer 1" width="7" height="7">
+  <data encoding="csv">
+1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,
+1,1,1,4,1,1,1,
+1,1,1,4,1,12,1,
+1,46,1,4,1,1,1,
+1,1,1,1,1,1,1,
+1,1,1,1,1,1,1
+</data>
+ </layer>
+</map>
