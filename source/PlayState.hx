@@ -33,6 +33,7 @@ class PlayState extends FlxState {
 	var pressed:Bool=false;
 
 	var fireButton:FlxSprite;	
+	var menuButton:FlxSprite;
 	var avaibleTilesBackground:FlxSprite;
 	
 	override public function new(_c:Int) {
@@ -60,6 +61,9 @@ class PlayState extends FlxState {
 		fireButton = new FlxSprite(FlxG.width / 2, avaibleTilesBackground.y + avaibleTilesBackground.height, "assets/images/FireButton.png");
 		fireButton.x -= fireButton.width / 2;
 		add(fireButton);
+		
+		menuButton = new FlxSprite(fireButton.x, fireButton.y + fireButton.height, "assets/images/MenuButton.png");
+		add(menuButton);
  	}
 	
 	function isNumeric(str:String):Bool {
@@ -90,7 +94,8 @@ class PlayState extends FlxState {
 	        			var tile = line.split(',')[t];
 
 	        			if(isNumeric(tile)){
-							board[l-1][t] = new Tile(t*Settings.TILE_WIDTH, (l-1)*Settings.TILE_HEIGHT, Std.parseInt(tile)-1, false);
+							board[l - 1][t] = new Tile(t * Settings.TILE_WIDTH, (l - 1) * Settings.TILE_HEIGHT, Std.parseInt(tile) - 1, false);
+							//board[l - 1][t].color = Std.int(0xFFFFFF - (0xFF0000*Math.sqrt(Math.random()))/10000 - (0x00FF*Math.sqrt(Math.random()))/10000 - (0xFF*Math.sqrt(Math.random()))/10000);
 							originalBoard[l-1][t] = board[l-1][t];
 							add(board[l-1][t]);
 						}
@@ -142,6 +147,10 @@ class PlayState extends FlxState {
 			if (FlxG.mouse.overlaps(fireButton)) {
 				generateLasers();
 			}
+			
+			if (FlxG.mouse.overlaps(menuButton)) {
+				FlxG.switchState(new MenuState());
+			}
 		}
 
 		if(pressed){
@@ -178,18 +187,22 @@ class PlayState extends FlxState {
 		lasers.add(l);
 		currentLaserId++;	
 		
-	
-		var t = new FlxTimer();
-		t.start(Settings.LASER_SPEED, function(_){
+		l.becomeHead.start(Settings.LASER_SPEED, function(_){
 			laserHeads.add(l);
 		});
-		
-		
-		
  	}
 
  	function generateLasers(){
 
+		for (l in lasers) {
+			if (l.becomeHead.active) {
+				l.becomeHead.cancel();
+			}
+		}
+		
+		laserHeads.clear();
+		lasers.clear();
+		
  		for(j in 0...board.length){
  			for(i in 0...board[j].length){
  				var t = board[j][i];
@@ -376,8 +389,7 @@ class PlayState extends FlxState {
 						var laser = new Laser(l.x + _moveX*Settings.TILE_WIDTH, l.y + _moveY*Settings.TILE_HEIGHT, nextDirection, l.ID, l.color, board[possibleY][possibleX]);
 						lasers.add(laser);	
 						
-						var t = new FlxTimer();
-						t.start(Settings.LASER_SPEED, function(_){
+						laser.becomeHead.start(Settings.LASER_SPEED, function(_){
 							laserHeads.add(laser);
 						});
 					}

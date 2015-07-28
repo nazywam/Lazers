@@ -1,12 +1,15 @@
 import flixel.FlxSprite;
 import flixel.FlxObject;
 import flixel.util.FlxTimer;
+import haxe.Timer;
 
 class Laser extends FlxSprite {
 
 	public var direction:Int;
 
-	var 	tile:Tile;
+	var tile:Tile;
+	
+	public var becomeHead:FlxTimer;
 	
 	override public function new(_x:Float, _y:Float, _d:Int, _id:Int, _c:Int, _t:Tile){
 		super(_x, _y);
@@ -24,6 +27,8 @@ class Laser extends FlxSprite {
 
 		ID = _id;
 		color = _c;
+		
+		becomeHead = new FlxTimer();
 		
 		switch(direction){
 			case FlxObject.UP:
