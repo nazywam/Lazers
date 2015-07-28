@@ -16,6 +16,8 @@ import flixel.util.FlxTimer;
 
 class PlayState extends FlxState {
 
+	var currentLevel:Int;
+	
 	var currentLaserId:Int = 0;
 
 	var board:Array<Array<Tile>>;
@@ -30,10 +32,21 @@ class PlayState extends FlxState {
 	var pressedTile:Tile;
 	var pressed:Bool=false;
 
+	override public function new(_c:Int) {
+		currentLevel = _c;
+		super();
+	}
+	
 	override public function create():Void {
 		super.create();
 
-		loadMap(Assets.getText("assets/data/level.tmx"));
+		if (Assets.getText("assets/data/level"+Std.string(currentLevel)+".tmx") == null) {
+			loadMap(Assets.getText("assets/data/404.tmx"));
+		} else {
+			loadMap(Assets.getText("assets/data/level" + Std.string(currentLevel) + ".tmx"));	
+		}
+		
+		
 
 		availableTiles = new FlxTypedGroup<Tile>();
 		add(availableTiles);
@@ -188,6 +201,9 @@ class PlayState extends FlxState {
 			//lasers.clear();
 			//laserHeads.clear();
 			generateLasers();
+		}
+		if (FlxG.keys.justPressed.ESCAPE) {
+			FlxG.switchState(new MenuState());
 		}
 
 		

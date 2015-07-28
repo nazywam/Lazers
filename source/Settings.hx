@@ -11,6 +11,10 @@ class Settings {
 	public static var LASER_SPEED	:Float = 	4/60;
 
 	
+	public static var LEVEL_ROWS	:Int = 		5;
+	public static var LEVEL_COLUMNS :Int = 		5;
+	
+	
 	public static var AVAILABLE_COLORS : Array<Int> = [
 		0xFFD5FF2C,
 		0xFFE89D42,
