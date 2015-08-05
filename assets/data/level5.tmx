@@ -3,6 +3,17 @@
  <tileset firstgid="1" name="Tiles" tilewidth="48" tileheight="48">
   <image source="../images/Tiles.png" width="960" height="192"/>
  </tileset>
+ <layer name="Colors" width="7" height="7">
+  <data encoding="csv">
+41,41,41,41,41,42,41,
+41,41,41,41,42,41,42,
+41,41,41,42,41,42,41,
+41,41,42,41,42,41,41,
+41,42,42,41,41,41,41,
+43,42,41,41,41,41,41,
+43,41,41,41,41,41,41
+</data>
+ </layer>
  <layer name="Tiles" width="7" height="7">
   <data encoding="csv">
 2,1,1,1,1,12,1,
@@ -12,17 +23,6 @@
 1,5,6,1,2,1,1,
 5,6,1,1,1,2,1,
 6,1,1,1,1,1,2
-</data>
- </layer>
- <layer name="Colors" width="7" height="7">
-  <data encoding="csv">
-41,41,41,41,41,42,41,
-41,41,41,41,42,41,42,
-41,41,41,42,41,42,41,
-41,41,44,41,42,41,41,
-41,42,43,41,41,41,41,
-43,44,41,41,41,41,41,
-42,41,41,41,41,41,41
 </data>
  </layer>
 </map>

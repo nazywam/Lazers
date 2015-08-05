@@ -91,16 +91,16 @@ class PlayState extends FlxState {
 	        		var line = e.firstChild().nodeValue.split('\n')[l];
 
 					switch(layer.get("name")) {
-								case "Colors":
-									boardColors[l-1] = new Array<Int>();
+							case "Colors":
+								boardColors[l-1] = new Array<Int>();
 
-									for(t in 0...line.split(',').length){
-										var tile = line.split(',')[t];
+								for(t in 0...line.split(',').length){
+									var tile = line.split(',')[t];
 
-										if (isNumeric(tile)) {
-											boardColors[l - 1][t] = Std.parseInt(tile) - 41;
-										}
+									if (isNumeric(tile)) {
+										boardColors[l - 1][t] = Std.parseInt(tile) - 41;
 									}
+								}
 							case "Tiles":
 								board[l-1] = new Array<Tile>();
 								originalBoard[l-1] = new Array<Tile>();
@@ -109,7 +109,7 @@ class PlayState extends FlxState {
 									var tile = line.split(',')[t];
 
 									if (isNumeric(tile)) {
-										board[l - 1][t] = new Tile(t * Settings.TILE_WIDTH, (l - 1) * Settings.TILE_HEIGHT, Std.parseInt(tile) - 1, false);
+										board[l - 1][t] = new Tile(t * Settings.TILE_WIDTH, (l - 1) * Settings.TILE_HEIGHT, Std.parseInt(tile) - 1, false, boardColors[l-1][t]);
 										originalBoard[l-1][t] = board[l-1][t];
 										add(board[l - 1][t]);
 									}
@@ -126,7 +126,7 @@ class PlayState extends FlxState {
 			for (p in props.elementsNamed("property")) {
 				var avail = p.get("value").split(',');
 				for (i in 0...avail.length) {
-					var a = new Tile(avaibleTilesBackground.x + 11 + i*58, avaibleTilesBackground.y + 10, Std.parseInt(avail[i]), true);
+					var a = new Tile(avaibleTilesBackground.x + 11 + i*58, avaibleTilesBackground.y + 10, Std.parseInt(avail[i]), true, 0);
 					availableTiles.add(a);
 					
 				}
