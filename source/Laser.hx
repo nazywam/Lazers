@@ -2,6 +2,7 @@ import flixel.FlxSprite;
 import flixel.FlxObject;
 import flixel.util.FlxTimer;
 import haxe.Timer;
+import openfl.display.BlendMode;
 
 class Laser extends FlxSprite {
 

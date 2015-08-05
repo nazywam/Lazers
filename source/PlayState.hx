@@ -22,7 +22,7 @@ class PlayState extends FlxState {
 
 	var board:Array<Array<Tile>>;
 	var originalBoard:Array<Array<Tile>>;
-	
+	var boardColors:Array<Array<Int>>;
 	
 	var lasers:FlxTypedGroup<Laser>;
 	var laserHeads:FlxTypedGroup<Laser>;
@@ -81,25 +81,40 @@ class PlayState extends FlxState {
 		
 		board = new Array<Array<Tile>>();
 		originalBoard = new Array<Array<Tile>>();
-
-		for(layer in xml.elementsNamed("layer") ) {
+		boardColors = new Array<Array<Int>>();
+		
+		
+		for (layer in xml.elementsNamed("layer") ) {
+			
 	        for(e in layer.elementsNamed("data")){
 	        	for(l in 0...e.firstChild().nodeValue.split('\n').length){
 	        		var line = e.firstChild().nodeValue.split('\n')[l];
 
-	        		board[l-1] = new Array<Tile>();
-					originalBoard[l-1] = new Array<Tile>();
+					switch(layer.get("name")) {
+								case "Colors":
+									boardColors[l-1] = new Array<Int>();
 
-	        		for(t in 0...line.split(',').length){
-	        			var tile = line.split(',')[t];
+									for(t in 0...line.split(',').length){
+										var tile = line.split(',')[t];
 
-	        			if(isNumeric(tile)){
-							board[l - 1][t] = new Tile(t * Settings.TILE_WIDTH, (l - 1) * Settings.TILE_HEIGHT, Std.parseInt(tile) - 1, false);
-							//board[l - 1][t].color = Std.int(0xFFFFFF - (0xFF0000*Math.sqrt(Math.random()))/10000 - (0x00FF*Math.sqrt(Math.random()))/10000 - (0xFF*Math.sqrt(Math.random()))/10000);
-							originalBoard[l-1][t] = board[l-1][t];
-							add(board[l-1][t]);
+										if (isNumeric(tile)) {
+											boardColors[l - 1][t] = Std.parseInt(tile) - 41;
+										}
+									}
+							case "Tiles":
+								board[l-1] = new Array<Tile>();
+								originalBoard[l-1] = new Array<Tile>();
+
+								for(t in 0...line.split(',').length){
+									var tile = line.split(',')[t];
+
+									if (isNumeric(tile)) {
+										board[l - 1][t] = new Tile(t * Settings.TILE_WIDTH, (l - 1) * Settings.TILE_HEIGHT, Std.parseInt(tile) - 1, false);
+										originalBoard[l-1][t] = board[l-1][t];
+										add(board[l - 1][t]);
+									}
+								}
 						}
-	        		}
 	        	}
 	        }
 	    }
@@ -124,7 +139,9 @@ class PlayState extends FlxState {
  		return (_x >= 0 && _x < Settings.BOARD_WIDTH) && (_y >= 0 && _y < Settings.BOARD_HEIGHT);
  	}
 
- 	function handleMouse(){
+ 	function handleMouse() {
+			
+		
 		if(FlxG.mouse.justPressed){
 			var pressedX:Int = Std.int(FlxG.mouse.x/Settings.TILE_WIDTH);
 			var pressedY:Int = Std.int(FlxG.mouse.y/Settings.TILE_HEIGHT);
@@ -183,7 +200,7 @@ class PlayState extends FlxState {
 		var possibleY:Int = Std.int(t.y/Settings.TILE_HEIGHT);
 
 		
-		var l = new Laser(t.x, t.y, t.direction, currentLaserId, Settings.AVAILABLE_COLORS[Std.random(Settings.AVAILABLE_COLORS.length)], board[possibleY][possibleX]);
+		var l = new Laser(t.x, t.y, t.direction, currentLaserId, Settings.AVAILABLE_COLORS[boardColors[possibleY][possibleX]], board[possibleY][possibleX]);
 		lasers.add(l);
 		currentLaserId++;	
 		
