@@ -1,3 +1,5 @@
+import flixel.FlxObject;
+
 class Settings {
 	
 	public static var BOARD_WIDTH 	:Int = 		7;
@@ -17,10 +19,16 @@ class Settings {
 	
 	public static var AVAILABLE_COLORS : Array<Int> = [
 		0xFFFFFFFF,
-		0xFFFF0000,
-		0xFF00FF00,
-		0xFF0000FF
+		0xFFCE181E,
+		0xFF62A73B,
+		0xFF1C3687
+		
 	];
+	
+	public static var OPPOSITE_DIRECTIONS : Array<Array<Int>> = [
+	[FlxObject.LEFT + FlxObject.RIGHT, FlxObject.UP + FlxObject.DOWN],
+	[FlxObject.LEFT + FlxObject.UP, FlxObject.RIGHT + FlxObject.DOWN],
+	[FlxObject.LEFT + FlxObject.DOWN, FlxObject.UP + FlxObject.RIGHT]];
 	
 	
 }

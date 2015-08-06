@@ -1,3 +1,4 @@
+import flixel.effects.particles.FlxEmitter;
 import flixel.FlxSprite;
 import flixel.FlxObject;
 import flixel.util.FlxTimer;
@@ -13,10 +14,14 @@ class Laser extends FlxSprite {
 	
 	public var becomeHead:FlxTimer;
 	
+	public var particleEmitter:FlxEmitter;
+	
 	override public function new(_x:Float, _y:Float, _d:Int, _id:Int, _c:Int, _t:Tile){
 		super(_x, _y);
 		direction = _d;
 
+		blend = BlendMode.LIGHTEN;
+		
 		tile = _t;
 		
 		loadGraphic("assets/images/Laser.png", true, Settings.LASER_WIDTH, Settings.LASER_HEIGHT);
@@ -25,12 +30,24 @@ class Laser extends FlxSprite {
 		animation.add("backMirror", [16, 17, 18, 19, 20, 21 , 22, 23], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("source", [24, 25, 26, 27, 28, 29, 30, 31], Std.int(8 / Settings.LASER_SPEED), false);
 		
+		animation.add("defaultHalf", [0, 1, 2, 3], Std.int(4 / Settings.LASER_SPEED), false);
+		animation.add("mirrorHalf", [8, 9, 10, 11], Std.int(4 / Settings.LASER_SPEED), false);
+		animation.add("backMirrorHalf", [16, 17, 18], Std.int(4 / Settings.LASER_SPEED), false);
+		animation.add("sourceHalf", [24, 25, 26, 27], Std.int(4 / Settings.LASER_SPEED), false);
+		
 		animation.play("default");
 
 		ID = _id;
 		color = _c;
 		
+		particleEmitter = new FlxEmitter(_x + width / 2, _y + height / 2, 100);
+		particleEmitter.loadParticles("assets/images/LaserParticles.png", 50, 16, true);
+		particleEmitter.color.set(_c, _c);
+		particleEmitter.lifespan.set(.75, 1.25);
+		particleEmitter.start(true, .1);
+		
 		becomeHead = new FlxTimer();
+		
 		
 		switch(direction){
 			case FlxObject.UP:

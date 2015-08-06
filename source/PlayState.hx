@@ -13,6 +13,8 @@ import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import openfl.Assets;
 import flixel.util.FlxTimer;
+import openfl.display.BlendMode;
+import flixel.effects.particles.FlxEmitter;
 
 class PlayState extends FlxState {
 
@@ -26,7 +28,7 @@ class PlayState extends FlxState {
 	
 	var lasers:FlxTypedGroup<Laser>;
 	var laserHeads:FlxTypedGroup<Laser>;
-
+	var particles:FlxTypedGroup<FlxEmitter>;
 	var availableTiles:FlxTypedGroup<Tile>;
 
 	var pressedTile:Tile;
@@ -35,6 +37,10 @@ class PlayState extends FlxState {
 	var fireButton:FlxSprite;	
 	var menuButton:FlxSprite;
 	var avaibleTilesBackground:FlxSprite;
+	
+	var dim1:FlxSprite;
+	var dim2:FlxSprite;
+
 	
 	override public function new(_c:Int) {
 		currentLevel = _c;
@@ -53,8 +59,13 @@ class PlayState extends FlxState {
 			loadMap(Assets.getText("assets/data/level" + Std.string(currentLevel) + ".tmx"));	
 		}
 
-
+		dim1 = new FlxSprite(0, 0);
+		dim1.makeGraphic(FlxG.width, FlxG.height, 0x88000000);
+		//dim1.blend = BlendMode.DARKEN;
+		add(dim1);
+		
 		lasers = new FlxTypedGroup<Laser>();
+		particles = new FlxTypedGroup<FlxEmitter>();
 		laserHeads = new FlxTypedGroup<Laser>();
 		add(lasers);
 		
@@ -64,6 +75,15 @@ class PlayState extends FlxState {
 		
 		menuButton = new FlxSprite(fireButton.x, fireButton.y + fireButton.height, "assets/images/MenuButton.png");
 		add(menuButton);
+		
+
+		dim2 = new FlxSprite(0, 0);
+		dim2.makeGraphic(FlxG.width, FlxG.height, 0x11000000);
+		//dim2.blend = BlendMode.DARKEN;
+		
+		add(dim2);
+		add(particles);
+		
  	}
 	
 	function isNumeric(str:String):Bool {
@@ -84,8 +104,7 @@ class PlayState extends FlxState {
 		boardColors = new Array<Array<Int>>();
 		
 		
-		for (layer in xml.elementsNamed("layer") ) {
-			
+		for (layer in xml.elementsNamed("layer") ) {			
 	        for(e in layer.elementsNamed("data")){
 	        	for(l in 0...e.firstChild().nodeValue.split('\n').length){
 	        		var line = e.firstChild().nodeValue.split('\n')[l];
@@ -128,7 +147,6 @@ class PlayState extends FlxState {
 				for (i in 0...avail.length) {
 					var a = new Tile(avaibleTilesBackground.x + 11 + i*58, avaibleTilesBackground.y + 10, Std.parseInt(avail[i]), true, 0);
 					availableTiles.add(a);
-					
 				}
 			}
 		}
@@ -239,8 +257,39 @@ class PlayState extends FlxState {
 		}
 
 		
-		for (l in laserHeads) {
+		if (FlxG.keys.justPressed.L) {
+			for (l in lasers) {
+				if (l.becomeHead.active) {
+					l.becomeHead.cancel();
+				}
+			}
 			
+			laserHeads.clear();
+			lasers.clear();
+		}	
+		
+		for (l1 in lasers) {
+			for (l2 in lasers) {
+				if (l1 != l2 && l1.x == l2.x && l1.y == l2.y && (l1.becomeHead.active || l2.becomeHead.active)) {
+					
+					var boardX = Std.int(l1.x / Settings.TILE_WIDTH);
+					var boardY = Std.int(l1.y / Settings.TILE_HEIGHT);
+					
+					var directionSum:Int = l1.direction + l2.direction;
+					var tileType = board[boardY][boardX].type;
+					
+					if (tileType <= Tile.BACK_MIRROR && (directionSum == Settings.OPPOSITE_DIRECTIONS[tileType][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[tileType][1])) {
+						l1.becomeHead.cancel();
+						l2.becomeHead.cancel();
+								
+						l1.animation.play(l1.animation.name + "Half", true, l1.animation.frameIndex);
+						l2.animation.play(l2.animation.name + "Half", true, l2.animation.frameIndex);		
+					}				
+				}	
+			}
+		}	
+		
+		for (l in laserHeads) {
 				var _moveX:Int = 0;
 				var _moveY:Int = 0;
 
@@ -405,6 +454,7 @@ class PlayState extends FlxState {
 					if(uniqueLaser){
 						var laser = new Laser(l.x + _moveX*Settings.TILE_WIDTH, l.y + _moveY*Settings.TILE_HEIGHT, nextDirection, l.ID, l.color, board[possibleY][possibleX]);
 						lasers.add(laser);	
+						particles.add(laser.particleEmitter);
 						
 						laser.becomeHead.start(Settings.LASER_SPEED, function(_){
 							laserHeads.add(laser);
