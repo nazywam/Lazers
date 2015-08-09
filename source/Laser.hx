@@ -34,6 +34,7 @@ class Laser extends FlxSprite {
 		animation.add("mirrorHalf", [8, 9, 10, 11], Std.int(4 / Settings.LASER_SPEED), false);
 		animation.add("backMirrorHalf", [16, 17, 18], Std.int(4 / Settings.LASER_SPEED), false);
 		animation.add("sourceHalf", [24, 25, 26, 27], Std.int(4 / Settings.LASER_SPEED), false);
+		animation.add("completeTarget", [32, 33, 34, 35, 36, 37, 38, 39], Std.int(8 / Settings.LASER_SPEED), false);
 		
 		animation.play("default");
 
@@ -41,14 +42,13 @@ class Laser extends FlxSprite {
 		color = _c;
 		
 		#if !mobile
-		
-		particleEmitter = new FlxEmitter(_x + width / 2, _y + height / 2, 100);
-		particleEmitter.loadParticles("assets/images/LaserParticles.png", 50, 16, true);
-		particleEmitter.color.set(_c, _c);
-		particleEmitter.lifespan.set(.75, 1.25);
-		particleEmitter.start(true, .1);
-		
+			particleEmitter = new FlxEmitter(_x + width / 2, _y + height / 2, 100);
+			particleEmitter.loadParticles("assets/images/LaserParticles.png", 50, 16, true);
+			particleEmitter.color.set(_c, _c);
+			particleEmitter.lifespan.set(.75, 1.25);
+			particleEmitter.start(true, .1);
 		#end
+		
 		becomeHead = new FlxTimer();
 		
 		switch(direction){
@@ -65,17 +65,15 @@ class Laser extends FlxSprite {
 				flipY = true;
 		}
 
+		var directionSum = tile.direction + direction;
+		
 		switch(tile.type) {
 			case Tile.BLANK:
-				
 			case Tile.MIRROR:
 				animation.play("mirror");
 			case Tile.BACK_MIRROR:
 				animation.play("backMirror");
-
-
 			case Tile.BLOCK:
-				
 			case Tile.SOURCE_UP:
 				animation.play("source");
 			case Tile.SOURCE_RIGHT:
@@ -84,11 +82,26 @@ class Laser extends FlxSprite {
 				animation.play("source");
 			case Tile.SOURCE_LEFT:
 				animation.play("source");
-				
 			case Tile.TARGET_UP:
+				if ((directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][1]) && color == Settings.AVAILABLE_COLORS[tile.colorId]) {
+					animation.play("completeTarget");
+					tile.complete();
+				}
 			case Tile.TARGET_RIGHT:
+				if ((directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][1]) && color == Settings.AVAILABLE_COLORS[tile.colorId]) {
+					animation.play("completeTarget");
+					tile.complete();
+				}
 			case Tile.TARGET_DOWN:
+				if ((directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][1]) && color == Settings.AVAILABLE_COLORS[tile.colorId]) {
+					animation.play("completeTarget");
+					tile.complete();
+				}
 			case Tile.TARGET_LEFT:
+				if ((directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][1]) && color == Settings.AVAILABLE_COLORS[tile.colorId]) {
+					animation.play("completeTarget");
+					tile.complete();
+				}
 		}
 	}
 }

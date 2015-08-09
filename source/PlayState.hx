@@ -15,6 +15,8 @@ import openfl.Assets;
 import flixel.util.FlxTimer;
 import openfl.display.BlendMode;
 import flixel.effects.particles.FlxEmitter;
+import flixel.addons.effects.FlxWaveSprite;
+import flixel.addons.display.FlxBackdrop;
 
 class PlayState extends FlxState {
 
@@ -38,10 +40,8 @@ class PlayState extends FlxState {
 	var menuButton:FlxSprite;
 	var avaibleTilesBackground:FlxSprite;
 	
-	var dim1:FlxSprite;
-	var dim2:FlxSprite;
+	var dim:FlxSprite;
 
-	
 	override public function new(_c:Int) {
 		currentLevel = _c;
 		super();
@@ -49,7 +49,7 @@ class PlayState extends FlxState {
 	
 	override public function create():Void {
 		super.create();
-		
+
 		avaibleTilesBackground = new FlxSprite(0, Settings.TILE_HEIGHT * Settings.BOARD_HEIGHT, "assets/images/AvailableTiles.png");
 		add(avaibleTilesBackground);
 		
@@ -59,10 +59,9 @@ class PlayState extends FlxState {
 			loadMap(Assets.getText("assets/data/level" + Std.string(currentLevel) + ".tmx"));	
 		}
 
-		dim1 = new FlxSprite(0, 0);
-		dim1.makeGraphic(FlxG.width, FlxG.height, 0x66000000);
-		//dim1.blend = BlendMode.DARKEN;
-		add(dim1);
+		dim = new FlxSprite(0, 0);
+		dim.makeGraphic(FlxG.width, FlxG.height, 0x66000000);
+		add(dim);
 		
 		lasers = new FlxTypedGroup<Laser>();
 		particles = new FlxTypedGroup<FlxEmitter>();
@@ -125,6 +124,13 @@ class PlayState extends FlxState {
 										board[l - 1][t] = new Tile(t * Settings.TILE_WIDTH, (l - 1) * Settings.TILE_HEIGHT, Std.parseInt(tile) - 1, false, boardColors[l-1][t]);
 										originalBoard[l-1][t] = board[l-1][t];
 										add(board[l - 1][t]);
+										
+										if (Settings.FUN) {
+											var t = new FlxWaveSprite(board[l - 1][t]);
+											t.strength = 35;
+											t.speed = 15;
+											add(t);
+										}
 									}
 								}
 						}
@@ -251,7 +257,7 @@ class PlayState extends FlxState {
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		handleMouse();
-		
+				
 		if (FlxG.keys.justPressed.ESCAPE) {
 			FlxG.switchState(new MenuState());
 		}
@@ -452,7 +458,7 @@ class PlayState extends FlxState {
 						var laser = new Laser(l.x + _moveX*Settings.TILE_WIDTH, l.y + _moveY*Settings.TILE_HEIGHT, nextDirection, l.ID, l.color, board[possibleY][possibleX]);
 						lasers.add(laser);	
 						particles.add(laser.particleEmitter);
-						
+							
 						laser.becomeHead.start(Settings.LASER_SPEED, function(_){
 							laserHeads.add(laser);
 						});

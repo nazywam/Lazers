@@ -7,13 +7,13 @@ import openfl.geom.Rectangle;
 
 class Tile extends FlxSprite {
 
-	public var type:Int;
-	public var movable:Bool;
-	public var originalPosition:FlxPoint;
-	public var passable:Bool;
-	public var direction:Int = FlxObject.UP;
-	public var colorId:Int;
-	
+	public var type:							Int;
+	public var movable:							Bool;
+	public var originalPosition:				FlxPoint;
+	public var passable:						Bool;
+	public var direction:						Int = FlxObject.UP;
+	public var colorId:							Int;
+	public var targetReached:					Bool = false;
 	
 	public static inline var BLANK:				Int = 0;
 	public static inline var MIRROR:			Int = 1;
@@ -101,9 +101,6 @@ class Tile extends FlxSprite {
 				direction = FlxObject.RIGHT;
 				passable = true;
 				
-					direction = FlxObject.UP;
-				passable = true;
-				
 				var temp:BitmapData = new BitmapData(48, 48, false);
 				temp.copyPixels(pixels, new Rectangle(9*48, 0, 48, 48), new Point(0, 0));
 				temp.floodFill(8, 14, Settings.AVAILABLE_COLORS[colorId]);
@@ -133,5 +130,9 @@ class Tile extends FlxSprite {
 
 		originalPosition = new FlxPoint(x, y);
 	}	
+	
+	public function complete() {
+		
+	}
 
 }

@@ -2,6 +2,8 @@ import flixel.FlxObject;
 
 class Settings {
 	
+	public static var FUN			:Bool = 	false;
+	
 	public static var BOARD_WIDTH 	:Int = 		7;
 	public static var BOARD_HEIGHT 	:Int = 		7;
 
