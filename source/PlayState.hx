@@ -60,7 +60,7 @@ class PlayState extends FlxState {
 		}
 
 		dim1 = new FlxSprite(0, 0);
-		dim1.makeGraphic(FlxG.width, FlxG.height, 0x88000000);
+		dim1.makeGraphic(FlxG.width, FlxG.height, 0x66000000);
 		//dim1.blend = BlendMode.DARKEN;
 		add(dim1);
 		
@@ -76,12 +76,6 @@ class PlayState extends FlxState {
 		menuButton = new FlxSprite(fireButton.x, fireButton.y + fireButton.height, "assets/images/MenuButton.png");
 		add(menuButton);
 		
-
-		dim2 = new FlxSprite(0, 0);
-		dim2.makeGraphic(FlxG.width, FlxG.height, 0x11000000);
-		//dim2.blend = BlendMode.DARKEN;
-		
-		add(dim2);
 		add(particles);
 		
  	}
@@ -166,7 +160,12 @@ class PlayState extends FlxState {
 
 
 			for(t in availableTiles){
-				if(FlxG.mouse.overlaps(t)){
+				if (FlxG.mouse.overlaps(t)) {
+					laserHeads.clear();
+					lasers.clear();
+					particles.clear();
+					
+					
 					pressed = true;
 					pressedTile = t;
 
@@ -237,6 +236,7 @@ class PlayState extends FlxState {
 		
 		laserHeads.clear();
 		lasers.clear();
+		particles.clear();
 		
  		for(j in 0...board.length){
  			for(i in 0...board[j].length){
@@ -263,9 +263,6 @@ class PlayState extends FlxState {
 					l.becomeHead.cancel();
 				}
 			}
-			
-			laserHeads.clear();
-			lasers.clear();
 		}	
 		
 		for (l1 in lasers) {
@@ -282,8 +279,8 @@ class PlayState extends FlxState {
 						l1.becomeHead.cancel();
 						l2.becomeHead.cancel();
 								
-						l1.animation.play(l1.animation.name + "Half", true, l1.animation.frameIndex);
-						l2.animation.play(l2.animation.name + "Half", true, l2.animation.frameIndex);		
+						l1.animation.play(l1.animation.name + "Half", true, false, l1.animation.frameIndex);
+						l2.animation.play(l2.animation.name + "Half", true, false, l2.animation.frameIndex);		
 					}				
 				}	
 			}

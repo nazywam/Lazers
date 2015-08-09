@@ -1,0 +1,9 @@
+Gameplay
+	Angle game mode
+	Colors connectors
+Graphics
+	Animation when colliding with source/target
+UI
+	Decent Menu
+
+

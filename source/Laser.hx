@@ -40,14 +40,16 @@ class Laser extends FlxSprite {
 		ID = _id;
 		color = _c;
 		
+		#if !mobile
+		
 		particleEmitter = new FlxEmitter(_x + width / 2, _y + height / 2, 100);
 		particleEmitter.loadParticles("assets/images/LaserParticles.png", 50, 16, true);
 		particleEmitter.color.set(_c, _c);
 		particleEmitter.lifespan.set(.75, 1.25);
 		particleEmitter.start(true, .1);
 		
+		#end
 		becomeHead = new FlxTimer();
-		
 		
 		switch(direction){
 			case FlxObject.UP:

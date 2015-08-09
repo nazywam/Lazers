@@ -19,10 +19,9 @@ class Settings {
 	
 	public static var AVAILABLE_COLORS : Array<Int> = [
 		0xFFFFFFFF,
-		0xFFCE181E,
-		0xFF62A73B,
-		0xFF1C3687
-		
+		0xFFFF0000,
+		0xFF00FF00,
+		0xFF0000FF
 	];
 	
 	public static var OPPOSITE_DIRECTIONS : Array<Array<Int>> = [
