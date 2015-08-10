@@ -4,6 +4,8 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxG;
+import flixel.text.FlxBitmapText;
+import flixel.util.FlxTimer;
 
 /**
  * ...
@@ -13,8 +15,11 @@ class MenuState extends FlxState {
 
 	var levelIcons:FlxTypedGroup<LevelIcon>;
 	
+	var transitionScreen:TransitionScreen;
+	
 	override public function create() {
 		super.create();
+		
 		
 		levelIcons = new FlxTypedGroup<LevelIcon>();
 		add(levelIcons);
@@ -26,6 +31,9 @@ class MenuState extends FlxState {
 			}
 		}
 		
+		transitionScreen = new TransitionScreen();
+		add(transitionScreen);
+		
 	}
 	
 	
@@ -35,7 +43,12 @@ class MenuState extends FlxState {
 		if (FlxG.mouse.justPressed) {
 			for (l in levelIcons) {
 				if (FlxG.mouse.overlaps(l.icon)) {
-					FlxG.switchState(new PlayState(l.level));
+					transitionScreen.start();
+					
+					var t = new FlxTimer();
+					t.start(1.22, function(_) {
+						FlxG.switchState(new PlayState(l.level));		
+					});
 				}
 			}
 		}

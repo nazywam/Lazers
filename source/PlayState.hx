@@ -1,5 +1,6 @@
 package;
 
+import flixel.addons.transition.FlxTransitionSprite;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -42,6 +43,8 @@ class PlayState extends FlxState {
 	
 	var dim:FlxSprite;
 
+	var transitionScreen:TransitionScreen;
+	
 	override public function new(_c:Int) {
 		currentLevel = _c;
 		super();
@@ -76,6 +79,12 @@ class PlayState extends FlxState {
 		add(menuButton);
 		
 		add(particles);
+	
+		
+		transitionScreen = new TransitionScreen();
+		transitionScreen.setupHalf();
+		transitionScreen.startHalf();
+		add(transitionScreen);
 		
  	}
 	

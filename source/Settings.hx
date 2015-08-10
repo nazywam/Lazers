@@ -18,12 +18,14 @@ class Settings {
 	public static var LEVEL_ROWS	:Int = 		5;
 	public static var LEVEL_COLUMNS :Int = 		5;
 	
+	public static var STRIPE_SPEED :Int =		20;
 	
 	public static var AVAILABLE_COLORS : Array<Int> = [
 		0xFFFFFFFF,
-		0xFFFF0000,
-		0xFF00FF00,
-		0xFF0000FF
+		0xFFFF231D,
+		0xFF18D224,
+		0xFF4F28BD,
+		0xFFFFDB1D
 	];
 	
 	public static var OPPOSITE_DIRECTIONS : Array<Array<Int>> = [
