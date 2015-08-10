@@ -41,9 +41,9 @@ class PlayState extends FlxState {
 	var menuButton:FlxSprite;
 	var avaibleTilesBackground:FlxSprite;
 	
-	var dim:FlxSprite;
-
 	var transitionScreen:TransitionScreen;
+	
+	var levelComplete:Bool = false;
 	
 	override public function new(_c:Int) {
 		currentLevel = _c;
@@ -62,10 +62,6 @@ class PlayState extends FlxState {
 			loadMap(Assets.getText("assets/data/level" + Std.string(currentLevel) + ".tmx"));	
 		}
 
-		dim = new FlxSprite(0, 0);
-		dim.makeGraphic(FlxG.width, FlxG.height, 0x66000000);
-		add(dim);
-		
 		lasers = new FlxTypedGroup<Laser>();
 		particles = new FlxTypedGroup<FlxEmitter>();
 		laserHeads = new FlxTypedGroup<Laser>();
@@ -194,7 +190,20 @@ class PlayState extends FlxState {
 			}
 			
 			if (FlxG.mouse.overlaps(fireButton)) {
-				generateLasers();
+				if (levelComplete) {
+					transitionScreen.setup();
+					transitionScreen.start();
+					
+					var t = new FlxTimer();
+					t.start(1.22, function(_) {
+						FlxG.switchState(new PlayState(currentLevel+1));	
+					});
+					
+					
+				} else {
+					generateLasers();	
+				}
+				
 			}
 			
 			if (FlxG.mouse.overlaps(menuButton)) {
@@ -263,6 +272,32 @@ class PlayState extends FlxState {
  		}
  	}
 
+	function checkLevelComplete() {		
+		var c : Bool = true;
+		
+		for(j in 0...board.length){
+ 			for (i in 0...board[j].length) {
+				if (board[j][i].type >= Tile.TARGET_UP && board[j][i].type <= Tile.TARGET_LEFT) {
+					if (!board[j][i].targetReached) {
+						c = false;
+					}
+				}
+			}
+		}
+		
+		
+			
+		if (c) {
+			completeLevel();
+		}
+	}
+	
+	function completeLevel() {
+		levelComplete = true;
+		
+		fireButton.loadGraphic("assets/images/NextLevel.png");
+	}
+	
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		handleMouse();
@@ -296,6 +331,9 @@ class PlayState extends FlxState {
 								
 						l1.animation.play(l1.animation.name + "Half", true, false, l1.animation.frameIndex);
 						l2.animation.play(l2.animation.name + "Half", true, false, l2.animation.frameIndex);		
+						
+						laserHeads.remove(l1);
+						laserHeads.remove(l2);
 					}				
 				}	
 			}
@@ -463,7 +501,7 @@ class PlayState extends FlxState {
 						uniqueLaser = false;
 					}
 
-					if(uniqueLaser){
+					if (uniqueLaser) {
 						var laser = new Laser(l.x + _moveX*Settings.TILE_WIDTH, l.y + _moveY*Settings.TILE_HEIGHT, nextDirection, l.ID, l.color, board[possibleY][possibleX]);
 						lasers.add(laser);	
 						particles.add(laser.particleEmitter);
@@ -471,6 +509,10 @@ class PlayState extends FlxState {
 						laser.becomeHead.start(Settings.LASER_SPEED, function(_){
 							laserHeads.add(laser);
 						});
+						
+						if (board[possibleY][possibleX].type >= Tile.TARGET_UP && board[possibleY][possibleX].type <= Tile.TARGET_LEFT) {
+							checkLevelComplete();	
+						}
 					}
 				}
 				

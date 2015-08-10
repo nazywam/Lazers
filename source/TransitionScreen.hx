@@ -29,11 +29,23 @@ class TransitionScreen extends FlxGroup {
 		}
 	}
 	
+	public function setup() {
+		running = false;
+		for (s in stripes) {
+			s.x = 0;
+			s.width = 0;
+			s.makeGraphic(0, 32, Settings.AVAILABLE_COLORS[s.ID % 4 + 1]);
+		}
+	}
+	
 	public function setupHalf() {
+		running = false;
 		for (s in stripes) {
 			s.makeGraphic(FlxG.width, 32, Settings.AVAILABLE_COLORS[s.ID % 4 + 1]);
 		}
 	}
+	
+	
 	
 	public function start() {
 		if (!running) {
@@ -64,7 +76,7 @@ class TransitionScreen extends FlxGroup {
 		s.x += Settings.STRIPE_SPEED;
 		s.makeGraphic(Std.int(s.width), 32, Settings.AVAILABLE_COLORS[s.ID%4 + 1]);
 		
-		if (s.width < FlxG.width) {
+		if (s.width > 0) {
 			var t = new FlxTimer();
 			t.start(.00001, function(_) {
 				shorthenStripe(s);

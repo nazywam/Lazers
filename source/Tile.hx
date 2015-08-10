@@ -132,7 +132,7 @@ class Tile extends FlxSprite {
 	}	
 	
 	public function complete() {
-		
+		targetReached = true;
 	}
 
 }
