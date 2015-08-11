@@ -169,6 +169,14 @@ class PlayState extends FlxState {
 			var pressedX:Int = Std.int(FlxG.mouse.x/Settings.TILE_WIDTH);
 			var pressedY:Int = Std.int(FlxG.mouse.y/Settings.TILE_HEIGHT);
 
+			for(j in 0...board.length){
+				for (i in 0...board[j].length) {
+					if (FlxG.mouse.overlaps(board[j][i])) {
+						board[j][i].wobble();
+					}
+				}
+			}
+			
 
 			for(t in availableTiles){
 				if (FlxG.mouse.overlaps(t)) {
@@ -224,7 +232,7 @@ class PlayState extends FlxState {
 
 				FlxTween.tween(pressedTile.scale, {x:1, y:1}, .1, {ease:FlxEase.quadIn});
 
-			if(inBounds(possibleX, possibleY) && !board[possibleY][possibleX].movable){
+			if(inBounds(possibleX, possibleY) && !board[possibleY][possibleX].movable && board[possibleY][possibleX].type == Tile.BLANK){
 				board[Std.int(FlxG.mouse.y/Settings.TILE_HEIGHT)][Std.int(FlxG.mouse.x/Settings.TILE_WIDTH)] = pressedTile;
 				pressedTile.x = Std.int(FlxG.mouse.x/Settings.TILE_WIDTH)*Settings.TILE_WIDTH;
 				pressedTile.y = Std.int(FlxG.mouse.y/Settings.TILE_HEIGHT)*Settings.TILE_HEIGHT;
@@ -285,7 +293,6 @@ class PlayState extends FlxState {
 			}
 		}
 		
-		
 			
 		if (c) {
 			completeLevel();
@@ -314,6 +321,7 @@ class PlayState extends FlxState {
 				}
 			}
 		}	
+		
 		
 		for (l1 in lasers) {
 			for (l2 in lasers) {

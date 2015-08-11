@@ -1,9 +1,12 @@
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
+import flixel.util.FlxTimer;
 import openfl.display.BitmapData;
 import openfl.geom.Point;
 import openfl.geom.Rectangle;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
 
 class Tile extends FlxSprite {
 
@@ -131,8 +134,25 @@ class Tile extends FlxSprite {
 		originalPosition = new FlxPoint(x, y);
 	}	
 	
+	public function wobble() {
+	//	FlxTween.tween(this.scale, "x:2", .5, { ease:FlxEase.elasticInOut } );
+	//	FlxTween.tween(this.scale, "y:.5", .5, {ease:FlxEase.elasticInOut});
+		
+		
+	//	var t = new FlxTimer();
+	//	t.start(.5, function(_) {
+		//	FlxTween.tween(scale, "x:1, y:1", .5, {ease:FlxEase.elasticInOut});
+		//});
+	}
+	
 	public function complete() {
 		targetReached = true;
 	}
+	
+	
+	override public function update(elapsed) {
+		super.update(elapsed);
+	}
+	
 
 }
