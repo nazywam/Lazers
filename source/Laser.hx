@@ -57,21 +57,21 @@ class Laser extends FlxSprite {
 				flipY = true;
 		}
 
-		#if !mobile
-			particleEmitter = new FlxEmitter(_x + width / 2, _y + height / 2, 100);
-			particleEmitter.loadParticles("assets/images/LaserParticles.png", 200, 16, true);
-			particleEmitter.color.set(_c, _c);
-			particleEmitter.lifespan.set(.75, 1.25);
-		#end
-		
+		particleEmitter = new FlxEmitter(_x + width / 2, _y + height / 2, 100);
+		particleEmitter.loadParticles("assets/images/LaserParticles.png", 200, 16, true);
+		particleEmitter.color.set(_c, _c);
+		particleEmitter.lifespan.set(.75, 1.25);
+	
 		var directionSum = tile.direction + direction;
 		
 		switch(tile.type) {
 			case Tile.BLANK:
 			case Tile.MIRROR:
 				animation.play("mirror");
+				tile.wobble();
 			case Tile.BACK_MIRROR:
 				animation.play("backMirror");
+				tile.wobble();
 			case Tile.BLOCK:
 			case Tile.SOURCE_UP:
 				animation.play("source");
@@ -86,6 +86,7 @@ class Laser extends FlxSprite {
 					animation.play("completeTarget");
 					tile.complete();
 					particleEmitter.start(true, 0.1, 0);
+					
 				}
 			case Tile.TARGET_RIGHT:
 				if ((directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][1]) && color == Settings.AVAILABLE_COLORS[tile.colorId]) {

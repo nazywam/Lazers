@@ -52,7 +52,9 @@ class PlayState extends FlxState {
 	
 	override public function create():Void {
 		super.create();
-
+		FlxG.camera.bgColor = 0x326f2c;
+		
+		
 		avaibleTilesBackground = new FlxSprite(0, Settings.TILE_HEIGHT * Settings.BOARD_HEIGHT, "assets/images/AvailableTiles.png");
 		add(avaibleTilesBackground);
 		
@@ -168,14 +170,6 @@ class PlayState extends FlxState {
 		if(FlxG.mouse.justPressed){
 			var pressedX:Int = Std.int(FlxG.mouse.x/Settings.TILE_WIDTH);
 			var pressedY:Int = Std.int(FlxG.mouse.y/Settings.TILE_HEIGHT);
-
-			for(j in 0...board.length){
-				for (i in 0...board[j].length) {
-					if (FlxG.mouse.overlaps(board[j][i])) {
-						board[j][i].wobble();
-					}
-				}
-			}
 			
 
 			for(t in availableTiles){
@@ -261,9 +255,7 @@ class PlayState extends FlxState {
  	function generateLasers(){
 
 		for (l in lasers) {
-			if (l.becomeHead.active) {
-				l.becomeHead.cancel();
-			}
+			l.becomeHead.cancel();
 		}
 		
 		laserHeads.clear();
@@ -273,6 +265,7 @@ class PlayState extends FlxState {
  		for(j in 0...board.length){
  			for(i in 0...board[j].length){
  				var t = board[j][i];
+				t.targetReached = false;
 				if(t.type == Tile.SOURCE_UP || t.type == Tile.SOURCE_LEFT || t.type == Tile.SOURCE_DOWN || t.type == Tile.SOURCE_RIGHT){
 					fireLaser(t);
 				}

@@ -4,7 +4,6 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxG;
-import flixel.text.FlxBitmapText;
 import flixel.util.FlxTimer;
 
 /**

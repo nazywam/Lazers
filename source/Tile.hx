@@ -135,14 +135,18 @@ class Tile extends FlxSprite {
 	}	
 	
 	public function wobble() {
-	//	FlxTween.tween(this.scale, "x:2", .5, { ease:FlxEase.elasticInOut } );
-	//	FlxTween.tween(this.scale, "y:.5", .5, {ease:FlxEase.elasticInOut});
+		
+		if (Std.random(2) == 0) {
+			FlxTween.tween(this.scale, {x:1.3, y:.7}, .25, { ease:FlxEase.elasticOut } );	
+		} else {
+			FlxTween.tween(this.scale, {y:1.3, x:.7}, .25, { ease:FlxEase.elasticOut } );
+		}
 		
 		
-	//	var t = new FlxTimer();
-	//	t.start(.5, function(_) {
-		//	FlxTween.tween(scale, "x:1, y:1", .5, {ease:FlxEase.elasticInOut});
-		//});
+		var t = new FlxTimer();
+		t.start(.25, function(_) {
+			FlxTween.tween(scale, {x:1, y:1}, .25, {ease:FlxEase.elasticInOut});
+		});
 	}
 	
 	public function complete() {
