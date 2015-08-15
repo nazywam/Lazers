@@ -174,10 +174,15 @@ class PlayState extends FlxState {
 
 			for(t in availableTiles){
 				if (FlxG.mouse.overlaps(t)) {
+
+					for(l in lasers){
+						l.becomeHead.cancel();
+					}
+
 					laserHeads.clear();
 					lasers.clear();
-					particles.clear();
-					
+					particles.clear();					
+
 					
 					pressed = true;
 					pressedTile = t;
@@ -305,19 +310,9 @@ class PlayState extends FlxState {
 		if (FlxG.keys.justPressed.ESCAPE) {
 			FlxG.switchState(new MenuState());
 		}
-
 		
-		if (FlxG.keys.justPressed.L) {
-			for (l in lasers) {
-				if (l.becomeHead.active) {
-					l.becomeHead.cancel();
-				}
-			}
-		}	
-		
-		
-		for (l1 in lasers) {
-			for (l2 in lasers) {
+		for (l1 in laserHeads) {
+			for (l2 in laserHeads) {
 				if (l1 != l2 && l1.x == l2.x && l1.y == l2.y && (l1.becomeHead.active || l2.becomeHead.active)) {
 					
 					var boardX = Std.int(l1.x / Settings.TILE_WIDTH);
@@ -505,7 +500,10 @@ class PlayState extends FlxState {
 					if (uniqueLaser) {
 						var laser = new Laser(l.x + _moveX*Settings.TILE_WIDTH, l.y + _moveY*Settings.TILE_HEIGHT, nextDirection, l.ID, l.color, board[possibleY][possibleX]);
 						lasers.add(laser);	
-						particles.add(laser.particleEmitter);
+
+						#if !mobile
+							particles.add(laser.particleEmitter);
+						#end
 							
 						laser.becomeHead.start(Settings.LASER_SPEED, function(_){
 							laserHeads.add(laser);

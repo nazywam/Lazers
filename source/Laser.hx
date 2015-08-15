@@ -14,7 +14,9 @@ class Laser extends FlxSprite {
 	
 	public var becomeHead:FlxTimer;
 	
-	public var particleEmitter:FlxEmitter;
+	#if !mobile
+		public var particleEmitter:FlxEmitter;
+	#end
 	
 	override public function new(_x:Float, _y:Float, _d:Int, _id:Int, _c:Int, _t:Tile){
 		super(_x, _y);
@@ -57,10 +59,12 @@ class Laser extends FlxSprite {
 				flipY = true;
 		}
 
-		particleEmitter = new FlxEmitter(_x + width / 2, _y + height / 2, 100);
-		particleEmitter.loadParticles("assets/images/LaserParticles.png", 200, 16, true);
-		particleEmitter.color.set(_c, _c);
-		particleEmitter.lifespan.set(.75, 1.25);
+		#if !mobile
+			particleEmitter = new FlxEmitter(_x + width / 2, _y + height / 2, 100);
+			particleEmitter.loadParticles("assets/images/LaserParticles.png", 200, 16, true);
+			particleEmitter.color.set(_c, _c);
+			particleEmitter.lifespan.set(.75, 1.25);
+		#end
 	
 		var directionSum = tile.direction + direction;
 		
@@ -85,31 +89,37 @@ class Laser extends FlxSprite {
 				if ((directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][1]) && color == Settings.AVAILABLE_COLORS[tile.colorId]) {
 					animation.play("completeTarget");
 					tile.complete();
-					particleEmitter.start(true, 0.1, 0);
-					
+					#if !mobile
+						particleEmitter.start(true, 0.1, 0);
+					#end
 				}
 			case Tile.TARGET_RIGHT:
 				if ((directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][1]) && color == Settings.AVAILABLE_COLORS[tile.colorId]) {
 					animation.play("completeTarget");
 					tile.complete();
-					particleEmitter.start(true, 0.1, 0);
+					#if !mobile
+						particleEmitter.start(true, 0.1, 0);
+					#end
 				}
+
 			case Tile.TARGET_DOWN:
 				if ((directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][1]) && color == Settings.AVAILABLE_COLORS[tile.colorId]) {
 					animation.play("completeTarget");
 					tile.complete();
-					particleEmitter.start(true, 0.1, 0);
+					#if !mobile
+						particleEmitter.start(true, 0.1, 0);
+					#end
 				}
+
 			case Tile.TARGET_LEFT:
 				if ((directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][1]) && color == Settings.AVAILABLE_COLORS[tile.colorId]) {
 					animation.play("completeTarget");
 					tile.complete();
-					particleEmitter.start(true, 0.1, 0);
+					#if !mobile
+						particleEmitter.start(true, 0.1, 0);
+					#end
 				}
+
 		}
-		
-		#if !mobile
-			//particleEmitter.start(true, .1, 50);
-		#end
 	}
 }
