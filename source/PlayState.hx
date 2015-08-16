@@ -52,7 +52,7 @@ class PlayState extends FlxState {
 	
 	override public function create():Void {
 		super.create();
-		FlxG.camera.bgColor = 0x326f2c;
+		FlxG.camera.bgColor = 0xFF326f2c;
 		
 		
 		avaibleTilesBackground = new FlxSprite(0, Settings.TILE_HEIGHT * Settings.BOARD_HEIGHT, "assets/images/AvailableTiles.png");
@@ -311,8 +311,8 @@ class PlayState extends FlxState {
 			FlxG.switchState(new MenuState());
 		}
 		
-		for (l1 in laserHeads) {
-			for (l2 in laserHeads) {
+		for (l1 in lasers) {
+			for (l2 in lasers) {
 				if (l1 != l2 && l1.x == l2.x && l1.y == l2.y && (l1.becomeHead.active || l2.becomeHead.active)) {
 					
 					var boardX = Std.int(l1.x / Settings.TILE_WIDTH);
@@ -421,7 +421,6 @@ class PlayState extends FlxState {
 								_moveX = -1;
 								_moveY = 0;
 						}
-							
 						
 					case Tile.BLANK:
 						switch (l.direction) {
