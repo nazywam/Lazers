@@ -32,6 +32,10 @@ class Laser extends FlxSprite {
 		animation.add("backMirror", [16, 17, 18, 19, 20, 21 , 22, 23], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("source", [24, 25, 26, 27, 28, 29, 30, 31], Std.int(8 / Settings.LASER_SPEED), false);
 		
+		animation.add("defaultBlink", [40, 41, 42, 43,44 ,45 ,46 ,47, 7], 8, false);
+		animation.add("mirrorBlink", [48, 49, 50, 51], 4);
+		animation.add("backMirrorBlink", [56, 57, 58, 59], 4);
+		
 		animation.add("defaultHalf", [0, 1, 2, 3], Std.int(4 / Settings.LASER_SPEED), false);
 		animation.add("mirrorHalf", [8, 9, 10, 11], Std.int(4 / Settings.LASER_SPEED), false);
 		animation.add("backMirrorHalf", [16, 17, 18], Std.int(4 / Settings.LASER_SPEED), false);
@@ -119,7 +123,6 @@ class Laser extends FlxSprite {
 						particleEmitter.start(true, 0.1, 0);
 					#end
 				}
-
 		}
 	}
 }

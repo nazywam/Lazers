@@ -164,6 +164,13 @@ class PlayState extends FlxState {
  		return (_x >= 0 && _x < Settings.BOARD_WIDTH) && (_y >= 0 && _y < Settings.BOARD_HEIGHT);
  	}
 
+	function sortAvailableTiles(order:Int, t1:Tile, t2:Tile) {
+		if (pressedTile == t2) {
+			return order;	
+		}
+		return -order;
+	}
+	
  	function handleMouse() {
 			
 		
@@ -187,13 +194,14 @@ class PlayState extends FlxState {
 					pressed = true;
 					pressedTile = t;
 
-					FlxTween.tween(pressedTile.scale, {x:1.2, y:1.2}, .1, {ease:FlxEase.quadInOut});
-
-
+					FlxTween.tween(pressedTile.scale, {x:1.1, y:1.1}, .1, {ease:FlxEase.quadInOut});
+					
 					if(inBounds(pressedX, pressedY)){
 						board[pressedY][pressedX] = originalBoard[pressedY][pressedX];
 					}
 				}
+				
+				availableTiles.sort(sortAvailableTiles);
 			}
 			
 			if (FlxG.mouse.overlaps(fireButton)) {
@@ -220,7 +228,18 @@ class PlayState extends FlxState {
 
 		if(pressed){
 			pressedTile.x = FlxG.mouse.x - pressedTile.width/2;
-			pressedTile.y = FlxG.mouse.y - pressedTile.height/2;
+			pressedTile.y = FlxG.mouse.y - pressedTile.height / 2;
+			
+			
+			if (inBounds(Std.int(FlxG.mouse.x / 48), Std.int(FlxG.mouse.y / 48))) {
+				var hoverTile = board[Std.int(FlxG.mouse.y / 48)][Std.int(FlxG.mouse.x / 48)];
+				if (hoverTile.type == Tile.BLANK) {
+					hoverTile.color = 0xFF00FF00;	
+				} else {
+					hoverTile.color = 0xFFFF0000;	
+				}
+				
+			}
 		}
 
 		if(FlxG.mouse.justReleased && pressed){
@@ -229,14 +248,13 @@ class PlayState extends FlxState {
 			var possibleX:Int = Std.int(FlxG.mouse.x/Settings.TILE_WIDTH);
 			var possibleY:Int = Std.int(FlxG.mouse.y/Settings.TILE_HEIGHT);
 
-				FlxTween.tween(pressedTile.scale, {x:1, y:1}, .1, {ease:FlxEase.quadIn});
+			FlxTween.tween(pressedTile.scale, {x:1, y:1}, .1, {ease:FlxEase.quadIn});
 
 			if(inBounds(possibleX, possibleY) && !board[possibleY][possibleX].movable && board[possibleY][possibleX].type == Tile.BLANK){
 				board[Std.int(FlxG.mouse.y/Settings.TILE_HEIGHT)][Std.int(FlxG.mouse.x/Settings.TILE_WIDTH)] = pressedTile;
 				pressedTile.x = Std.int(FlxG.mouse.x/Settings.TILE_WIDTH)*Settings.TILE_WIDTH;
 				pressedTile.y = Std.int(FlxG.mouse.y/Settings.TILE_HEIGHT)*Settings.TILE_HEIGHT;
 			} else {
-
 				FlxTween.tween(pressedTile, {x:pressedTile.originalPosition.x, y:pressedTile.originalPosition.y}, .5, {ease:FlxEase.quadIn});
 			}
 		}
@@ -305,6 +323,7 @@ class PlayState extends FlxState {
 	
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
+		
 		handleMouse();
 				
 		if (FlxG.keys.justPressed.ESCAPE) {

@@ -135,13 +135,11 @@ class Tile extends FlxSprite {
 	}	
 	
 	public function wobble() {
-		
 		if (Std.random(2) == 0) {
 			FlxTween.tween(this.scale, {x:1.10, y:1.10}, .1, { ease:FlxEase.bounceInOut } );	
 		} else {
 			FlxTween.tween(this.scale, {y:.90, x:.90}, .1, { ease:FlxEase.bounceInOut } );
 		}
-		
 		
 		var t = new FlxTimer();
 		t.start(.1, function(_) {
@@ -156,6 +154,7 @@ class Tile extends FlxSprite {
 	
 	override public function update(elapsed) {
 		super.update(elapsed);
+		color = 0xFFFFFFFF;
 	}
 	
 
