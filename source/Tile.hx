@@ -137,15 +137,15 @@ class Tile extends FlxSprite {
 	public function wobble() {
 		
 		if (Std.random(2) == 0) {
-			FlxTween.tween(this.scale, {x:1.3, y:.7}, .25, { ease:FlxEase.elasticOut } );	
+			FlxTween.tween(this.scale, {x:1.10, y:1.10}, .1, { ease:FlxEase.bounceInOut } );	
 		} else {
-			FlxTween.tween(this.scale, {y:1.3, x:.7}, .25, { ease:FlxEase.elasticOut } );
+			FlxTween.tween(this.scale, {y:.90, x:.90}, .1, { ease:FlxEase.bounceInOut } );
 		}
 		
 		
 		var t = new FlxTimer();
-		t.start(.25, function(_) {
-			FlxTween.tween(scale, {x:1, y:1}, .25, {ease:FlxEase.elasticInOut});
+		t.start(.1, function(_) {
+			FlxTween.tween(scale, {x:1, y:1}, .1, {ease:FlxEase.elasticInOut});
 		});
 	}
 	

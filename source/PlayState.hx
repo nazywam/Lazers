@@ -52,7 +52,7 @@ class PlayState extends FlxState {
 	
 	override public function create():Void {
 		super.create();
-		FlxG.camera.bgColor = 0x326f2c;
+		FlxG.camera.bgColor = 0xFF326f2c;
 		
 		
 		avaibleTilesBackground = new FlxSprite(0, Settings.TILE_HEIGHT * Settings.BOARD_HEIGHT, "assets/images/AvailableTiles.png");
@@ -174,10 +174,15 @@ class PlayState extends FlxState {
 
 			for(t in availableTiles){
 				if (FlxG.mouse.overlaps(t)) {
+
+					for(l in lasers){
+						l.becomeHead.cancel();
+					}
+
 					laserHeads.clear();
 					lasers.clear();
-					particles.clear();
-					
+					particles.clear();					
+
 					
 					pressed = true;
 					pressedTile = t;
@@ -305,16 +310,6 @@ class PlayState extends FlxState {
 		if (FlxG.keys.justPressed.ESCAPE) {
 			FlxG.switchState(new MenuState());
 		}
-
-		
-		if (FlxG.keys.justPressed.L) {
-			for (l in lasers) {
-				if (l.becomeHead.active) {
-					l.becomeHead.cancel();
-				}
-			}
-		}	
-		
 		
 		for (l1 in lasers) {
 			for (l2 in lasers) {
@@ -426,7 +421,6 @@ class PlayState extends FlxState {
 								_moveX = -1;
 								_moveY = 0;
 						}
-							
 						
 					case Tile.BLANK:
 						switch (l.direction) {
@@ -505,7 +499,10 @@ class PlayState extends FlxState {
 					if (uniqueLaser) {
 						var laser = new Laser(l.x + _moveX*Settings.TILE_WIDTH, l.y + _moveY*Settings.TILE_HEIGHT, nextDirection, l.ID, l.color, board[possibleY][possibleX]);
 						lasers.add(laser);	
-						particles.add(laser.particleEmitter);
+
+						#if !mobile
+							particles.add(laser.particleEmitter);
+						#end
 							
 						laser.becomeHead.start(Settings.LASER_SPEED, function(_){
 							laserHeads.add(laser);
