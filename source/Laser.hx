@@ -12,16 +12,19 @@ class Laser extends FlxSprite {
 
 	var tile:Tile;
 	
+	public var laserNumber:Int;
+	
 	public var becomeHead:FlxTimer;
 	
 	#if !mobile
 		public var particleEmitter:FlxEmitter;
 	#end
 	
-	override public function new(_x:Float, _y:Float, _d:Int, _id:Int, _c:Int, _t:Tile){
+	override public function new(_x:Float, _y:Float, _d:Int, _id:Int, _c:Int, _t:Tile, _l:Int){
 		super(_x, _y);
 		direction = _d;
 
+		laserNumber = _l;
 		blend = BlendMode.LIGHTEN;
 		
 		tile = _t;
@@ -32,7 +35,7 @@ class Laser extends FlxSprite {
 		animation.add("backMirror", [16, 17, 18, 19, 20, 21 , 22, 23], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("source", [24, 25, 26, 27, 28, 29, 30, 31], Std.int(8 / Settings.LASER_SPEED), false);
 		
-		animation.add("defaultBlink", [40, 41, 42, 43,44 ,45 ,46 ,47, 7], 8, false);
+		animation.add("defaultBlink", [40, 41, 42, 43,44 ,45 ,46 ,47, 7], 16, false);
 		animation.add("mirrorBlink", [48, 49, 50, 51], 4);
 		animation.add("backMirrorBlink", [56, 57, 58, 59], 4);
 		
@@ -124,5 +127,18 @@ class Laser extends FlxSprite {
 					#end
 				}
 		}
+		
+		var t = new FlxTimer();
+		t.start(2 + laserNumber/8, function(_) {
+			animation.play(animation.name + "Blink");
+			blink();
+		});
 	}
+	
+	public function blink() {
+		animation.play(animation.name);
+		var t = new FlxTimer();
+		t.start(.5, function(_) { blink(); } );
+	}
+	
 }

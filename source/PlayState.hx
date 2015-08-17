@@ -266,7 +266,7 @@ class PlayState extends FlxState {
 		var possibleY:Int = Std.int(t.y/Settings.TILE_HEIGHT);
 
 		
-		var l = new Laser(t.x, t.y, t.direction, currentLaserId, Settings.AVAILABLE_COLORS[boardColors[possibleY][possibleX]], board[possibleY][possibleX]);
+		var l = new Laser(t.x, t.y, t.direction, currentLaserId, Settings.AVAILABLE_COLORS[boardColors[possibleY][possibleX]], board[possibleY][possibleX], 0);
 		lasers.add(l);
 		currentLaserId++;	
 		
@@ -516,7 +516,7 @@ class PlayState extends FlxState {
 					}
 
 					if (uniqueLaser) {
-						var laser = new Laser(l.x + _moveX*Settings.TILE_WIDTH, l.y + _moveY*Settings.TILE_HEIGHT, nextDirection, l.ID, l.color, board[possibleY][possibleX]);
+						var laser = new Laser(l.x + _moveX*Settings.TILE_WIDTH, l.y + _moveY*Settings.TILE_HEIGHT, nextDirection, l.ID, l.color, board[possibleY][possibleX], l.laserNumber+1);
 						lasers.add(laser);	
 
 						#if !mobile
