@@ -25,7 +25,6 @@ class Laser extends FlxSprite {
 		direction = _d;
 
 		laserNumber = _l;
-		blend = BlendMode.LIGHTEN;
 		
 		tile = _t;
 		
@@ -128,17 +127,19 @@ class Laser extends FlxSprite {
 				}
 		}
 		
+		/*
 		var t = new FlxTimer();
 		t.start(2 + laserNumber/8, function(_) {
 			animation.play(animation.name + "Blink");
 			blink();
 		});
+		*/
 	}
 	
 	public function blink() {
-		animation.play(animation.name);
-		var t = new FlxTimer();
-		t.start(.5, function(_) { blink(); } );
+		//animation.play(animation.name);
+		//var t = new FlxTimer();
+		//t.start(.5, function(_) { blink(); } );
 	}
 	
 }

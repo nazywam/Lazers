@@ -1,8 +1,13 @@
 import flixel.FlxObject;
+import flixel.math.FlxPoint;
 
 class Settings {
 	
+	public static var PARTICLES_ON	:Bool = #if mobile false #else true #end;
 	public static var FUN			:Bool = 	false;
+	
+	public static var BOARD_OFFSET	:FlxPoint = FlxPoint.get(3, 3);
+	public static var GRID_WIDTH	:Int =		3;
 	
 	public static var BOARD_WIDTH 	:Int = 		7;
 	public static var BOARD_HEIGHT 	:Int = 		7;

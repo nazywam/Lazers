@@ -45,6 +45,8 @@ class PlayState extends FlxState {
 	
 	var levelComplete:Bool = false;
 	
+	var grid:FlxSprite;
+	
 	override public function new(_c:Int) {
 		currentLevel = _c;
 		super();
@@ -54,9 +56,13 @@ class PlayState extends FlxState {
 		super.create();
 		FlxG.camera.bgColor = 0xFF326f2c;
 		
+		grid = new FlxSprite(0, 0, "assets/images/Grid.png");
+		add(grid);
 		
-		avaibleTilesBackground = new FlxSprite(0, Settings.TILE_HEIGHT * Settings.BOARD_HEIGHT, "assets/images/AvailableTiles.png");
+		avaibleTilesBackground = new FlxSprite(0, grid.y+grid.width, "assets/images/AvailableTiles.png");
 		add(avaibleTilesBackground);
+		
+		
 		
 		if (Assets.getText("assets/data/level"+Std.string(currentLevel)+".tmx") == null) {
 			loadMap(Assets.getText("assets/data/404.tmx"));
@@ -64,6 +70,8 @@ class PlayState extends FlxState {
 			loadMap(Assets.getText("assets/data/level" + Std.string(currentLevel) + ".tmx"));	
 		}
 
+		
+		
 		lasers = new FlxTypedGroup<Laser>();
 		particles = new FlxTypedGroup<FlxEmitter>();
 		laserHeads = new FlxTypedGroup<Laser>();
@@ -84,6 +92,8 @@ class PlayState extends FlxState {
 		transitionScreen.startHalf();
 		add(transitionScreen);
 		
+		
+	
  	}
 	
 	function isNumeric(str:String):Bool {
@@ -128,7 +138,7 @@ class PlayState extends FlxState {
 									var tile = line.split(',')[t];
 
 									if (isNumeric(tile)) {
-										board[l - 1][t] = new Tile(t * Settings.TILE_WIDTH, (l - 1) * Settings.TILE_HEIGHT, Std.parseInt(tile) - 1, false, boardColors[l-1][t]);
+										board[l - 1][t] = new Tile(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, false, boardColors[l-1][t], t, l-1);
 										originalBoard[l-1][t] = board[l-1][t];
 										add(board[l - 1][t]);
 										
@@ -152,7 +162,7 @@ class PlayState extends FlxState {
 			for (p in props.elementsNamed("property")) {
 				var avail = p.get("value").split(',');
 				for (i in 0...avail.length) {
-					var a = new Tile(avaibleTilesBackground.x + 11 + i*58, avaibleTilesBackground.y + 10, Std.parseInt(avail[i]), true, 0);
+					var a = new Tile(avaibleTilesBackground.x + 11 + i*58, avaibleTilesBackground.y + 10, Std.parseInt(avail[i]), true, 0, -1, -1);
 					availableTiles.add(a);
 				}
 			}
@@ -160,8 +170,17 @@ class PlayState extends FlxState {
  	}
 
 
- 	function inBounds(_x:Int, _y:Int):Bool {
- 		return (_x >= 0 && _x < Settings.BOARD_WIDTH) && (_y >= 0 && _y < Settings.BOARD_HEIGHT);
+ 	function getTile(_b : Array<Array<Tile>>, _x:Float, _y:Float):Tile {
+		for (j in 0..._b.length) {
+			for (i in 0..._b[j].length) {
+				var currentTile = _b[j][i];
+				if (currentTile.x-3 <= _x && currentTile.y - 3 <= _y && currentTile.x + currentTile.width +1 >= _x && currentTile.y + currentTile.height + 1 >= _y) {
+					return _b[j][i];	
+				}
+			}
+		}
+		
+		return null;
  	}
 
 	function sortAvailableTiles(order:Int, t1:Tile, t2:Tile) {
@@ -196,8 +215,10 @@ class PlayState extends FlxState {
 
 					FlxTween.tween(pressedTile.scale, {x:1.1, y:1.1}, .1, {ease:FlxEase.quadInOut});
 					
-					if(inBounds(pressedX, pressedY)){
-						board[pressedY][pressedX] = originalBoard[pressedY][pressedX];
+					var hoverTile = getTile(board, FlxG.mouse.x, FlxG.mouse.y);
+					
+					if (hoverTile != null) {
+						board[hoverTile.boardY][hoverTile.boardX] = getTile(originalBoard, hoverTile.x, hoverTile.y);
 					}
 				}
 				
@@ -231,8 +252,8 @@ class PlayState extends FlxState {
 			pressedTile.y = FlxG.mouse.y - pressedTile.height / 2;
 			
 			
-			if (inBounds(Std.int(FlxG.mouse.x / 48), Std.int(FlxG.mouse.y / 48))) {
-				var hoverTile = board[Std.int(FlxG.mouse.y / 48)][Std.int(FlxG.mouse.x / 48)];
+			var hoverTile = getTile(board, FlxG.mouse.x, FlxG.mouse.y);
+			if (hoverTile != null) {
 				if (hoverTile.type == Tile.BLANK) {
 					hoverTile.color = 0xFF00FF00;	
 				} else {
@@ -245,15 +266,19 @@ class PlayState extends FlxState {
 		if(FlxG.mouse.justReleased && pressed){
 			pressed = false;
 
-			var possibleX:Int = Std.int(FlxG.mouse.x/Settings.TILE_WIDTH);
-			var possibleY:Int = Std.int(FlxG.mouse.y/Settings.TILE_HEIGHT);
-
 			FlxTween.tween(pressedTile.scale, {x:1, y:1}, .1, {ease:FlxEase.quadIn});
 
-			if(inBounds(possibleX, possibleY) && !board[possibleY][possibleX].movable && board[possibleY][possibleX].type == Tile.BLANK){
-				board[Std.int(FlxG.mouse.y/Settings.TILE_HEIGHT)][Std.int(FlxG.mouse.x/Settings.TILE_WIDTH)] = pressedTile;
-				pressedTile.x = Std.int(FlxG.mouse.x/Settings.TILE_WIDTH)*Settings.TILE_WIDTH;
-				pressedTile.y = Std.int(FlxG.mouse.y/Settings.TILE_HEIGHT)*Settings.TILE_HEIGHT;
+			var hoverTile = getTile(board, FlxG.mouse.x, FlxG.mouse.y);
+			
+			if (hoverTile != null && !hoverTile.movable && hoverTile.type == Tile.BLANK) {
+
+				board[hoverTile.boardY][hoverTile.boardX] = pressedTile;
+				
+				pressedTile.x = hoverTile.x;
+				pressedTile.y = hoverTile.y;
+				pressedTile.boardX = hoverTile.boardX;
+				pressedTile.boardY = hoverTile.boardY;
+				
 			} else {
 				FlxTween.tween(pressedTile, {x:pressedTile.originalPosition.x, y:pressedTile.originalPosition.y}, .5, {ease:FlxEase.quadIn});
 			}
@@ -262,11 +287,12 @@ class PlayState extends FlxState {
 
  	function fireLaser(t:Tile){
 
-		var possibleX:Int = Std.int(t.x/Settings.TILE_WIDTH);
-		var possibleY:Int = Std.int(t.y/Settings.TILE_HEIGHT);
+		var possibleX:Int = Std.int(t.x/(Settings.TILE_WIDTH + Settings.GRID_WIDTH));
+		var possibleY:Int = Std.int(t.y/(Settings.TILE_HEIGHT + Settings.GRID_WIDTH));
 
+		var hoverTile = getTile(board, Std.int(t.x), Std.int(t.y));
 		
-		var l = new Laser(t.x, t.y, t.direction, currentLaserId, Settings.AVAILABLE_COLORS[boardColors[possibleY][possibleX]], board[possibleY][possibleX], 0);
+		var l = new Laser(t.x, t.y, t.direction, currentLaserId, Settings.AVAILABLE_COLORS[boardColors[possibleY][possibleX]], hoverTile, 0);
 		lasers.add(l);
 		currentLaserId++;	
 		
@@ -334,13 +360,11 @@ class PlayState extends FlxState {
 			for (l2 in lasers) {
 				if (l1 != l2 && l1.x == l2.x && l1.y == l2.y && (l1.becomeHead.active || l2.becomeHead.active)) {
 					
-					var boardX = Std.int(l1.x / Settings.TILE_WIDTH);
-					var boardY = Std.int(l1.y / Settings.TILE_HEIGHT);
-					
 					var directionSum:Int = l1.direction + l2.direction;
-					var tileType = board[boardY][boardX].type;
 					
-					if (tileType <= Tile.BACK_MIRROR && (directionSum == Settings.OPPOSITE_DIRECTIONS[tileType][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[tileType][1])) {
+					var hoverTile = getTile(board, l1.x, l1.y);
+					
+					if (hoverTile.type<= Tile.BACK_MIRROR && (directionSum == Settings.OPPOSITE_DIRECTIONS[hoverTile.type][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[hoverTile.type][1])) {
 						l1.becomeHead.cancel();
 						l2.becomeHead.cancel();
 								
@@ -357,8 +381,8 @@ class PlayState extends FlxState {
 		for (l in laserHeads) {
 				var _moveX:Int = 0;
 				var _moveY:Int = 0;
-
-				var currentTile = board[Std.int(l.y/Settings.TILE_HEIGHT)][Std.int(l.x/Settings.TILE_WIDTH)];
+				
+				var currentTile = getTile(board, l.x, l.y);
 				//currentTile.color = l.color;
 				
 				var nextDirection:Int = l.direction;
@@ -500,23 +524,22 @@ class PlayState extends FlxState {
 						}
 				}
 
-				var possibleX:Int = Std.int(l.x / Settings.TILE_WIDTH) + _moveX;
-				var possibleY:Int = Std.int(l.y / Settings.TILE_HEIGHT) + _moveY;
-
-				if (inBounds(possibleX, possibleY)){
+				var hoverTile = getTile(board, l.x + _moveX * (Settings.TILE_WIDTH + Settings.GRID_WIDTH), l.y + _moveY * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH));
+				
+				if (hoverTile != null) {
 					var uniqueLaser:Bool = true;
+					
 					for(laser in lasers){
-						if(laser.x == possibleX*Settings.TILE_WIDTH && laser.y == possibleY*Settings.TILE_HEIGHT && laser.direction == nextDirection && l.ID == laser.ID){
+						if(laser.x == l.x && laser.y == l.y && laser.direction == nextDirection && l.ID == laser.ID && laser != l){
 							uniqueLaser = false;
 						}
 					}
-
-					if(board[possibleY][possibleX].type == Tile.BLOCK || board[possibleY][possibleX].type == Tile.SOURCE_UP || board[possibleY][possibleX].type == Tile.SOURCE_RIGHT || board[possibleY][possibleX].type == Tile.SOURCE_DOWN || board[possibleY][possibleX].type == Tile.SOURCE_LEFT){
+					if(hoverTile.type == Tile.BLOCK || hoverTile.type == Tile.SOURCE_UP || hoverTile.type == Tile.SOURCE_RIGHT || hoverTile.type == Tile.SOURCE_DOWN || hoverTile.type == Tile.SOURCE_LEFT){
 						uniqueLaser = false;
 					}
-
+					
 					if (uniqueLaser) {
-						var laser = new Laser(l.x + _moveX*Settings.TILE_WIDTH, l.y + _moveY*Settings.TILE_HEIGHT, nextDirection, l.ID, l.color, board[possibleY][possibleX], l.laserNumber+1);
+						var laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, l.color, hoverTile, l.laserNumber+1);
 						lasers.add(laser);	
 
 						#if !mobile
@@ -527,14 +550,14 @@ class PlayState extends FlxState {
 							laserHeads.add(laser);
 						});
 						
-						if (board[possibleY][possibleX].type >= Tile.TARGET_UP && board[possibleY][possibleX].type <= Tile.TARGET_LEFT) {
+						if (hoverTile.type >= Tile.TARGET_UP && hoverTile.type <= Tile.TARGET_LEFT) {
 							checkLevelComplete();	
 						}
 					}
 				}
 				
 				laserHeads.remove(l);
-				
+				 
 			}
 		}
 }

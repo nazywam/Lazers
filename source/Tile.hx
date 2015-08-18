@@ -18,6 +18,9 @@ class Tile extends FlxSprite {
 	public var colorId:							Int;
 	public var targetReached:					Bool = false;
 	
+	public var boardX: 							Int;
+	public var boardY: 							Int;
+	
 	public static inline var BLANK:				Int = 0;
 	public static inline var MIRROR:			Int = 1;
 	public static inline var BACK_MIRROR:		Int = 2;
@@ -33,12 +36,16 @@ class Tile extends FlxSprite {
 	public static inline var TARGET_DOWN:		Int = 10;
 	public static inline var TARGET_LEFT:		Int = 11;
 
-	override public function new(_x:Float, _y:Float, _t:Int, _m:Bool, _c:Int){
+	override public function new(_x:Float, _y:Float, _t:Int, _m:Bool, _c:Int, _bx:Int, _by:Int){
 		super(_x, _y);
 		loadGraphic("assets/images/Tiles.png", true, Settings.TILE_WIDTH, Settings.TILE_HEIGHT);
 		type = _t;
 		movable = _m;
 		colorId = _c;
+		boardX = _bx;
+		boardY = _by;
+		
+		
 		
 		if(movable){
 			animation.add("default", [type + 20]);
@@ -134,16 +141,13 @@ class Tile extends FlxSprite {
 		originalPosition = new FlxPoint(x, y);
 	}	
 	
-	public function wobble() {
-		if (Std.random(2) == 0) {
-			FlxTween.tween(this.scale, {x:1.10, y:1.10}, .1, { ease:FlxEase.bounceInOut } );	
-		} else {
-			FlxTween.tween(this.scale, {y:.90, x:.90}, .1, { ease:FlxEase.bounceInOut } );
-		}
+	public function wobble() {		
+		FlxTween.tween(this.scale, {x:1.25, y:1.25}, .2, { ease:FlxEase.elasticOut } );	
+		
 		
 		var t = new FlxTimer();
-		t.start(.1, function(_) {
-			FlxTween.tween(scale, {x:1, y:1}, .1, {ease:FlxEase.elasticInOut});
+		t.start(.2, function(_) {
+			FlxTween.tween(scale, {x:1, y:1}, .3, {ease:FlxEase.elasticOut});
 		});
 	}
 	
