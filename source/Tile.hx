@@ -149,7 +149,7 @@ class Tile extends FlxSprite {
 		t.start(.2, function(_) {
 			FlxTween.tween(scale, {x:1, y:1}, .3, {ease:FlxEase.elasticOut});
 		});
-	}
+	} 
 	
 	public function complete() {
 		targetReached = true;

@@ -95,6 +95,7 @@ class Laser extends FlxSprite {
 				if ((directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][1]) && color == Settings.AVAILABLE_COLORS[tile.colorId]) {
 					animation.play("completeTarget");
 					tile.complete();
+					becomeHead.cancel();
 					#if !mobile
 						particleEmitter.start(true, 0.1, 0);
 					#end
@@ -103,6 +104,7 @@ class Laser extends FlxSprite {
 				if ((directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][1]) && color == Settings.AVAILABLE_COLORS[tile.colorId]) {
 					animation.play("completeTarget");
 					tile.complete();
+					becomeHead.cancel();
 					#if !mobile
 						particleEmitter.start(true, 0.1, 0);
 					#end
@@ -112,6 +114,7 @@ class Laser extends FlxSprite {
 				if ((directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][1]) && color == Settings.AVAILABLE_COLORS[tile.colorId]) {
 					animation.play("completeTarget");
 					tile.complete();
+					becomeHead.cancel();
 					#if !mobile
 						particleEmitter.start(true, 0.1, 0);
 					#end
@@ -121,6 +124,7 @@ class Laser extends FlxSprite {
 				if ((directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][1]) && color == Settings.AVAILABLE_COLORS[tile.colorId]) {
 					animation.play("completeTarget");
 					tile.complete();
+					becomeHead.cancel();
 					#if !mobile
 						particleEmitter.start(true, 0.1, 0);
 					#end

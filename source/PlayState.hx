@@ -1,23 +1,21 @@
 package;
 
-import flixel.addons.transition.FlxTransitionSprite;
+import flixel.addons.effects.FlxWaveSprite;
+import flixel.effects.particles.FlxEmitter;
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.math.FlxPoint;
-import flixel.text.FlxText;
-import flixel.ui.FlxButton;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.FlxObject;
-import flixel.util.FlxColor;
-import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
-import openfl.Assets;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
-import openfl.display.BlendMode;
-import flixel.effects.particles.FlxEmitter;
-import flixel.addons.effects.FlxWaveSprite;
-import flixel.addons.display.FlxBackdrop;
+import openfl.Assets;
+import openfl.display.BitmapData;
+import openfl.filters.BlurFilter;
+import openfl.filters.GlowFilter;
+import openfl.geom.Point;
+import openfl.geom.Rectangle;
 
 class PlayState extends FlxState {
 
@@ -33,20 +31,18 @@ class PlayState extends FlxState {
 	var laserHeads:FlxTypedGroup<Laser>;
 	var particles:FlxTypedGroup<FlxEmitter>;
 	var availableTiles:FlxTypedGroup<Tile>;
+	var availableTilesBackground:FlxSprite;
 
 	var pressedTile:Tile;
 	var pressed:Bool=false;
 
-	var fireButton:FlxSprite;	
-	var menuButton:FlxSprite;
-	var avaibleTilesBackground:FlxSprite;
+	var fireButton:Button;	
 	
 	var transitionScreen:TransitionScreen;
 	
 	var levelComplete:Bool = false;
 	
 	var grid:FlxSprite;
-	
 	override public function new(_c:Int) {
 		currentLevel = _c;
 		super();
@@ -54,13 +50,13 @@ class PlayState extends FlxState {
 	
 	override public function create():Void {
 		super.create();
-		FlxG.camera.bgColor = 0xFF326f2c;
+		//FlxG.camera.bgColor = 0xFF326f2c;
 		
 		grid = new FlxSprite(0, 0, "assets/images/Grid.png");
 		add(grid);
 		
-		avaibleTilesBackground = new FlxSprite(0, grid.y+grid.width, "assets/images/AvailableTiles.png");
-		add(avaibleTilesBackground);
+		availableTilesBackground = new FlxSprite(0, grid.y+grid.width, "assets/images/AvailableTiles.png");
+		add(availableTilesBackground);
 		
 		
 		
@@ -70,30 +66,20 @@ class PlayState extends FlxState {
 			loadMap(Assets.getText("assets/data/level" + Std.string(currentLevel) + ".tmx"));	
 		}
 
-		
-		
 		lasers = new FlxTypedGroup<Laser>();
 		particles = new FlxTypedGroup<FlxEmitter>();
 		laserHeads = new FlxTypedGroup<Laser>();
 		add(lasers);
 		
-		fireButton = new FlxSprite(FlxG.width / 2, avaibleTilesBackground.y + avaibleTilesBackground.height, "assets/images/FireButton.png");
-		fireButton.x -= fireButton.width / 2;
+		fireButton = new Button(0, availableTilesBackground.y + availableTilesBackground.height, "Fire lasers", FlxG.width, 32);
 		add(fireButton);
-		
-		menuButton = new FlxSprite(fireButton.x, fireButton.y + fireButton.height, "assets/images/MenuButton.png");
-		add(menuButton);
 		
 		add(particles);
 	
-		
 		transitionScreen = new TransitionScreen();
 		transitionScreen.setupHalf();
 		transitionScreen.startHalf();
 		add(transitionScreen);
-		
-		
-	
  	}
 	
 	function isNumeric(str:String):Bool {
@@ -162,7 +148,7 @@ class PlayState extends FlxState {
 			for (p in props.elementsNamed("property")) {
 				var avail = p.get("value").split(',');
 				for (i in 0...avail.length) {
-					var a = new Tile(avaibleTilesBackground.x + 11 + i*58, avaibleTilesBackground.y + 10, Std.parseInt(avail[i]), true, 0, -1, -1);
+					var a = new Tile(availableTilesBackground.x + 11 + i*58, availableTilesBackground.y + 10, Std.parseInt(avail[i]), true, 0, -1, -1);
 					availableTiles.add(a);
 				}
 			}
@@ -240,10 +226,6 @@ class PlayState extends FlxState {
 					generateLasers();	
 				}
 				
-			}
-			
-			if (FlxG.mouse.overlaps(menuButton)) {
-				FlxG.switchState(new MenuState());
 			}
 		}
 
@@ -343,13 +325,13 @@ class PlayState extends FlxState {
 	
 	function completeLevel() {
 		levelComplete = true;
-		
-		fireButton.loadGraphic("assets/images/NextLevel.png");
+		fireButton.text.text = "Next level";
+		//fireButton.loadGraphic("assets/images/NextLevel.png");
 	}
 	
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
-		
+
 		handleMouse();
 				
 		if (FlxG.keys.justPressed.ESCAPE) {
@@ -529,10 +511,16 @@ class PlayState extends FlxState {
 				if (hoverTile != null) {
 					var uniqueLaser:Bool = true;
 					
-					for(laser in lasers){
+					if (_moveX == 0 && _moveY == 0) {
+						uniqueLaser = false;	
+					}
+					
+					for (laser in lasers) {
+						/*	
 						if(laser.x == l.x && laser.y == l.y && laser.direction == nextDirection && l.ID == laser.ID && laser != l){
 							uniqueLaser = false;
 						}
+						*/
 					}
 					if(hoverTile.type == Tile.BLOCK || hoverTile.type == Tile.SOURCE_UP || hoverTile.type == Tile.SOURCE_RIGHT || hoverTile.type == Tile.SOURCE_DOWN || hoverTile.type == Tile.SOURCE_LEFT){
 						uniqueLaser = false;
