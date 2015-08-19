@@ -148,7 +148,7 @@ class PlayState extends FlxState {
 			for (p in props.elementsNamed("property")) {
 				var avail = p.get("value").split(',');
 				for (i in 0...avail.length) {
-					var a = new Tile(availableTilesBackground.x + 11 + i*58, availableTilesBackground.y + 10, Std.parseInt(avail[i]), true, 0, -1, -1);
+					var a = new Tile(availableTilesBackground.x + 11 + i*58, availableTilesBackground.y + 11, Std.parseInt(avail[i]), true, 0, -1, -1);
 					availableTiles.add(a);
 				}
 			}

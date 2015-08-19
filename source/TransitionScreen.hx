@@ -22,7 +22,8 @@ class TransitionScreen extends FlxGroup {
 		
 		for (i in 0...Std.int(FlxG.height / 32)) {
 			var s = new FlxSprite(0, 32 * i);
-			s.makeGraphic(0, 32, 0);
+			//s.makeGraphic(0, 32, 0);
+			s.width = 0;
 			s.ID = i;
 			add(s);
 			stripes.push(s);
@@ -73,6 +74,7 @@ class TransitionScreen extends FlxGroup {
 		s.width -= Settings.STRIPE_SPEED;
 		s.x += Settings.STRIPE_SPEED;
 		
+
 		if (s.width != 0) {
 			s.makeGraphic(Std.int(s.width), 32, Settings.AVAILABLE_COLORS[s.ID%4 + 1]);	
 		} else {
@@ -94,7 +96,7 @@ class TransitionScreen extends FlxGroup {
 	function lengthenStripe(s:FlxSprite) {
 		s.width += Settings.STRIPE_SPEED;
 		s.makeGraphic(Std.int(s.width), 32, Settings.AVAILABLE_COLORS[s.ID%4 + 1]);
-		
+
 		if (s.width < FlxG.width) {
 			var t = new FlxTimer();
 			t.start(.00001, function(_) {
