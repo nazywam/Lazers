@@ -27,9 +27,9 @@ class Settings {
 	
 	public static var AVAILABLE_COLORS : Array<Int> = [
 		0xFFFFFFFF,
-		0xFFFF231D,
-		0xFF18D224,
-		0xFF4F28BD,
+		0xFFFF0000,
+		0xFF0000FF,
+		0xFF00FF00,
 		0xFFFFDB1D
 	];
 	

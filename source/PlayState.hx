@@ -274,7 +274,7 @@ class PlayState extends FlxState {
 
 		var hoverTile = getTile(board, Std.int(t.x), Std.int(t.y));
 		
-		var l = new Laser(t.x, t.y, t.direction, currentLaserId, Settings.AVAILABLE_COLORS[boardColors[possibleY][possibleX]], hoverTile, 0);
+		var l = new Laser(t.x, t.y, t.direction, currentLaserId, Settings.AVAILABLE_COLORS[boardColors[possibleY][possibleX]], hoverTile, 0, false);
 		lasers.add(l);
 		currentLaserId++;	
 		
@@ -527,11 +527,13 @@ class PlayState extends FlxState {
 					}
 					
 					if (uniqueLaser) {
-						var laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, l.color, hoverTile, l.laserNumber+1);
+						var laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, l.color, hoverTile, l.laserNumber+1, (hoverTile.type >= Tile.TARGET_UP && hoverTile.type <= Tile.TARGET_LEFT));
 						lasers.add(laser);	
 
 						#if !mobile
-							particles.add(laser.particleEmitter);
+							if (laser.emitParticles) {
+								particles.add(laser.particleEmitter);
+							}
 						#end
 							
 						laser.becomeHead.start(Settings.LASER_SPEED, function(_){

@@ -15,15 +15,16 @@ class Laser extends FlxSprite {
 	public var laserNumber:Int;
 	
 	public var becomeHead:FlxTimer;
+	public var emitParticles:Bool;
 	
 	#if !mobile
 		public var particleEmitter:FlxEmitter;
 	#end
 	
-	override public function new(_x:Float, _y:Float, _d:Int, _id:Int, _c:Int, _t:Tile, _l:Int){
+	override public function new(_x:Float, _y:Float, _d:Int, _id:Int, _c:Int, _t:Tile, _l:Int, _p:Bool){
 		super(_x, _y);
 		direction = _d;
-
+		emitParticles = _p;
 		laserNumber = _l;
 		
 		tile = _t;
@@ -66,10 +67,12 @@ class Laser extends FlxSprite {
 		}
 
 		#if !mobile
-			particleEmitter = new FlxEmitter(_x + width / 2, _y + height / 2, 100);
-			particleEmitter.loadParticles("assets/images/LaserParticles.png", 200, 16, true);
-			particleEmitter.color.set(_c, _c);
-			particleEmitter.lifespan.set(.75, 1.25);
+			if (emitParticles) {
+				particleEmitter = new FlxEmitter(_x + width / 2, _y + height / 2, 100);
+				particleEmitter.loadParticles("assets/images/LaserParticles.png", 200, 16, true);
+				particleEmitter.color.set(_c, _c);
+				particleEmitter.lifespan.set(.75, 1.25);
+			}
 		#end
 	
 		var directionSum = tile.direction + direction;
@@ -97,7 +100,9 @@ class Laser extends FlxSprite {
 					tile.complete();
 					becomeHead.cancel();
 					#if !mobile
-						particleEmitter.start(true, 0.1, 0);
+						if(emitParticles){
+							particleEmitter.start(true, 0.1, 0);
+						}
 					#end
 				}
 			case Tile.TARGET_RIGHT:
@@ -106,7 +111,9 @@ class Laser extends FlxSprite {
 					tile.complete();
 					becomeHead.cancel();
 					#if !mobile
-						particleEmitter.start(true, 0.1, 0);
+						if(emitParticles){
+							particleEmitter.start(true, 0.1, 0);
+						}
 					#end
 				}
 
@@ -116,7 +123,9 @@ class Laser extends FlxSprite {
 					tile.complete();
 					becomeHead.cancel();
 					#if !mobile
-						particleEmitter.start(true, 0.1, 0);
+						if(emitParticles){
+							particleEmitter.start(true, 0.1, 0);
+						}
 					#end
 				}
 
@@ -126,7 +135,9 @@ class Laser extends FlxSprite {
 					tile.complete();
 					becomeHead.cancel();
 					#if !mobile
-						particleEmitter.start(true, 0.1, 0);
+						if(emitParticles){
+							particleEmitter.start(true, 0.1, 0);
+						}
 					#end
 				}
 		}
