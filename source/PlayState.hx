@@ -124,7 +124,7 @@ class PlayState extends FlxState {
 									var tile = line.split(',')[t];
 
 									if (isNumeric(tile)) {
-										board[l - 1][t] = new Tile(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, false, boardColors[l-1][t], t, l-1);
+										board[l - 1][t] = new Tile(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
 										originalBoard[l-1][t] = board[l-1][t];
 										add(board[l - 1][t]);
 										
@@ -148,7 +148,7 @@ class PlayState extends FlxState {
 			for (p in props.elementsNamed("property")) {
 				var avail = p.get("value").split(',');
 				for (i in 0...avail.length) {
-					var a = new Tile(availableTilesBackground.x + 11 + i*58, availableTilesBackground.y + 11, Std.parseInt(avail[i]), true, 0, -1, -1);
+					var a = new Tile(availableTilesBackground.x + 11 + i*58, availableTilesBackground.y + 11, Std.parseInt(avail[i]), Settings.TILE_DIRECTIONS[Std.parseInt(avail[i])], true, 0, -1, -1);
 					availableTiles.add(a);
 				}
 			}
@@ -297,7 +297,7 @@ class PlayState extends FlxState {
  			for(i in 0...board[j].length){
  				var t = board[j][i];
 				t.targetReached = false;
-				if(t.type == Tile.SOURCE_UP || t.type == Tile.SOURCE_LEFT || t.type == Tile.SOURCE_DOWN || t.type == Tile.SOURCE_RIGHT){
+				if(t.type == Tile.SOURCE){
 					fireLaser(t);
 				}
  			}
@@ -309,14 +309,13 @@ class PlayState extends FlxState {
 		
 		for(j in 0...board.length){
  			for (i in 0...board[j].length) {
-				if (board[j][i].type >= Tile.TARGET_UP && board[j][i].type <= Tile.TARGET_LEFT) {
+				if (board[j][i].type == Tile.TARGET) {
 					if (!board[j][i].targetReached) {
 						c = false;
 					}
 				}
 			}
 		}
-		
 			
 		if (c) {
 			completeLevel();
@@ -369,141 +368,70 @@ class PlayState extends FlxState {
 				
 				var nextDirection:Int = l.direction;
 
-				switch (currentTile.type) {
-					case Tile.SOURCE_UP:
-						switch (l.direction) {
-							case FlxObject.UP:
+				switch(nextDirection) {
+					case FlxObject.UP:
+						switch(currentTile.type) {
+							case Tile.MIRROR:
+								nextDirection = FlxObject.RIGHT;
+								_moveX = 1;
+								_moveY = 0;
+							case Tile.BACK_MIRROR:
+								nextDirection = FlxObject.LEFT;
+								_moveX = -1;
+								_moveY = 0;
+							default:
 								nextDirection = l.direction;
 								_moveX = 0;
 								_moveY = -1;
-							case FlxObject.RIGHT:
-								nextDirection = l.direction;
-								_moveX = 1;
-								_moveY = 0;
-							case FlxObject.DOWN:
-								nextDirection = l.direction;
-								_moveX = 0;
-								_moveY = 1;
-							case FlxObject.LEFT:
-								nextDirection = l.direction;
-								_moveX = -1;
-								_moveY = 0;
-							}
-					case Tile.SOURCE_RIGHT:
-						switch (l.direction) {
-							case FlxObject.UP:
-								nextDirection = l.direction;
+						}
+					case FlxObject.RIGHT:
+						switch(currentTile.type) {
+							case Tile.MIRROR:
+								nextDirection = FlxObject.UP;
 								_moveX = 0;
 								_moveY = -1;
-							case FlxObject.RIGHT:
-								nextDirection = l.direction;
-								_moveX = 1;
-								_moveY = 0;
-							case FlxObject.DOWN:
-								nextDirection = l.direction;
+							case Tile.BACK_MIRROR:
+									nextDirection = FlxObject.DOWN;
 								_moveX = 0;
 								_moveY = 1;
-							case FlxObject.LEFT:
-								nextDirection = l.direction;
-								_moveX = -1;
-								_moveY = 0;
-							}
-					case Tile.SOURCE_DOWN:				
-						switch (l.direction) {
-							case FlxObject.UP:
-								nextDirection = l.direction;
-								_moveX = 0;
-								_moveY = -1;
-							case FlxObject.RIGHT:
+							default:
 								nextDirection = l.direction;
 								_moveX = 1;
-								_moveY = 0;
-							case FlxObject.DOWN:
-								nextDirection = l.direction;
-								_moveX = 0;
-								_moveY = 1;
-							case FlxObject.LEFT:
-								nextDirection = l.direction;
-								_moveX = -1;
 								_moveY = 0;
 						}
-					case Tile.SOURCE_LEFT:
-						switch (l.direction) {
-							case FlxObject.UP:
-								nextDirection = l.direction;
-								_moveX = 0;
-								_moveY = -1;
-							case FlxObject.RIGHT:
-								nextDirection = l.direction;
+					case FlxObject.DOWN:
+						switch(currentTile.type) {
+							case Tile.MIRROR:
+								nextDirection = FlxObject.LEFT;
+								_moveX = -1;
+								_moveY = 0;
+							case Tile.BACK_MIRROR:
+									nextDirection = FlxObject.RIGHT;
 								_moveX = 1;
 								_moveY = 0;
-							case FlxObject.DOWN:
+							default:
 								nextDirection = l.direction;
 								_moveX = 0;
 								_moveY = 1;
-							case FlxObject.LEFT:
+						}
+						
+						
+					case FlxObject.LEFT:
+						switch(currentTile.type) {
+							case Tile.MIRROR:
+								nextDirection = FlxObject.DOWN;
+								_moveX = 0;
+								_moveY = 1;
+							case Tile.BACK_MIRROR:
+								nextDirection = FlxObject.UP;
+								_moveX = 0;
+								_moveY = -1;
+							default:
 								nextDirection = l.direction;
 								_moveX = -1;
 								_moveY = 0;
 						}
 						
-					case Tile.BLANK:
-						switch (l.direction) {
-							case FlxObject.UP:
-								nextDirection = l.direction;
-								_moveX = 0;
-								_moveY = -1;
-							case FlxObject.RIGHT:
-								nextDirection = l.direction;
-								_moveX = 1;
-								_moveY = 0;
-							case FlxObject.DOWN:
-								nextDirection = l.direction;
-								_moveX = 0;
-								_moveY = 1;
-							case FlxObject.LEFT:
-								nextDirection = l.direction;
-								_moveX = -1;
-								_moveY = 0;
-						}
-					case Tile.MIRROR:
-						switch (l.direction) {
-							case FlxObject.UP:
-								nextDirection = FlxObject.RIGHT;
-								_moveX = 1;
-								_moveY = 0;
-							case FlxObject.RIGHT:
-								nextDirection = FlxObject.UP;
-								_moveX = 0;
-								_moveY = -1;
-							case FlxObject.DOWN:
-								nextDirection = FlxObject.LEFT;
-								_moveX = -1;
-								_moveY = 0;
-							case FlxObject.LEFT:
-								nextDirection = FlxObject.DOWN;
-								_moveX = 0;
-								_moveY = 1;
-						}
-					case Tile.BACK_MIRROR:
-						switch (l.direction) {
-							case FlxObject.UP:
-								nextDirection = FlxObject.LEFT;
-								_moveX = -1;
-								_moveY = 0;
-							case FlxObject.RIGHT:
-								nextDirection = FlxObject.DOWN;
-								_moveX = 0;
-								_moveY = 1;
-							case FlxObject.DOWN:
-								nextDirection = FlxObject.RIGHT;
-								_moveX = 1;
-								_moveY = 0;
-							case FlxObject.LEFT:
-								nextDirection = FlxObject.UP;
-								_moveX = 0;
-								_moveY = -1;
-						}
 				}
 
 				var hoverTile = getTile(board, l.x + _moveX * (Settings.TILE_WIDTH + Settings.GRID_WIDTH), l.y + _moveY * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH));
@@ -522,12 +450,12 @@ class PlayState extends FlxState {
 						}
 						*/
 					}
-					if(hoverTile.type == Tile.BLOCK || hoverTile.type == Tile.SOURCE_UP || hoverTile.type == Tile.SOURCE_RIGHT || hoverTile.type == Tile.SOURCE_DOWN || hoverTile.type == Tile.SOURCE_LEFT){
+					if(hoverTile.type == Tile.BLOCK || hoverTile.type == Tile.SOURCE){
 						uniqueLaser = false;
 					}
 					
 					if (uniqueLaser) {
-						var laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, l.color, hoverTile, l.laserNumber+1, (hoverTile.type >= Tile.TARGET_UP && hoverTile.type <= Tile.TARGET_LEFT));
+						var laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, l.color, hoverTile, l.laserNumber+1, hoverTile.type == Tile.TARGET);
 						lasers.add(laser);	
 
 						#if !mobile
@@ -540,7 +468,7 @@ class PlayState extends FlxState {
 							laserHeads.add(laser);
 						});
 						
-						if (hoverTile.type >= Tile.TARGET_UP && hoverTile.type <= Tile.TARGET_LEFT) {
+						if (hoverTile.type == Tile.TARGET) {
 							checkLevelComplete();	
 						}
 					}

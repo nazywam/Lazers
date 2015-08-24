@@ -86,50 +86,9 @@ class Laser extends FlxSprite {
 				animation.play("backMirror");
 				tile.wobble();
 			case Tile.BLOCK:
-			case Tile.SOURCE_UP:
+			case Tile.SOURCE:
 				animation.play("source");
-			case Tile.SOURCE_RIGHT:
-				animation.play("source");
-			case Tile.SOURCE_DOWN:
-				animation.play("source");
-			case Tile.SOURCE_LEFT:
-				animation.play("source");
-			case Tile.TARGET_UP:
-				if ((directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][1]) && color == Settings.AVAILABLE_COLORS[tile.colorId]) {
-					animation.play("completeTarget");
-					tile.complete();
-					becomeHead.cancel();
-					#if !mobile
-						if(emitParticles){
-							particleEmitter.start(true, 0.1, 0);
-						}
-					#end
-				}
-			case Tile.TARGET_RIGHT:
-				if ((directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][1]) && color == Settings.AVAILABLE_COLORS[tile.colorId]) {
-					animation.play("completeTarget");
-					tile.complete();
-					becomeHead.cancel();
-					#if !mobile
-						if(emitParticles){
-							particleEmitter.start(true, 0.1, 0);
-						}
-					#end
-				}
-
-			case Tile.TARGET_DOWN:
-				if ((directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][1]) && color == Settings.AVAILABLE_COLORS[tile.colorId]) {
-					animation.play("completeTarget");
-					tile.complete();
-					becomeHead.cancel();
-					#if !mobile
-						if(emitParticles){
-							particleEmitter.start(true, 0.1, 0);
-						}
-					#end
-				}
-
-			case Tile.TARGET_LEFT:
+			case Tile.TARGET:
 				if ((directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][1]) && color == Settings.AVAILABLE_COLORS[tile.colorId]) {
 					animation.play("completeTarget");
 					tile.complete();
@@ -141,20 +100,5 @@ class Laser extends FlxSprite {
 					#end
 				}
 		}
-		
-		/*
-		var t = new FlxTimer();
-		t.start(2 + laserNumber/8, function(_) {
-			animation.play(animation.name + "Blink");
-			blink();
-		});
-		*/
-	}
-	
-	public function blink() {
-		//animation.play(animation.name);
-		//var t = new FlxTimer();
-		//t.start(.5, function(_) { blink(); } );
-	}
-	
+	}	
 }
