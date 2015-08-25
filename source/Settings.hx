@@ -25,13 +25,13 @@ class Settings {
 	
 	public static var STRIPE_SPEED :Int =		30;
 	
-	public static var RED : Int = 0;
-	public static var GREEN : Int = 1;
-	public static var BLUE : Int = 2;
-	public static var YELLOW : Int = 3;
-	public static var MAGENTA : Int = 4;
-	public static var CYAN : Int = 5;
-	public static var WHITE : Int = 6;
+	public static var RED : Int = 				0;
+	public static var GREEN : Int = 			1;
+	public static var BLUE : Int = 				2;
+	public static var YELLOW : Int = 			3;
+	public static var MAGENTA : Int = 			4;
+	public static var CYAN : Int = 				5;
+	public static var WHITE : Int = 			6;
 	
 	public static var MIXED_COLORS : Array<Array<Int>> = [
 		[RED, YELLOW, MAGENTA, 0, 0, 0, 0],

@@ -269,7 +269,7 @@ class PlayState extends FlxState {
 
 		var hoverTile = getTile(board, Std.int(t.x), Std.int(t.y));
 		
-		var l = new Laser(t.x, t.y, t.direction, currentLaserId, Settings.AVAILABLE_COLORS[boardColors[possibleY][possibleX]], hoverTile, 0, false);
+		var l = new Laser(t.x, t.y, t.direction, currentLaserId, boardColors[possibleY][possibleX], hoverTile, 0, false);
 		lasers.add(l);
 		currentLaserId++;	
 		
@@ -530,10 +530,14 @@ class PlayState extends FlxState {
 						uniqueLaser = false;	
 					}
 					
+					var overlapingLaser : Laser = null;
+					
 					for (laser in lasers) {
-						
-						if(laser.x == l.x && laser.y == l.y && laser.direction == nextDirection && l.ID == laser.ID && laser != l){
-							uniqueLaser = false;
+						if (laser.x == l.x && laser.y == l.y && laser.direction == nextDirection && laser != l) {
+							if (l.ID == laser.ID) {
+								uniqueLaser = false;	
+							}
+							overlapingLaser = laser;
 						}
 						
 					}
@@ -542,7 +546,16 @@ class PlayState extends FlxState {
 					}
 					
 					if (uniqueLaser) {
-						var laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, l.color, hoverTile, l.laserNumber+1, hoverTile.type == Tile.TARGET);
+						
+						var laser:Laser;
+						
+						if (overlapingLaser != null) {
+							laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, Settings.MIXED_COLORS[l.colorId][overlapingLaser.colorId], hoverTile, l.laserNumber + 1, hoverTile.type == Tile.TARGET);	
+							overlapingLaser.visible = false;
+						} else {
+							laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, l.colorId, hoverTile, l.laserNumber+1, hoverTile.type == Tile.TARGET);	
+						}
+						
 						lasers.add(laser);	
 
 						if (laser.emitParticles) {
@@ -556,9 +569,7 @@ class PlayState extends FlxState {
 						if (hoverTile.type == Tile.TARGET) {
 							checkLevelComplete();	
 						}
-					} else {
-						//trace("Fail, not unique");
-					}
+					} 
 				}
 				
 				laserHeads.remove(l);

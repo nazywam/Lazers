@@ -10,7 +10,7 @@ class Laser extends FlxSprite {
 	var tile:Tile;
 	
 	public var laserNumber:Int;
-	
+	public var colorId:Int;
 	public var becomeHead:FlxTimer;
 	public var emitParticles:Bool;
 	
@@ -21,7 +21,7 @@ class Laser extends FlxSprite {
 		direction = _d;
 		emitParticles = _p;
 		laserNumber = _l;
-		
+		colorId = _c;
 		tile = _t;
 		
 		loadGraphic("assets/images/Laser.png", true, Settings.LASER_WIDTH, Settings.LASER_HEIGHT);
@@ -43,7 +43,8 @@ class Laser extends FlxSprite {
 		animation.play("default");
 
 		ID = _id;
-		color = _c;
+		color= Settings.AVAILABLE_COLORS[colorId];
+		
 		
 		becomeHead = new FlxTimer();
 		
