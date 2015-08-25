@@ -17,9 +17,7 @@ class Laser extends FlxSprite {
 	public var becomeHead:FlxTimer;
 	public var emitParticles:Bool;
 	
-	#if !mobile
-		public var particleEmitter:FlxEmitter;
-	#end
+	public var particleEmitter:FlxEmitter;
 	
 	override public function new(_x:Float, _y:Float, _d:Int, _id:Int, _c:Int, _t:Tile, _l:Int, _p:Bool){
 		super(_x, _y);
@@ -66,14 +64,12 @@ class Laser extends FlxSprite {
 				flipY = true;
 		}
 
-		#if !mobile
-			if (emitParticles) {
-				particleEmitter = new FlxEmitter(_x + width / 2, _y + height / 2, 100);
-				particleEmitter.loadParticles("assets/images/LaserParticles.png", 200, 16, true);
-				particleEmitter.color.set(_c, _c);
-				particleEmitter.lifespan.set(.75, 1.25);
-			}
-		#end
+		if (emitParticles) {
+			particleEmitter = new FlxEmitter(_x + width / 2, _y + height / 2, 50);
+			particleEmitter.loadParticles("assets/images/LaserParticles.png", 50, 16, true);
+			particleEmitter.color.set(_c, _c);
+			particleEmitter.lifespan.set(.75, 1.25);
+		}
 	
 		var directionSum = tile.direction + direction;
 		
@@ -93,11 +89,10 @@ class Laser extends FlxSprite {
 					animation.play("completeTarget");
 					tile.complete();
 					becomeHead.cancel();
-					#if !mobile
-						if(emitParticles){
-							particleEmitter.start(true, 0.1, 0);
-						}
-					#end
+					
+					if(emitParticles){
+						particleEmitter.start(true, 0.1, 0);
+					}
 				}
 		}
 	}	

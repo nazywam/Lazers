@@ -3,7 +3,7 @@ import flixel.math.FlxPoint;
 
 class Settings {
 	
-	public static var PARTICLES_ON	:Bool = #if mobile false #else true #end;
+	public static var PARTICLES_ON	:Bool = true;// #if mobile false #else true #end;
 	public static var FUN			:Bool = 	false;
 	
 	public static var BOARD_OFFSET	:FlxPoint = FlxPoint.get(3, 3);
@@ -33,7 +33,7 @@ class Settings {
 		0xFFFFDB1D
 	];
 	
-	public static var TILE_DIRECTIONS : Array<Int> = [FlxObject.UP, FlxObject.UP, FlxObject.UP, FlxObject.UP, FlxObject.UP, FlxObject.RIGHT, FlxObject.DOWN, FlxObject.LEFT, FlxObject.UP, FlxObject.RIGHT, FlxObject.DOWN, FlxObject.LEFT, FlxObject.UP];
+	public static var TILE_DIRECTIONS : Array<Int> = [FlxObject.UP, FlxObject.UP, FlxObject.UP, FlxObject.UP, FlxObject.UP, FlxObject.RIGHT, FlxObject.DOWN, FlxObject.LEFT, FlxObject.UP, FlxObject.RIGHT, FlxObject.DOWN, FlxObject.LEFT, FlxObject.UP, FlxObject.RIGHT, FlxObject.DOWN, FlxObject.LEFT];
 	
 	public static var OPPOSITE_DIRECTIONS : Array<Array<Int>> = [
 	[FlxObject.LEFT + FlxObject.RIGHT, FlxObject.UP + FlxObject.DOWN],

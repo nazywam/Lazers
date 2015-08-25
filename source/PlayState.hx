@@ -367,10 +367,17 @@ class PlayState extends FlxState {
 				//currentTile.color = l.color;
 				
 				var nextDirection:Int = l.direction;
-
 				switch(nextDirection) {
 					case FlxObject.UP:
 						switch(currentTile.type) {
+							case Tile.BLANK:
+								nextDirection = l.direction;
+								_moveX = 0;
+								_moveY = -1;
+							case Tile.SOURCE:
+								nextDirection = l.direction;
+								_moveX = 0;
+								_moveY = -1;
 							case Tile.MIRROR:
 								nextDirection = FlxObject.RIGHT;
 								_moveX = 1;
@@ -379,13 +386,36 @@ class PlayState extends FlxState {
 								nextDirection = FlxObject.LEFT;
 								_moveX = -1;
 								_moveY = 0;
+							case Tile.MERGE:
+								switch(currentTile.direction) {
+									case FlxObject.UP:
+										nextDirection = FlxObject.LEFT;
+										_moveX = -1;
+										_moveY = 0;
+										
+										var hoverTile = getTile(board, currentTile.x + Settings.GRID_WIDTH + Settings.TILE_WIDTH, currentTile.y);
+										
+										var laser = new Laser(hoverTile.x, hoverTile.y, FlxObject.RIGHT, l.ID, l.color, currentTile, l.laserNumber, false);
+										laser.becomeHead.start(Settings.LASER_SPEED, function(_){
+											laserHeads.add(laser);
+										});
+										lasers.add(laser);
+									case FlxObject.RIGHT:
+									case FlxObject.DOWN:
+									case FlxObject.LEFT:
+								}
 							default:
-								nextDirection = l.direction;
-								_moveX = 0;
-								_moveY = -1;
 						}
 					case FlxObject.RIGHT:
 						switch(currentTile.type) {
+							case Tile.BLANK:
+								nextDirection = l.direction;
+								_moveX = 1;
+								_moveY = 0;
+							case Tile.SOURCE:
+								nextDirection = l.direction;
+								_moveX = 1;
+								_moveY = 0;
 							case Tile.MIRROR:
 								nextDirection = FlxObject.UP;
 								_moveX = 0;
@@ -394,13 +424,40 @@ class PlayState extends FlxState {
 									nextDirection = FlxObject.DOWN;
 								_moveX = 0;
 								_moveY = 1;
+							case Tile.MERGE:
+								switch(currentTile.direction) {
+									case FlxObject.UP:
+									case FlxObject.RIGHT:
+										nextDirection = FlxObject.UP;
+										_moveX = 0;
+										_moveY = -1;
+										
+										var hoverTile = getTile(board, currentTile.x, currentTile.y + Settings.GRID_WIDTH + Settings.TILE_HEIGHT);
+										
+										var laser = new Laser(hoverTile.x, hoverTile.y, FlxObject.DOWN, l.ID, l.color, currentTile, l.laserNumber, false);
+										laser.becomeHead.start(Settings.LASER_SPEED, function(_){
+											laserHeads.add(laser);
+										});
+										lasers.add(laser);
+									case FlxObject.DOWN:
+									case FlxObject.LEFT:
+										
+								}
 							default:
-								nextDirection = l.direction;
-								_moveX = 1;
-								_moveY = 0;
+								trace(currentTile.type);
+							
 						}
 					case FlxObject.DOWN:
+						
 						switch(currentTile.type) {
+							case Tile.BLANK:
+								nextDirection = l.direction;
+								_moveX = 0;
+								_moveY = 1;
+							case Tile.SOURCE:
+								nextDirection = l.direction;
+								_moveX = 0;
+								_moveY = 1;
 							case Tile.MIRROR:
 								nextDirection = FlxObject.LEFT;
 								_moveX = -1;
@@ -409,15 +466,36 @@ class PlayState extends FlxState {
 									nextDirection = FlxObject.RIGHT;
 								_moveX = 1;
 								_moveY = 0;
+							case Tile.MERGE:
+								switch(currentTile.direction) {
+									case FlxObject.DOWN:
+										nextDirection = FlxObject.LEFT;
+										_moveX = -1;
+										_moveY = 0;
+										
+										var hoverTile = getTile(board, currentTile.x + Settings.GRID_WIDTH + Settings.TILE_WIDTH, currentTile.y);
+										
+										var laser = new Laser(hoverTile.x, hoverTile.y, FlxObject.RIGHT, l.ID, l.color, currentTile, l.laserNumber, false);
+										laser.becomeHead.start(Settings.LASER_SPEED, function(_){
+											laserHeads.add(laser);
+										});
+										lasers.add(laser);
+								}
 							default:
-								nextDirection = l.direction;
-								_moveX = 0;
-								_moveY = 1;
+								
 						}
 						
 						
 					case FlxObject.LEFT:
 						switch(currentTile.type) {
+							case Tile.BLANK:
+								nextDirection = l.direction;
+								_moveX = -1;
+								_moveY = 0;
+							case Tile.SOURCE:
+								nextDirection = l.direction;
+								_moveX = -1;
+								_moveY = 0;
 							case Tile.MIRROR:
 								nextDirection = FlxObject.DOWN;
 								_moveX = 0;
@@ -426,10 +504,26 @@ class PlayState extends FlxState {
 								nextDirection = FlxObject.UP;
 								_moveX = 0;
 								_moveY = -1;
+							case Tile.MERGE:
+								switch(currentTile.direction) {
+									case FlxObject.UP:
+									case FlxObject.RIGHT:
+									case FlxObject.DOWN:
+									case FlxObject.LEFT:
+										nextDirection = FlxObject.UP;
+										_moveX = 0;
+										_moveY = -1;
+										
+										var hoverTile = getTile(board, currentTile.x, currentTile.y + Settings.GRID_WIDTH + Settings.TILE_HEIGHT);
+										
+										var laser = new Laser(hoverTile.x, hoverTile.y, FlxObject.DOWN, l.ID, l.color, currentTile, l.laserNumber, false);
+										laser.becomeHead.start(Settings.LASER_SPEED, function(_){
+											laserHeads.add(laser);
+										});
+										lasers.add(laser);
+								}
 							default:
-								nextDirection = l.direction;
-								_moveX = -1;
-								_moveY = 0;
+								
 						}
 						
 				}
@@ -450,19 +544,17 @@ class PlayState extends FlxState {
 						}
 						*/
 					}
-					if(hoverTile.type == Tile.BLOCK || hoverTile.type == Tile.SOURCE){
-						uniqueLaser = false;
-					}
+					//if (!hoverTile.passable) {
+					//	uniqueLaser = false;
+					//}
 					
 					if (uniqueLaser) {
 						var laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, l.color, hoverTile, l.laserNumber+1, hoverTile.type == Tile.TARGET);
 						lasers.add(laser);	
 
-						#if !mobile
-							if (laser.emitParticles) {
-								particles.add(laser.particleEmitter);
-							}
-						#end
+						if (laser.emitParticles) {
+							particles.add(laser.particleEmitter);
+						}
 							
 						laser.becomeHead.start(Settings.LASER_SPEED, function(_){
 							laserHeads.add(laser);
@@ -471,6 +563,8 @@ class PlayState extends FlxState {
 						if (hoverTile.type == Tile.TARGET) {
 							checkLevelComplete();	
 						}
+					} else {
+						//trace("Fail, not unique");
 					}
 				}
 				

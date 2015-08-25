@@ -26,9 +26,9 @@ class Tile extends FlxSprite {
 	public static inline var MIRROR:			Int = 1;
 	public static inline var BACK_MIRROR:		Int = 2;
 	public static inline var BLOCK:				Int = 3;
-
 	public static inline var SOURCE:			Int = 4;
 	public static inline var TARGET:			Int = 8;
+	public static inline var MERGE:				Int = 12;
 	
 	override public function new(_x:Float, _y:Float, _t:Int, _d:Int, _m:Bool, _c:Int, _bx:Int, _by:Int){
 		super(_x, _y);
@@ -45,6 +45,8 @@ class Tile extends FlxSprite {
 			type = SOURCE;
 		} else if (type > TARGET && type <= TARGET +3) {
 			type = TARGET;
+		} else if (type > MERGE && type <= MERGE + 3) {
+			type = MERGE;
 		}
 		
 		
@@ -86,7 +88,7 @@ class Tile extends FlxSprite {
 				
 				
 			case TARGET:
-				passable = true;
+				passable = false;
 				
 				var temp:BitmapData = new BitmapData(48, 48, false);
 				temp.copyPixels(pixels, new Rectangle(tileID * 48, 0, 48, 48), new Point(0, 0));
@@ -106,6 +108,8 @@ class Tile extends FlxSprite {
 						temp.floodFill(42, 35, Settings.AVAILABLE_COLORS[colorId]);
 				}
 				pixels = temp;
+			case MERGE:
+				passable = false;
 		}
 		
 
