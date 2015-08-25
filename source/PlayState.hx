@@ -538,11 +538,11 @@ class PlayState extends FlxState {
 					}
 					
 					for (laser in lasers) {
-						/*	
+						
 						if(laser.x == l.x && laser.y == l.y && laser.direction == nextDirection && l.ID == laser.ID && laser != l){
 							uniqueLaser = false;
 						}
-						*/
+						
 					}
 					//if (!hoverTile.passable) {
 					//	uniqueLaser = false;
