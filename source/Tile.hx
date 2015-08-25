@@ -1,12 +1,12 @@
+import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
-import flixel.FlxObject;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import openfl.display.BitmapData;
 import openfl.geom.Point;
 import openfl.geom.Rectangle;
-import flixel.tweens.FlxTween;
-import flixel.tweens.FlxEase;
 
 class Tile extends FlxSprite {
 

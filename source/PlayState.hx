@@ -11,11 +11,6 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import openfl.Assets;
-import openfl.display.BitmapData;
-import openfl.filters.BlurFilter;
-import openfl.filters.GlowFilter;
-import openfl.geom.Point;
-import openfl.geom.Rectangle;
 
 class PlayState extends FlxState {
 
@@ -544,9 +539,9 @@ class PlayState extends FlxState {
 						}
 						
 					}
-					//if (!hoverTile.passable) {
-					//	uniqueLaser = false;
-					//}
+					if (hoverTile.type == Tile.BLOCK) {
+						uniqueLaser = false;
+					}
 					
 					if (uniqueLaser) {
 						var laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, l.color, hoverTile, l.laserNumber+1, hoverTile.type == Tile.TARGET);

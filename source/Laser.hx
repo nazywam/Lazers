@@ -1,10 +1,7 @@
 import flixel.effects.particles.FlxEmitter;
-import flixel.FlxSprite;
 import flixel.FlxObject;
+import flixel.FlxSprite;
 import flixel.util.FlxTimer;
-import haxe.Timer;
-import openfl.display.BlendMode;
-import openfl.geom.Rectangle;
 
 class Laser extends FlxSprite {
 

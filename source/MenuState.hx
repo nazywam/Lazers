@@ -1,9 +1,8 @@
 package;
 
-import flixel.FlxSprite;
+import flixel.FlxG;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.FlxG;
 import flixel.util.FlxTimer;
 
 /**

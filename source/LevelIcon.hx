@@ -1,7 +1,6 @@
 package;
 
 import flixel.FlxSprite;
-import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.group.FlxGroup;
 import flixel.text.FlxText;
 
