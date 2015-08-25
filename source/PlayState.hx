@@ -367,20 +367,16 @@ class PlayState extends FlxState {
 						switch(currentTile.type) {
 							case Tile.BLANK:
 								nextDirection = l.direction;
-								_moveX = 0;
 								_moveY = -1;
 							case Tile.SOURCE:
 								nextDirection = l.direction;
-								_moveX = 0;
 								_moveY = -1;
 							case Tile.MIRROR:
 								nextDirection = FlxObject.RIGHT;
 								_moveX = 1;
-								_moveY = 0;
 							case Tile.BACK_MIRROR:
 								nextDirection = FlxObject.LEFT;
 								_moveX = -1;
-								_moveY = 0;
 							case Tile.MERGE:
 								switch(currentTile.direction) {
 									case FlxObject.UP:
@@ -396,8 +392,12 @@ class PlayState extends FlxState {
 										});
 										lasers.add(laser);
 									case FlxObject.RIGHT:
+										nextDirection = FlxObject.LEFT;
+										_moveX = -1;
 									case FlxObject.DOWN:
 									case FlxObject.LEFT:
+										nextDirection = FlxObject.RIGHT;
+										_moveX = 1;
 								}
 							default:
 						}
@@ -406,25 +406,22 @@ class PlayState extends FlxState {
 							case Tile.BLANK:
 								nextDirection = l.direction;
 								_moveX = 1;
-								_moveY = 0;
 							case Tile.SOURCE:
 								nextDirection = l.direction;
 								_moveX = 1;
-								_moveY = 0;
 							case Tile.MIRROR:
 								nextDirection = FlxObject.UP;
-								_moveX = 0;
 								_moveY = -1;
 							case Tile.BACK_MIRROR:
 									nextDirection = FlxObject.DOWN;
-								_moveX = 0;
 								_moveY = 1;
 							case Tile.MERGE:
 								switch(currentTile.direction) {
 									case FlxObject.UP:
+										nextDirection = FlxObject.DOWN;
+										_moveY = 1;
 									case FlxObject.RIGHT:
 										nextDirection = FlxObject.UP;
-										_moveX = 0;
 										_moveY = -1;
 										
 										var hoverTile = getTile(board, currentTile.x, currentTile.y + Settings.GRID_WIDTH + Settings.TILE_HEIGHT);
@@ -435,11 +432,11 @@ class PlayState extends FlxState {
 										});
 										lasers.add(laser);
 									case FlxObject.DOWN:
+										nextDirection = FlxObject.UP;
+										_moveX = 1;
 									case FlxObject.LEFT:
-										
 								}
 							default:
-								trace(currentTile.type);
 							
 						}
 					case FlxObject.DOWN:
@@ -447,26 +444,25 @@ class PlayState extends FlxState {
 						switch(currentTile.type) {
 							case Tile.BLANK:
 								nextDirection = l.direction;
-								_moveX = 0;
 								_moveY = 1;
 							case Tile.SOURCE:
 								nextDirection = l.direction;
-								_moveX = 0;
 								_moveY = 1;
 							case Tile.MIRROR:
 								nextDirection = FlxObject.LEFT;
 								_moveX = -1;
-								_moveY = 0;
 							case Tile.BACK_MIRROR:
 									nextDirection = FlxObject.RIGHT;
 								_moveX = 1;
-								_moveY = 0;
 							case Tile.MERGE:
 								switch(currentTile.direction) {
+									case FlxObject.UP:
+									case FlxObject.RIGHT:
+										nextDirection = FlxObject.LEFT;
+										_moveX = -1;
 									case FlxObject.DOWN:
 										nextDirection = FlxObject.LEFT;
 										_moveX = -1;
-										_moveY = 0;
 										
 										var hoverTile = getTile(board, currentTile.x + Settings.GRID_WIDTH + Settings.TILE_WIDTH, currentTile.y);
 										
@@ -475,6 +471,9 @@ class PlayState extends FlxState {
 											laserHeads.add(laser);
 										});
 										lasers.add(laser);
+									case FlxObject.LEFT:
+										nextDirection = FlxObject.RIGHT;
+										_moveX = 1;
 								}
 							default:
 								
@@ -486,27 +485,26 @@ class PlayState extends FlxState {
 							case Tile.BLANK:
 								nextDirection = l.direction;
 								_moveX = -1;
-								_moveY = 0;
 							case Tile.SOURCE:
 								nextDirection = l.direction;
 								_moveX = -1;
-								_moveY = 0;
 							case Tile.MIRROR:
 								nextDirection = FlxObject.DOWN;
-								_moveX = 0;
 								_moveY = 1;
 							case Tile.BACK_MIRROR:
 								nextDirection = FlxObject.UP;
-								_moveX = 0;
 								_moveY = -1;
 							case Tile.MERGE:
 								switch(currentTile.direction) {
 									case FlxObject.UP:
+										nextDirection = FlxObject.DOWN;
+										_moveY = 1;
 									case FlxObject.RIGHT:
 									case FlxObject.DOWN:
+										nextDirection = FlxObject.UP;
+										_moveY = -1;
 									case FlxObject.LEFT:
 										nextDirection = FlxObject.UP;
-										_moveX = 0;
 										_moveY = -1;
 										
 										var hoverTile = getTile(board, currentTile.x, currentTile.y + Settings.GRID_WIDTH + Settings.TILE_HEIGHT);

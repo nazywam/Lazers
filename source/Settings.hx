@@ -25,12 +25,32 @@ class Settings {
 	
 	public static var STRIPE_SPEED :Int =		30;
 	
+	public static var RED : Int = 0;
+	public static var GREEN : Int = 1;
+	public static var BLUE : Int = 2;
+	public static var YELLOW : Int = 3;
+	public static var MAGENTA : Int = 4;
+	public static var CYAN : Int = 5;
+	public static var WHITE : Int = 6;
+	
+	public static var MIXED_COLORS : Array<Array<Int>> = [
+		[RED, YELLOW, MAGENTA, 0, 0, 0, 0],
+		[YELLOW, GREEN, CYAN, 0, 0, 0, 0],
+		[MAGENTA, CYAN, BLUE, 0, 0, 0, 0],
+		[0, 0, 0, YELLOW, RED, GREEN, 0],
+		[0, 0, 0, RED, MAGENTA, BLUE, 0],
+		[0, 0, 0, GREEN, BLUE, CYAN, 0],
+		[0, 0, 0, 0, 0, 0, 0],
+	];
+	
 	public static var AVAILABLE_COLORS : Array<Int> = [
-		0xFFFFFFFF,
-		0xFFFF0000,
-		0xFF0000FF,
-		0xFF00FF00,
-		0xFFFFDB1D
+		0xFFFF0000, //red
+		0xFF00FF00, //green
+		0xFF0000FF, //blue
+		0xFFFFFF00, //yellow
+		0xFFFF00FF,	//magenta
+		0xFF00FFFF,	//cyan
+		0xFFFFFFFF	//white				
 	];
 	
 	public static var TILE_DIRECTIONS : Array<Int> = [FlxObject.UP, FlxObject.UP, FlxObject.UP, FlxObject.UP, FlxObject.UP, FlxObject.RIGHT, FlxObject.DOWN, FlxObject.LEFT, FlxObject.UP, FlxObject.RIGHT, FlxObject.DOWN, FlxObject.LEFT, FlxObject.UP, FlxObject.RIGHT, FlxObject.DOWN, FlxObject.LEFT];
