@@ -386,7 +386,7 @@ class PlayState extends FlxState {
 										
 										var hoverTile = getTile(board, currentTile.x + Settings.GRID_WIDTH + Settings.TILE_WIDTH, currentTile.y);
 										
-										var laser = new Laser(hoverTile.x, hoverTile.y, FlxObject.RIGHT, l.ID, l.color, currentTile, l.laserNumber, false);
+										var laser = new Laser(hoverTile.x, hoverTile.y, FlxObject.RIGHT, l.ID, l.colorId, currentTile, l.laserNumber, false);
 										laser.becomeHead.start(Settings.LASER_SPEED, function(_){
 											laserHeads.add(laser);
 										});
@@ -426,14 +426,14 @@ class PlayState extends FlxState {
 										
 										var hoverTile = getTile(board, currentTile.x, currentTile.y + Settings.GRID_WIDTH + Settings.TILE_HEIGHT);
 										
-										var laser = new Laser(hoverTile.x, hoverTile.y, FlxObject.DOWN, l.ID, l.color, currentTile, l.laserNumber, false);
+										var laser = new Laser(hoverTile.x, hoverTile.y, FlxObject.DOWN, l.ID, l.colorId, currentTile, l.laserNumber, false);
 										laser.becomeHead.start(Settings.LASER_SPEED, function(_){
 											laserHeads.add(laser);
 										});
 										lasers.add(laser);
 									case FlxObject.DOWN:
 										nextDirection = FlxObject.UP;
-										_moveX = 1;
+										_moveY = -1;
 									case FlxObject.LEFT:
 								}
 							default:
@@ -458,7 +458,7 @@ class PlayState extends FlxState {
 								switch(currentTile.direction) {
 									case FlxObject.UP:
 									case FlxObject.RIGHT:
-										nextDirection = FlxObject.LEFT;
+										nextDirection = FlxObject.UP;
 										_moveX = -1;
 									case FlxObject.DOWN:
 										nextDirection = FlxObject.LEFT;
@@ -466,7 +466,7 @@ class PlayState extends FlxState {
 										
 										var hoverTile = getTile(board, currentTile.x + Settings.GRID_WIDTH + Settings.TILE_WIDTH, currentTile.y);
 										
-										var laser = new Laser(hoverTile.x, hoverTile.y, FlxObject.RIGHT, l.ID, l.color, currentTile, l.laserNumber, false);
+										var laser = new Laser(hoverTile.x, hoverTile.y, FlxObject.RIGHT, l.ID, l.colorId, currentTile, l.laserNumber, false);
 										laser.becomeHead.start(Settings.LASER_SPEED, function(_){
 											laserHeads.add(laser);
 										});
@@ -509,7 +509,7 @@ class PlayState extends FlxState {
 										
 										var hoverTile = getTile(board, currentTile.x, currentTile.y + Settings.GRID_WIDTH + Settings.TILE_HEIGHT);
 										
-										var laser = new Laser(hoverTile.x, hoverTile.y, FlxObject.DOWN, l.ID, l.color, currentTile, l.laserNumber, false);
+										var laser = new Laser(hoverTile.x, hoverTile.y, FlxObject.DOWN, l.ID, l.colorId, currentTile, l.laserNumber, false);
 										laser.becomeHead.start(Settings.LASER_SPEED, function(_){
 											laserHeads.add(laser);
 										});
@@ -533,11 +533,12 @@ class PlayState extends FlxState {
 					var overlapingLaser : Laser = null;
 					
 					for (laser in lasers) {
-						if (laser.x == l.x && laser.y == l.y && laser.direction == nextDirection && laser != l) {
+						if (laser.x == l.x && laser.y == l.y && laser.direction == l.direction && laser != l) {
 							if (l.ID == laser.ID) {
 								uniqueLaser = false;	
-							}
-							overlapingLaser = laser;
+							} else {
+								overlapingLaser = laser;	
+							}							
 						}
 						
 					}
@@ -551,7 +552,8 @@ class PlayState extends FlxState {
 						
 						if (overlapingLaser != null) {
 							laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, Settings.MIXED_COLORS[l.colorId][overlapingLaser.colorId], hoverTile, l.laserNumber + 1, hoverTile.type == Tile.TARGET);	
-							overlapingLaser.color = laser.color;
+							overlapingLaser.colorId = Settings.MIXED_COLORS[l.colorId][overlapingLaser.colorId];
+							overlapingLaser.color = Settings.AVAILABLE_COLORS[overlapingLaser.colorId];
 						} else {
 							laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, l.colorId, hoverTile, l.laserNumber+1, hoverTile.type == Tile.TARGET);	
 						}
