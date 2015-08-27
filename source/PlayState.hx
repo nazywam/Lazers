@@ -551,7 +551,7 @@ class PlayState extends FlxState {
 						
 						if (overlapingLaser != null) {
 							laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, Settings.MIXED_COLORS[l.colorId][overlapingLaser.colorId], hoverTile, l.laserNumber + 1, hoverTile.type == Tile.TARGET);	
-							overlapingLaser.visible = false;
+							overlapingLaser.color = laser.color;
 						} else {
 							laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, l.colorId, hoverTile, l.laserNumber+1, hoverTile.type == Tile.TARGET);	
 						}
