@@ -11,6 +11,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import openfl.Assets;
+import tiles.*;
 
 class PlayState extends FlxState {
 
@@ -50,7 +51,7 @@ class PlayState extends FlxState {
 		grid = new FlxSprite(0, 0, "assets/images/Grid.png");
 		add(grid);
 		
-		availableTilesBackground = new FlxSprite(0, grid.y+grid.width, "assets/images/AvailableTiles.png");
+		availableTilesBackground = new FlxSprite(0, grid.y + grid.width, "assets/images/AvailableTiles.png");
 		add(availableTilesBackground);
 		
 		
@@ -119,7 +120,25 @@ class PlayState extends FlxState {
 									var tile = line.split(',')[t];
 
 									if (isNumeric(tile)) {
-										board[l - 1][t] = new Tile(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
+										var type = "tiles.";
+										var _tile = Std.parseInt(tile) - 1;
+
+										if(_tile >= Tile.BLANK && _tile < Tile.MIRROR){
+											board[l-1][t] = new Blank(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
+										} else if(_tile >= Tile.MIRROR && _tile < Tile.BACK_MIRROR){
+											board[l-1][t] = new Mirror(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
+										} else if(_tile >= Tile.BACK_MIRROR && _tile < Tile.BLOCK){
+											board[l-1][t] = new BackMirror(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
+										}else if(_tile >= Tile.BLOCK && _tile < Tile.SOURCE){
+											board[l-1][t] = new Block(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
+										} else if(_tile >= Tile.SOURCE && _tile < Tile.TARGET){
+											board[l-1][t] = new Source(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
+										} else if(_tile >= Tile.TARGET && _tile < Tile.MERGE){
+											board[l-1][t] = new Target(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
+										} else if(_tile >= Tile.MERGE){
+											board[l-1][t] = new Merge(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
+										}
+
 										originalBoard[l-1][t] = board[l-1][t];
 										add(board[l - 1][t]);
 										

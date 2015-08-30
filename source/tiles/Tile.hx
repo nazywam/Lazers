@@ -1,3 +1,5 @@
+package tiles;
+
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
@@ -36,8 +38,10 @@ class Tile extends FlxSprite {
 		type = _t;
 		movable = _m;
 		colorId = _c;
+
 		boardX = _bx;
 		boardY = _by;
+		
 		direction = _d;
 		tileID = type;
 		
