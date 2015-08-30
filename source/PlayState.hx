@@ -340,7 +340,7 @@ class PlayState extends FlxState {
 					
 					var hoverTile = getTile(board, l1.x, l1.y);
 					
-					if (hoverTile.type<= Tile.BACK_MIRROR && (directionSum == Settings.OPPOSITE_DIRECTIONS[hoverTile.type][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[hoverTile.type][1])) {
+					if (hoverTile.type <= Tile.BACK_MIRROR && (directionSum == Settings.OPPOSITE_DIRECTIONS[hoverTile.type][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[hoverTile.type][1])) {
 						l1.becomeHead.cancel();
 						l2.becomeHead.cancel();
 								
@@ -359,7 +359,6 @@ class PlayState extends FlxState {
 				var _moveY:Int = 0;
 				
 				var currentTile = getTile(board, l.x, l.y);
-				//currentTile.color = l.color;
 				
 				var nextDirection:Int = l.direction;
 				switch(nextDirection) {
@@ -533,7 +532,7 @@ class PlayState extends FlxState {
 					var overlapingLaser : Laser = null;
 					
 					for (laser in lasers) {
-						if (laser.x == l.x && laser.y == l.y && laser.direction == nextDirection && laser != l) {
+						if (laser.x == l.x && laser.y == l.y && laser.direction == l.direction && laser != l) {
 							if (l.ID == laser.ID) {
 								uniqueLaser = false;	
 							}
