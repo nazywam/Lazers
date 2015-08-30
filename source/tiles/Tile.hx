@@ -41,7 +41,7 @@ class Tile extends FlxSprite {
 
 		boardX = _bx;
 		boardY = _by;
-		
+
 		direction = _d;
 		tileID = type;
 		
@@ -121,6 +121,10 @@ class Tile extends FlxSprite {
 		originalPosition = new FlxPoint(x, y);
 	}	
 	
+	public function nextMove(_d:Int):Array<Int>{
+		return [0, 0, FlxObject.UP];//x, y, direction
+	}
+
 	public function wobble() {		
 		FlxTween.tween(this.scale, {x:1.25, y:1.25}, .2, { ease:FlxEase.elasticOut } );	
 		
