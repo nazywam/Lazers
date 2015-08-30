@@ -70,7 +70,7 @@ class Tile extends FlxSprite {
 			case SOURCE:
 				passable = false;
 
-				var temp:BitmapData = new BitmapData(48, 48, false);
+				var temp:BitmapData = new BitmapData(48, 48, true);
 				temp.copyPixels(pixels, new Rectangle(tileID * 48, 0, 48, 48), new Point(0, 0));
 				
 				switch(direction) {
@@ -90,7 +90,7 @@ class Tile extends FlxSprite {
 			case TARGET:
 				passable = false;
 				
-				var temp:BitmapData = new BitmapData(48, 48, false);
+				var temp:BitmapData = new BitmapData(48, 48, true);
 				temp.copyPixels(pixels, new Rectangle(tileID * 48, 0, 48, 48), new Point(0, 0));
 				
 				switch(direction) {

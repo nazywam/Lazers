@@ -22,7 +22,7 @@ class TransitionScreen extends FlxGroup {
 		
 		for (i in 0...Std.int(FlxG.height / 32)) {
 			var s = new FlxSprite(0, 32 * i);
-			s.makeGraphic(0, 32, 0);
+			//s.makeGraphic(0, 32, 0);
 			s.width = 0;
 			s.ID = i;
 			add(s);
