@@ -8,6 +8,7 @@ import flixel.tweens.*;
 import flixel.util.*;
 import openfl.*;
 import tiles.*;
+import flixel.group.FlxGroup.FlxTypedGroup;
 
 class PlayState extends FlxState {
 
@@ -207,6 +208,22 @@ class PlayState extends FlxState {
 		return -order;
 	}
 	
+	function resetBoard() {
+		laserHeads.clear();
+		lasers.clear();
+		particles.clear();					
+		
+		for (j in 0...board.length) {
+			for (i in 0...board[j].length) {
+				if (board[j][i].type == Tile.TARGET) {
+					while (board[j][i].connectedColors.length > 0) {
+					board[j][i].connectedColors.pop();	
+					}
+				}
+			}
+		}
+	}
+	
  	function handleMouse() {
 			
 		
@@ -221,11 +238,7 @@ class PlayState extends FlxState {
 					for(l in lasers){
 						l.becomeHead.cancel();
 					}
-
-					laserHeads.clear();
-					lasers.clear();
-					particles.clear();					
-
+					resetBoard();
 					
 					pressed = true;
 					pressedTile = t;
@@ -300,8 +313,8 @@ class PlayState extends FlxState {
 
  	function fireLaser(t:Tile){
 
-		var possibleX:Int = Std.int(t.x/(Settings.TILE_WIDTH + Settings.GRID_WIDTH));
-		var possibleY:Int = Std.int(t.y/(Settings.TILE_HEIGHT + Settings.GRID_WIDTH));
+		var possibleX:Int = Std.int(t.x / (Settings.TILE_WIDTH + Settings.GRID_WIDTH));
+		var possibleY:Int = Std.int(t.y / (Settings.TILE_HEIGHT + Settings.GRID_WIDTH));
 
 		var hoverTile = getTile(board, Std.int(t.x), Std.int(t.y));
 		
@@ -320,9 +333,7 @@ class PlayState extends FlxState {
 			l.becomeHead.cancel();
 		}
 		
-		laserHeads.clear();
-		lasers.clear();
-		particles.clear();
+		resetBoard();
 		
  		for(j in 0...board.length){
  			for(i in 0...board[j].length){
@@ -334,25 +345,35 @@ class PlayState extends FlxState {
  			}
  		}
  	}
-
 	function checkLevelComplete() {		
 		var c : Bool = true;
 		
 		for(j in 0...board.length){
  			for (i in 0...board[j].length) {
 				if (board[j][i].type == Tile.TARGET) {
-					if (!board[j][i].targetReached) {
-						c = false;
+					var target = board[j][i];
+					
+					switch(target.connectedColors.length) {
+						case 0:
+							c = false;
+						case 1:
+							if (target.colorId != target.connectedColors[0]) {
+								c = false;
+							}
+						case 2:
+							if (target.colorId != Settings.MIXED_COLORS[target.connectedColors[0]][target.connectedColors[1]]) {
+								c = false;	
+							}
+						default:
+							c = false;
 					}
 				}
 			}
 		}
-			
 		if (c) {
 			completeLevel();
 		}
 	}
-	
 	function completeLevel() {
 		levelComplete = true;
 		fireButton.text.text = "Next level";
@@ -384,8 +405,8 @@ class PlayState extends FlxState {
 						
 						laserHeads.remove(l1);
 						laserHeads.remove(l2);
-					}				
-				}	
+					} 
+				}
 			}
 		}	
 		
@@ -427,14 +448,14 @@ class PlayState extends FlxState {
 				var hoverTile = getTile(board, l.x + _moveX * (Settings.TILE_WIDTH + Settings.GRID_WIDTH), l.y + _moveY * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH));
 				
 				if (hoverTile != null && hoverTile != currentTile) {
-					var uniqueLaser:Bool = true;
-					var overlapingLaser : Laser = null;
 					
+					var uniqueLaser:Bool = true;
+			
 					for (laser in lasers) {
 						if (laser.x == l.x && laser.y == l.y && laser.direction == l.direction && laser != l) {
 							if (l.ID == laser.ID) {
 								uniqueLaser = false;	
-							}						
+							}
 						}
 						  
 					}
@@ -443,17 +464,7 @@ class PlayState extends FlxState {
 					}
 					
 					if (uniqueLaser) {
-						
-						var laser:Laser;
-						
-						if (overlapingLaser != null) {
-							laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, Settings.MIXED_COLORS[l.colorId][overlapingLaser.colorId], hoverTile, l.laserNumber + 1, hoverTile.type == Tile.TARGET);	
-							overlapingLaser.colorId = Settings.MIXED_COLORS[l.colorId][overlapingLaser.colorId];
-							overlapingLaser.color = Settings.AVAILABLE_COLORS[overlapingLaser.colorId];
-						} else {
-							laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, l.colorId, hoverTile, l.laserNumber+1, hoverTile.type == Tile.TARGET);	
-						}
-						
+						var laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, l.colorId, hoverTile, l.laserNumber+1, hoverTile.type == Tile.TARGET);	
 						lasers.add(laser);	
 
 						if (laser.emitParticles) {

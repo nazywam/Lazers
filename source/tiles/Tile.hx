@@ -20,6 +20,7 @@ class Tile extends FlxSprite {
 	public var direction:						Int = FlxObject.UP;
 	public var colorId:							Int;
 	public var targetReached:					Bool = false;
+	public var connectedColors: 				Array<Int> = [];
 	
 	public var boardX: 							Int;
 	public var boardY: 							Int;
@@ -38,7 +39,7 @@ class Tile extends FlxSprite {
 		type = _t;
 		movable = _m;
 		colorId = _c;
-
+		
 		boardX = _bx;
 		boardY = _by;
 

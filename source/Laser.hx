@@ -3,6 +3,7 @@ import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.util.FlxTimer;
 import tiles.Tile;
+import openfl.display.BlendMode;
 
 class Laser extends FlxSprite {
 
@@ -12,6 +13,7 @@ class Laser extends FlxSprite {
 	
 	public var laserNumber:Int;
 	public var colorId:Int;
+
 	public var becomeHead:FlxTimer;
 	public var emitParticles:Bool;
 	
@@ -24,6 +26,8 @@ class Laser extends FlxSprite {
 		laserNumber = _l;
 		colorId = _c;
 		tile = _t;
+		
+		blend = BlendMode.ADD;
 		
 		loadGraphic("assets/images/Laser.png", true, Settings.LASER_WIDTH, Settings.LASER_HEIGHT);
 		animation.add("default", [0, 1, 2, 3, 4, 5, 6, 7], Std.int(8 / Settings.LASER_SPEED), false);
@@ -83,15 +87,9 @@ class Laser extends FlxSprite {
 			case Tile.SOURCE:
 				animation.play("source");
 			case Tile.TARGET:
-				if ((directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][1]) && color == Settings.AVAILABLE_COLORS[tile.colorId]) {
+				if ((directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][1])) {
+					tile.connectedColors.push(colorId);
 					animation.play("completeTarget");
-					tile.complete();
-					becomeHead.cancel();
-					
-					if (emitParticles) {
-						particleEmitter.color.set(color, color);
-						particleEmitter.start(true, 0.1, 0);
-					}
 				}
 		}
 	}	
