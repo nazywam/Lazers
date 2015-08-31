@@ -1,16 +1,12 @@
 package;
 
-import flixel.addons.effects.FlxWaveSprite;
-import flixel.effects.particles.FlxEmitter;
-import flixel.FlxG;
-import flixel.FlxObject;
-import flixel.FlxSprite;
-import flixel.FlxState;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
-import flixel.util.FlxTimer;
-import openfl.Assets;
+import flixel.*;
+import flixel.addons.effects.*;
+import flixel.effects.particles.*;
+import flixel.group.FlxGroup.*;
+import flixel.tweens.*;
+import flixel.util.*;
+import openfl.*;
 import tiles.*;
 
 class PlayState extends FlxState {
@@ -136,7 +132,9 @@ class PlayState extends FlxState {
 										} else if(_tile >= Tile.TARGET && _tile < Tile.MERGE){
 											board[l-1][t] = new Target(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
 										} else if(_tile >= Tile.MERGE){
-											board[l-1][t] = new Merge(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
+											board[l - 1][t] = new Merge(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
+										} else {
+											trace("Unidetified block on the grid!!!");
 										}
 
 										originalBoard[l-1][t] = board[l-1][t];
@@ -161,8 +159,27 @@ class PlayState extends FlxState {
 		for (props in xml.elementsNamed("properties")) {
 			for (p in props.elementsNamed("property")) {
 				var avail = p.get("value").split(',');
+				
 				for (i in 0...avail.length) {
-					var a = new Tile(availableTilesBackground.x + 11 + i*58, availableTilesBackground.y + 11, Std.parseInt(avail[i]), Settings.TILE_DIRECTIONS[Std.parseInt(avail[i])], true, 0, -1, -1);
+					var _tile = Std.parseInt(avail[i]);
+					
+					var a:Dynamic;
+					
+					if(_tile >= Tile.BLANK && _tile < Tile.MIRROR){
+						a = new Blank(availableTilesBackground.x + 11 + i*58, availableTilesBackground.y + 11, _tile, Settings.TILE_DIRECTIONS[_tile], true, 0, -1, -1);
+					} else if(_tile >= Tile.MIRROR && _tile < Tile.BACK_MIRROR){
+						a = new Mirror(availableTilesBackground.x + 11 + i*58, availableTilesBackground.y + 11, _tile, Settings.TILE_DIRECTIONS[_tile], true, 0, -1, -1);
+					} else if(_tile >= Tile.BACK_MIRROR && _tile < Tile.BLOCK){
+						a = new BackMirror(availableTilesBackground.x + 11 + i*58, availableTilesBackground.y + 11, _tile, Settings.TILE_DIRECTIONS[_tile], true, 0, -1, -1);
+					}else if(_tile >= Tile.BLOCK && _tile < Tile.SOURCE){
+						a = new Block(availableTilesBackground.x + 11 + i*58, availableTilesBackground.y + 11, _tile, Settings.TILE_DIRECTIONS[_tile], true, 0, -1, -1);
+					} else if(_tile >= Tile.SOURCE && _tile < Tile.TARGET){
+						a = new Source(availableTilesBackground.x + 11 + i*58, availableTilesBackground.y + 11, _tile, Settings.TILE_DIRECTIONS[_tile], true, 0, -1, -1);
+					} else if(_tile >= Tile.TARGET && _tile < Tile.MERGE){
+						a = new Target(availableTilesBackground.x + 11 + i*58, availableTilesBackground.y + 11, _tile, Settings.TILE_DIRECTIONS[_tile], true, 0, -1, -1);
+					} else {
+						a = new Merge(availableTilesBackground.x + 11 + i*58, availableTilesBackground.y + 11, _tile, Settings.TILE_DIRECTIONS[_tile], true, 0, -1, -1);					
+					}
 					availableTiles.add(a);
 				}
 			}
@@ -339,7 +356,6 @@ class PlayState extends FlxState {
 	function completeLevel() {
 		levelComplete = true;
 		fireButton.text.text = "Next level";
-		//fireButton.loadGraphic("assets/images/NextLevel.png");
 	}
 	
 	override public function update(elapsed:Float):Void {
@@ -374,193 +390,55 @@ class PlayState extends FlxState {
 		}	
 		
 		for (l in laserHeads) {
-				var _moveX:Int = 0;
-				var _moveY:Int = 0;
+				 
 				
 				var currentTile = getTile(board, l.x, l.y);
+				var tmp = currentTile.nextMove(l.direction);
 				
-				var nextDirection:Int = l.direction;
-				switch(nextDirection) {
-					case FlxObject.UP:
-						switch(currentTile.type) {
-							case Tile.BLANK:
-								nextDirection = l.direction;
-								_moveY = -1;
-							case Tile.SOURCE:
-								nextDirection = l.direction;
-								_moveY = -1;
-							case Tile.MIRROR:
-								nextDirection = FlxObject.RIGHT;
-								_moveX = 1;
-							case Tile.BACK_MIRROR:
-								nextDirection = FlxObject.LEFT;
-								_moveX = -1;
-							case Tile.MERGE:
-								switch(currentTile.direction) {
-									case FlxObject.UP:
-										nextDirection = FlxObject.LEFT;
-										_moveX = -1;
-										_moveY = 0;
-										
-										var hoverTile = getTile(board, currentTile.x + Settings.GRID_WIDTH + Settings.TILE_WIDTH, currentTile.y);
-										
-										var laser = new Laser(hoverTile.x, hoverTile.y, FlxObject.RIGHT, l.ID, l.colorId, currentTile, l.laserNumber, false);
-										laser.becomeHead.start(Settings.LASER_SPEED, function(_){
-											laserHeads.add(laser);
-										});
-										lasers.add(laser);
-									case FlxObject.RIGHT:
-										nextDirection = FlxObject.LEFT;
-										_moveX = -1;
-									case FlxObject.DOWN:
-									case FlxObject.LEFT:
-										nextDirection = FlxObject.RIGHT;
-										_moveX = 1;
-								}
-							default:
-						}
-					case FlxObject.RIGHT:
-						switch(currentTile.type) {
-							case Tile.BLANK:
-								nextDirection = l.direction;
-								_moveX = 1;
-							case Tile.SOURCE:
-								nextDirection = l.direction;
-								_moveX = 1;
-							case Tile.MIRROR:
-								nextDirection = FlxObject.UP;
-								_moveY = -1;
-							case Tile.BACK_MIRROR:
-									nextDirection = FlxObject.DOWN;
-								_moveY = 1;
-							case Tile.MERGE:
-								switch(currentTile.direction) {
-									case FlxObject.UP:
-										nextDirection = FlxObject.DOWN;
-										_moveY = 1;
-									case FlxObject.RIGHT:
-										nextDirection = FlxObject.UP;
-										_moveY = -1;
-										
-										var hoverTile = getTile(board, currentTile.x, currentTile.y + Settings.GRID_WIDTH + Settings.TILE_HEIGHT);
-										
-										var laser = new Laser(hoverTile.x, hoverTile.y, FlxObject.DOWN, l.ID, l.colorId, currentTile, l.laserNumber, false);
-										laser.becomeHead.start(Settings.LASER_SPEED, function(_){
-											laserHeads.add(laser);
-										});
-										lasers.add(laser);
-									case FlxObject.DOWN:
-										nextDirection = FlxObject.UP;
-										_moveY = -1;
-									case FlxObject.LEFT:
-								}
-							default:
-							
-						}
-					case FlxObject.DOWN:
-						
-						switch(currentTile.type) {
-							case Tile.BLANK:
-								nextDirection = l.direction;
-								_moveY = 1;
-							case Tile.SOURCE:
-								nextDirection = l.direction;
-								_moveY = 1;
-							case Tile.MIRROR:
-								nextDirection = FlxObject.LEFT;
-								_moveX = -1;
-							case Tile.BACK_MIRROR:
-									nextDirection = FlxObject.RIGHT;
-								_moveX = 1;
-							case Tile.MERGE:
-								switch(currentTile.direction) {
-									case FlxObject.UP:
-									case FlxObject.RIGHT:
-										nextDirection = FlxObject.UP;
-										_moveX = -1;
-									case FlxObject.DOWN:
-										nextDirection = FlxObject.LEFT;
-										_moveX = -1;
-										
-										var hoverTile = getTile(board, currentTile.x + Settings.GRID_WIDTH + Settings.TILE_WIDTH, currentTile.y);
-										
-										var laser = new Laser(hoverTile.x, hoverTile.y, FlxObject.RIGHT, l.ID, l.colorId, currentTile, l.laserNumber, false);
-										laser.becomeHead.start(Settings.LASER_SPEED, function(_){
-											laserHeads.add(laser);
-										});
-										lasers.add(laser);
-									case FlxObject.LEFT:
-										nextDirection = FlxObject.RIGHT;
-										_moveX = 1;
-								}
-							default:
-								
-						}
-						
-						
-					case FlxObject.LEFT:
-						switch(currentTile.type) {
-							case Tile.BLANK:
-								nextDirection = l.direction;
-								_moveX = -1;
-							case Tile.SOURCE:
-								nextDirection = l.direction;
-								_moveX = -1;
-							case Tile.MIRROR:
-								nextDirection = FlxObject.DOWN;
-								_moveY = 1;
-							case Tile.BACK_MIRROR:
-								nextDirection = FlxObject.UP;
-								_moveY = -1;
-							case Tile.MERGE:
-								switch(currentTile.direction) {
-									case FlxObject.UP:
-										nextDirection = FlxObject.DOWN;
-										_moveY = 1;
-									case FlxObject.RIGHT:
-									case FlxObject.DOWN:
-										nextDirection = FlxObject.UP;
-										_moveY = -1;
-									case FlxObject.LEFT:
-										nextDirection = FlxObject.UP;
-										_moveY = -1;
-										
-										var hoverTile = getTile(board, currentTile.x, currentTile.y + Settings.GRID_WIDTH + Settings.TILE_HEIGHT);
-										
-										var laser = new Laser(hoverTile.x, hoverTile.y, FlxObject.DOWN, l.ID, l.colorId, currentTile, l.laserNumber, false);
-										laser.becomeHead.start(Settings.LASER_SPEED, function(_){
-											laserHeads.add(laser);
-										});
-										lasers.add(laser);
-								}
-							default:
-								
-						}
-						
-				}
+				var _moveX:Int = tmp[0];
+				var _moveY:Int = tmp[1];
+				var nextDirection:Int  = tmp[2];
 
-				var hoverTile = getTile(board, l.x + _moveX * (Settings.TILE_WIDTH + Settings.GRID_WIDTH), l.y + _moveY * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH));
-				
-				if (hoverTile != null) {
-					var uniqueLaser:Bool = true;
-					
-					if (_moveX == 0 && _moveY == 0) {
-						uniqueLaser = false;	
+
+				if (tmp[3] == 1) {
+					var spawnLaserDirection:Int = FlxObject.UP;
+					switch(nextDirection) {
+						case FlxObject.UP:	
+							spawnLaserDirection = FlxObject.DOWN;
+						case FlxObject.RIGHT:
+							spawnLaserDirection = FlxObject.LEFT;
+						case FlxObject.DOWN:
+							spawnLaserDirection = FlxObject.UP;
+						case FlxObject.LEFT:
+							spawnLaserDirection = FlxObject.RIGHT;
 					}
 					
+					var spawnLaserHoverTile = getTile(board, currentTile.x - _moveX * (Settings.TILE_WIDTH + Settings.GRID_WIDTH), currentTile.y - _moveY * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH));
+					if (spawnLaserHoverTile != null && spawnLaserHoverTile.passable) {
+						var laser = new Laser(spawnLaserHoverTile.x, spawnLaserHoverTile.y, spawnLaserDirection, l.ID, l.colorId, spawnLaserHoverTile, l.laserNumber, spawnLaserHoverTile.type == Tile.TARGET);
+							laser.becomeHead.start(Settings.LASER_SPEED, function(_){
+							laserHeads.add(laser);
+						});
+						lasers.add(laser);
+					}
+					
+				}
+				
+				var hoverTile = getTile(board, l.x + _moveX * (Settings.TILE_WIDTH + Settings.GRID_WIDTH), l.y + _moveY * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH));
+				
+				if (hoverTile != null && hoverTile != currentTile) {
+					var uniqueLaser:Bool = true;
 					var overlapingLaser : Laser = null;
 					
 					for (laser in lasers) {
 						if (laser.x == l.x && laser.y == l.y && laser.direction == l.direction && laser != l) {
 							if (l.ID == laser.ID) {
 								uniqueLaser = false;	
-							} else {
-								overlapingLaser = laser;	
-							}							
+							}						
 						}
-						
+						  
 					}
-					if (hoverTile.type == Tile.BLOCK) {
+					if (hoverTile.type == Tile.BLOCK || (!currentTile.passable && l.laserNumber != 0)) {
 						uniqueLaser = false;
 					}
 					

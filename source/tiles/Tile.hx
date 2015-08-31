@@ -73,7 +73,7 @@ class Tile extends FlxSprite {
 				passable = false;
 			case SOURCE:
 				passable = false;
-
+				
 				var temp:BitmapData = new BitmapData(48, 48, true);
 				temp.copyPixels(pixels, new Rectangle(tileID * 48, 0, 48, 48), new Point(0, 0));
 				
@@ -113,7 +113,7 @@ class Tile extends FlxSprite {
 				}
 				pixels = temp;
 			case MERGE:
-				passable = false;
+				passable = true;
 		}
 		
 
@@ -122,7 +122,7 @@ class Tile extends FlxSprite {
 	}	
 	
 	public function nextMove(_d:Int):Array<Int>{
-		return [0, 0, FlxObject.UP];//x, y, direction
+		return [0, 0, FlxObject.UP, 0];//x, y, direction, fireOpositeLaser
 	}
 
 	public function wobble() {		

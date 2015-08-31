@@ -1,9 +1,19 @@
 package tiles;
+import flixel.FlxObject;
+
 
 class Source extends Tile {
-
-	override public function new(_x:Float, _y:Float, _t:Int, _d:Int, _m:Bool, _c:Int, _bx:Int, _by:Int){
-		super(_x, _y, _t, _d, _m, _c, _bx, _by);
-	}	
-	
+	override public function nextMove(_d:Int){
+		switch (_d) {
+			case FlxObject.UP:
+				return [0, -1, FlxObject.UP, 0];
+			case FlxObject.RIGHT:
+				return [1, 0, FlxObject.RIGHT, 0];
+			case FlxObject.DOWN:
+				return [0, 1, FlxObject.DOWN, 0];
+			case FlxObject.LEFT:
+				return [-1, 0, FlxObject.LEFT, 0];
+		}
+		return [0, 0, FlxObject.UP];
+	}
 }
