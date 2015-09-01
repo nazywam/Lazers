@@ -7,15 +7,15 @@ class BackMirror extends Tile {
 		override public function nextMove(_d:Int){
 		switch (_d) {
 			case FlxObject.UP:
-				return [-1, 0, FlxObject.LEFT, 0];
+				return Tile.TURN_LEFT;
 			case FlxObject.RIGHT:
-				return [0, 1, FlxObject.DOWN, 0];
+				return Tile.TURN_DOWN;
 			case FlxObject.DOWN:
-				return [1, 0, FlxObject.RIGHT, 0];
+				return Tile.TURN_RIGHT;
 			case FlxObject.LEFT:
-				return [0, -1, FlxObject.UP, 0];
+				return Tile.TURN_UP;
 		}
-		return [0, 0, FlxObject.UP];
+		return Tile.STOP;
 	}
 	
 }

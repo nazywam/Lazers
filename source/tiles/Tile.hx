@@ -28,6 +28,12 @@ class Tile extends FlxSprite {
 	public var particles:						FlxEmitter;
 	public var particlesLaunched:				Bool;
 	
+	public static var TURN_UP: 						Array<Int> = [0, -1, FlxObject.UP, 0];
+	public static var TURN_RIGHT: 					Array<Int> = [1, 0, FlxObject.RIGHT, 0];
+	public static var TURN_DOWN: 					Array<Int> = [0, 1, FlxObject.DOWN, 0];
+	public static var TURN_LEFT: 					Array<Int> = [-1, 0, FlxObject.LEFT, 0];
+	public static var STOP: 						Array<Int> = [0, 0, FlxObject.UP, 0];
+	
 	
 	public static inline var BLANK:				Int = 0;
 	public static inline var MIRROR:			Int = 1;

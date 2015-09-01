@@ -9,24 +9,24 @@ class Merge extends Tile {
 			case FlxObject.UP:
 				switch (direction) {
 					case FlxObject.UP:
-						return [0, 0, FlxObject.UP, 0];
+						return Tile.STOP;
 					case FlxObject.RIGHT:
-						return [1, 0, FlxObject.RIGHT, 0];
+						return Tile.TURN_RIGHT;
 					case FlxObject.DOWN:
 						return [1, 0, FlxObject.RIGHT, 1];
 					case FlxObject.LEFT:
-						return [-1, 0, FlxObject.LEFT, 0];
+						return Tile.TURN_LEFT;
 				}
 			case FlxObject.RIGHT:
 				switch (direction) {
 					case FlxObject.UP:
-						return [0, -1, FlxObject.UP, 0];
+						return Tile.TURN_UP;
 					case FlxObject.RIGHT:
-						return [0, 0, FlxObject.UP, 0];
+						return Tile.STOP;
 					case FlxObject.DOWN:
 						return [0, 1, FlxObject.DOWN, 0];
 					case FlxObject.LEFT:
-						return [0, -1, FlxObject.UP, 1];
+						return Tile.TURN_UP;
 
 				}
 			case FlxObject.DOWN:
@@ -34,25 +34,25 @@ class Merge extends Tile {
 					case FlxObject.UP:
 						return [1, 0, FlxObject.RIGHT, 1];
 					case FlxObject.RIGHT:
-						return [1, 0, FlxObject.RIGHT, 0];
+						return Tile.TURN_RIGHT;
 					case FlxObject.DOWN:
-						return [0, 0, FlxObject.UP, 0];
+						return Tile.STOP;
 					case FlxObject.LEFT:
-						return [-1, 0, FlxObject.LEFT, 0];
+						return Tile.TURN_LEFT;
 				}
 			case FlxObject.LEFT:
 				switch (direction) {
 					case FlxObject.UP:
-						return [0, -1, FlxObject.UP, 0];
+						return Tile.TURN_UP;
 					case FlxObject.RIGHT:
 						return [0, -1, FlxObject.UP, 1];
 					case FlxObject.DOWN:
-						return [0, 1, FlxObject.DOWN, 0];
+						return Tile.TURN_DOWN;
 					case FlxObject.LEFT:
-						return [0, 0, FlxObject.UP, 0];
+						return Tile.STOP;
 				}
 		}
-		return [0, 0, FlxObject.UP];
+		return Tile.STOP;
 	}
 	
 }
