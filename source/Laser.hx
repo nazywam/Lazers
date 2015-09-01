@@ -13,16 +13,11 @@ class Laser extends FlxSprite {
 	
 	public var laserNumber:Int;
 	public var colorId:Int;
-
 	public var becomeHead:FlxTimer;
-	public var emitParticles:Bool;
 	
-	public var particleEmitter:FlxEmitter;
-	
-	override public function new(_x:Float, _y:Float, _d:Int, _id:Int, _c:Int, _t:Tile, _l:Int, _p:Bool){
+	override public function new(_x:Float, _y:Float, _d:Int, _id:Int, _c:Int, _t:Tile, _l:Int){
 		super(_x, _y);
 		direction = _d;
-		emitParticles = _p;
 		laserNumber = _l;
 		colorId = _c;
 		tile = _t;
@@ -43,13 +38,12 @@ class Laser extends FlxSprite {
 		animation.add("mirrorHalf", [8, 9, 10, 11], Std.int(4 / Settings.LASER_SPEED), false);
 		animation.add("backMirrorHalf", [16, 17, 18], Std.int(4 / Settings.LASER_SPEED), false);
 		animation.add("sourceHalf", [24, 25, 26, 27], Std.int(4 / Settings.LASER_SPEED), false);
-		animation.add("completeTarget", [32, 33, 34, 35, 36, 37, 38, 39], Std.int(8 / Settings.LASER_SPEED), false);
+		animation.add("target", [32, 33, 34, 35, 36, 37, 38, 39], Std.int(8 / Settings.LASER_SPEED), false);
 		
 		animation.play("default");
 
 		ID = _id;
 		color= Settings.AVAILABLE_COLORS[colorId];
-		
 		
 		becomeHead = new FlxTimer();
 		
@@ -66,13 +60,6 @@ class Laser extends FlxSprite {
 				flipX = true;
 				flipY = true;
 		}
-
-		if (emitParticles) {
-			particleEmitter = new FlxEmitter(_x + width / 2, _y + height / 2, 50);
-			particleEmitter.loadParticles("assets/images/LaserParticles.png", 50, 16, true);
-			particleEmitter.lifespan.set(.75, 1.25);
-		}
-	
 		var directionSum = tile.direction + direction;
 		
 		switch(tile.type) {
@@ -89,7 +76,8 @@ class Laser extends FlxSprite {
 			case Tile.TARGET:
 				if ((directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[Tile.BLANK][1])) {
 					tile.connectedColors.push(colorId);
-					animation.play("completeTarget");
+					animation.play("target");
+					tile.wobble();
 				}
 		}
 	}	

@@ -1,5 +1,6 @@
 package tiles;
 
+import flixel.effects.particles.FlxEmitter;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
@@ -19,11 +20,14 @@ class Tile extends FlxSprite {
 	public var passable:						Bool;
 	public var direction:						Int = FlxObject.UP;
 	public var colorId:							Int;
-	public var targetReached:					Bool = false;
 	public var connectedColors: 				Array<Int> = [];
 	
 	public var boardX: 							Int;
 	public var boardY: 							Int;
+	
+	public var particles:						FlxEmitter;
+	public var particlesLaunched:				Bool;
+	
 	
 	public static inline var BLANK:				Int = 0;
 	public static inline var MIRROR:			Int = 1;
@@ -53,6 +57,7 @@ class Tile extends FlxSprite {
 		} else if (type > MERGE && type <= MERGE + 3) {
 			type = MERGE;
 		}
+		
 		
 		
 		if(movable){
@@ -113,6 +118,11 @@ class Tile extends FlxSprite {
 						temp.floodFill(42, 35, Settings.AVAILABLE_COLORS[colorId]);
 				}
 				pixels = temp;
+				
+				particles = new FlxEmitter(_x + width / 2, _y + height / 2, 50);
+				particles.loadParticles("assets/images/LaserParticles.png", 50, 16, true);
+				particles.lifespan.set(.75, 1.25);
+				particles.color.set(Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId]);
 			case MERGE:
 				passable = true;
 		}
@@ -136,15 +146,15 @@ class Tile extends FlxSprite {
 		});
 	} 
 	
+
 	public function complete() {
-		targetReached = true;
+		if (!particlesLaunched) {
+			particles.start(true, 0.1, 0);
+			particlesLaunched = true;	
+		}
 	}
-	
-	
 	override public function update(elapsed) {
 		super.update(elapsed);
 		color = 0xFFFFFFFF;
 	}
-	
-
 }
