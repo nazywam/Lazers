@@ -13,7 +13,7 @@ class Merge extends Tile {
 					case FlxObject.RIGHT:
 						return Tile.TURN_RIGHT;
 					case FlxObject.DOWN:
-						return [1, 0, FlxObject.RIGHT, 1];
+						return Tile.TURN_RIGHT.concat([1]);
 					case FlxObject.LEFT:
 						return Tile.TURN_LEFT;
 				}
@@ -24,15 +24,14 @@ class Merge extends Tile {
 					case FlxObject.RIGHT:
 						return Tile.STOP;
 					case FlxObject.DOWN:
-						return [0, 1, FlxObject.DOWN, 0];
+						return Tile.TURN_DOWN;
 					case FlxObject.LEFT:
-						return Tile.TURN_UP;
-
+						return Tile.TURN_UP.concat([1]);
 				}
 			case FlxObject.DOWN:
 				switch (direction) {
 					case FlxObject.UP:
-						return [1, 0, FlxObject.RIGHT, 1];
+						return Tile.TURN_RIGHT.concat([1]);
 					case FlxObject.RIGHT:
 						return Tile.TURN_RIGHT;
 					case FlxObject.DOWN:
@@ -45,7 +44,7 @@ class Merge extends Tile {
 					case FlxObject.UP:
 						return Tile.TURN_UP;
 					case FlxObject.RIGHT:
-						return [0, -1, FlxObject.UP, 1];
+						return Tile.TURN_UP.concat([1]);
 					case FlxObject.DOWN:
 						return Tile.TURN_DOWN;
 					case FlxObject.LEFT:
