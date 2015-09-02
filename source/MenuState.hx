@@ -18,7 +18,6 @@ class MenuState extends FlxState {
 	override public function create() {
 		super.create();
 		
-		
 		levelIcons = new FlxTypedGroup<LevelIcon>();
 		add(levelIcons);
 		
