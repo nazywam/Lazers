@@ -54,4 +54,55 @@ class Merge extends Tile {
 		return Tile.STOP;
 	}
 	
+	
+	
+	override public function properAnimation(_d:Int) {
+		switch (_d) {
+			case FlxObject.UP:
+				switch (direction) {
+					case FlxObject.UP:
+						return [0, 0];
+					case FlxObject.RIGHT:
+						return [270, 1];
+					case FlxObject.DOWN:
+						return [270, 1];
+					case FlxObject.LEFT:
+						return [270, 0];
+				}
+			case FlxObject.RIGHT:
+				switch (direction) {
+					case FlxObject.UP:
+						return [0, 0];
+					case FlxObject.RIGHT:
+						return [0, 0];
+					case FlxObject.DOWN:
+						return [180, 1];
+					case FlxObject.LEFT:
+						return [180, 1];
+				}
+			case FlxObject.DOWN:
+				switch (direction) {
+					case FlxObject.UP:
+						return [90, 0];
+					case FlxObject.RIGHT:
+						return [90, 0];
+					case FlxObject.DOWN:
+						return [0, 0];
+					case FlxObject.LEFT:
+						return [90, 1];
+				}
+			case FlxObject.LEFT:
+				switch (direction) {
+					case FlxObject.UP:
+						return [0, 1];
+					case FlxObject.RIGHT:
+						return [0, 1];
+					case FlxObject.DOWN:
+						return [180, 0];
+					case FlxObject.LEFT:
+						return [0, 0];
+				}
+		}
+		return super.properAnimation(_d);
+	}
 }
