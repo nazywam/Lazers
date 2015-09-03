@@ -27,13 +27,9 @@ class Laser extends FlxSprite {
 		loadGraphic("assets/images/Laser.png", true, Settings.LASER_WIDTH, Settings.LASER_HEIGHT);
 		animation.add("default", [0, 1, 2, 3, 4, 5, 6, 7], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("mirror", [8, 9, 10, 11, 12, 13 , 14, 15], Std.int(8 / Settings.LASER_SPEED), false);
-		animation.add("backMirror", [16, 17, 18, 19, 20, 21 , 22, 23], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("source", [24, 25, 26, 27, 28, 29, 30, 31], Std.int(8 / Settings.LASER_SPEED), false);
 		
-		animation.add("defaultBlink", [40, 41, 42, 43,44 ,45 ,46 ,47, 7], 16, false);
-		animation.add("mirrorBlink", [48, 49, 50, 51], 4);
-		animation.add("backMirrorBlink", [56, 57, 58, 59], 4);
-		
+		animation.add("merge", [40, 41, 42, 43,44 ,45 ,46 ,47], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("defaultHalf", [0, 1, 2, 3], Std.int(4 / Settings.LASER_SPEED), false);
 		animation.add("mirrorHalf", [8, 9, 10, 11], Std.int(4 / Settings.LASER_SPEED), false);
 		animation.add("backMirrorHalf", [16, 17, 18], Std.int(4 / Settings.LASER_SPEED), false);
@@ -47,28 +43,17 @@ class Laser extends FlxSprite {
 		
 		becomeHead = new FlxTimer();
 		
-		switch(direction){
-			case FlxObject.UP:
-				angle = 270;
-				flipY = true;
-			case FlxObject.RIGHT:
-
-			case FlxObject.DOWN:
-				angle = 90;
-				flipY = true;
-			case FlxObject.LEFT:
-				flipX = true;
-				flipY = true;
-		}
+		
 		var directionSum = tile.direction + direction;
 		
 		switch(tile.type) {
 			case Tile.BLANK:
+				animation.play("default");
 			case Tile.MIRROR:
 				animation.play("mirror");
 				tile.wobble();
 			case Tile.BACK_MIRROR:
-				animation.play("backMirror");
+				animation.play("mirror");
 				tile.wobble();
 			case Tile.BLOCK:
 			case Tile.SOURCE:
@@ -79,6 +64,9 @@ class Laser extends FlxSprite {
 					animation.play("target");
 					tile.wobble();
 				}
+			case Tile.MERGE:
+				animation.play("merge");
+				flipY = false;
 		}
 	}	
 }

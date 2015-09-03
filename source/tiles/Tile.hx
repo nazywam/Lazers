@@ -65,7 +65,6 @@ class Tile extends FlxSprite {
 		}
 		
 		
-		
 		if(movable){
 			animation.add("default", [tileID + 20]);
 		} else {
@@ -140,6 +139,10 @@ class Tile extends FlxSprite {
 	
 	public function nextMove(_d:Int):Array<Int>{
 		return [0, 0, FlxObject.UP, 0];//x, y, direction, fireOpositeLaser
+	}
+	
+	public function properAnimation(_d:Int):Array<Int> {
+		return [0, 0];
 	}
 
 	public function wobble() {		
