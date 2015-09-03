@@ -15,4 +15,18 @@ class Target extends Tile {
 		}
 		return Tile.STOP;
 	}
+	
+	override public function properAnimation(_d:Int) {
+		switch (_d) {
+			case FlxObject.UP:
+				return [270, 0];
+			case FlxObject.RIGHT:
+				return [0, 0];
+			case FlxObject.DOWN:
+				return [90, 0];
+			case FlxObject.LEFT:
+				return [180, 0];
+		}
+		return super.properAnimation(_d);
+	}
 }

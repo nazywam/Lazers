@@ -320,6 +320,20 @@ class PlayState extends FlxState {
 		var hoverTile = getTile(board, Std.int(t.x), Std.int(t.y));
 		
 		var l = new Laser(t.x, t.y, t.direction, currentLaserId, boardColors[possibleY][possibleX], hoverTile, 0);
+		
+		var tmp = hoverTile.properAnimation( t.direction);
+		
+		if (tmp[0] != 0) {
+			l.angle = tmp[0];
+		}
+		if (tmp[1] != 0) {
+			if (l.angle % 180 == 0) {
+				l.flipX = true;	
+			} else {
+				l.flipY = true;	
+			}
+		}
+		
 		lasers.add(l);
 		currentLaserId++;	
 		
@@ -481,9 +495,7 @@ class PlayState extends FlxState {
 							} else {
 								laser.flipY = true;	
 							}
-							
 						}
-						
 						
 						lasers.add(laser);								
 						laser.becomeHead.start(Settings.LASER_SPEED, function(_){
