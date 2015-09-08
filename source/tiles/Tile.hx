@@ -126,7 +126,7 @@ class Tile extends FlxSprite {
 				
 				particles = new FlxEmitter(_x + width / 2, _y + height / 2, 50);
 				particles.loadParticles("assets/images/LaserParticles.png", 50, 16, true);
-				particles.lifespan.set(.75, 1.25);
+				particles.lifespan.set(10000, 10000);
 				particles.color.set(Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId]);
 			case MERGE:
 				passable = true;
