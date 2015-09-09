@@ -128,6 +128,7 @@ class Tile extends FlxSprite {
 				particles.loadParticles("assets/images/LaserParticles.png", 50, 16, true);
 				particles.lifespan.set(10000, 10000);
 				particles.color.set(Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId]);
+				particles.angularVelocity.set( -200, 200, -200, 200);
 			case MERGE:
 				passable = true;
 		}

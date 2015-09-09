@@ -69,8 +69,8 @@ class PlayState extends FlxState {
 		add(particles);
 	
 		transitionScreen = new TransitionScreen();
-		transitionScreen.setupHalf();
-		transitionScreen.startHalf();
+		//transitionScreen.setupHalf();
+		//transitionScreen.startHalf();
 		add(transitionScreen);
  	}
 	
@@ -258,7 +258,7 @@ class PlayState extends FlxState {
 			
 			if (FlxG.mouse.overlaps(fireButton)) {
 				if (levelComplete) {
-					transitionScreen.setup();
+					//transitionScreen.setup();
 					transitionScreen.start();
 					
 					var t = new FlxTimer();
