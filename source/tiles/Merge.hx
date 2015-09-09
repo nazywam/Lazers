@@ -56,7 +56,7 @@ class Merge extends Tile {
 	
 	
 	
-	override public function properAnimation(_d:Int) {
+	override public function properAnimation(_d:Int):Array<Dynamic> {
 		switch (_d) {
 			case FlxObject.UP:
 				switch (direction) {

@@ -17,16 +17,44 @@ class Source extends Tile {
 		return Tile.STOP;
 	}
 	
-	override public function properAnimation(_d:Int) {
+	override public function properAnimation(_d:Int):Array<Dynamic> {
 		switch (_d) {
 			case FlxObject.UP:
-				return [270, 0];
+				switch (direction) {
+					case FlxObject.UP:
+						return [270, 0];
+					case FlxObject.RIGHT:
+					case FlxObject.DOWN:
+					case FlxObject.LEFT:
+						return [90, 0, "sourceReverse"];
+				}
 			case FlxObject.RIGHT:
-				return [0, 0];
+				switch (direction) {
+					case FlxObject.UP:
+					case FlxObject.RIGHT:
+						return [0, 0];
+					case FlxObject.DOWN:
+					case FlxObject.LEFT:
+						return [180, 0, "sourceReverse"];
+				}
 			case FlxObject.DOWN:
-				return [90, 0];
+				switch (direction) {
+					case FlxObject.UP:
+						return [270, 0, "sourceReverse"];
+					case FlxObject.RIGHT:
+					case FlxObject.DOWN:
+						return [90, 0];
+					case FlxObject.LEFT:
+				}
 			case FlxObject.LEFT:
-				return [180, 0];
+				switch (direction) {
+					case FlxObject.UP:
+					case FlxObject.RIGHT:
+						return [0, 0, "sourceReverse"];
+					case FlxObject.DOWN:
+					case FlxObject.LEFT:
+						return [180, 0];
+				}
 		}
 		return super.properAnimation(_d);
 	}

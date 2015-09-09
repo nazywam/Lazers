@@ -27,14 +27,9 @@ class Laser extends FlxSprite {
 		loadGraphic("assets/images/Laser.png", true, Settings.LASER_WIDTH, Settings.LASER_HEIGHT);
 		animation.add("default", [0, 1, 2, 3, 4, 5, 6, 7], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("mirror", [8, 9, 10, 11, 12, 13 , 14, 15], Std.int(8 / Settings.LASER_SPEED), false);
-		animation.add("source", [24, 25, 26, 27, 28, 29, 30, 31], Std.int(8 / Settings.LASER_SPEED), false);
-		
+		animation.add("sourceReverse", [24, 25, 26, 27], Std.int(4 / Settings.LASER_SPEED), false);
+		animation.add("source", [28, 29, 30, 31], Std.int(4 / Settings.LASER_SPEED), false);
 		animation.add("merge", [40, 41, 42, 43,44 ,45 ,46 ,47], Std.int(8 / Settings.LASER_SPEED), false);
-		animation.add("defaultHalf", [0, 1, 2, 3], Std.int(4 / Settings.LASER_SPEED), false);
-		animation.add("mirrorHalf", [8, 9, 10, 11], Std.int(4 / Settings.LASER_SPEED), false);
-		animation.add("backMirrorHalf", [16, 17, 18], Std.int(4 / Settings.LASER_SPEED), false);
-		animation.add("sourceHalf", [24, 25, 26, 27], Std.int(4 / Settings.LASER_SPEED), false);
-		animation.add("target", [32, 33, 34, 35, 36, 37, 38, 39], Std.int(8 / Settings.LASER_SPEED), false);
 		
 		animation.play("default");
 

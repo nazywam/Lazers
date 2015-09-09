@@ -16,7 +16,7 @@ class Target extends Tile {
 		return Tile.STOP;
 	}
 	
-	override public function properAnimation(_d:Int) {
+	override public function properAnimation(_d:Int) :Array<Dynamic>{
 		switch (_d) {
 			case FlxObject.UP:
 				return [270, 0];

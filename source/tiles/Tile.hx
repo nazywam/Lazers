@@ -141,8 +141,8 @@ class Tile extends FlxSprite {
 		return [0, 0, FlxObject.UP, 0]; //moveX, moveY, direction, shouldFireOpositeLaser
 	}
 	
-	public function properAnimation(_d:Int):Array<Int> {
-		return [0, 0]; //angle, shouldFlipY
+	public function properAnimation(_d:Int):Array<Dynamic> {
+		return [0, 0, "default"]; //angle, shouldFlipY, animationName
 	}
 
 	public function wobble() {		

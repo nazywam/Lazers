@@ -265,8 +265,6 @@ class PlayState extends FlxState {
 					t.start(1.22, function(_) {
 						FlxG.switchState(new PlayState(currentLevel+1));	
 					});
-					
-					
 				} else {
 					generateLasers();	
 				}
@@ -321,7 +319,7 @@ class PlayState extends FlxState {
 		
 		var l = new Laser(t.x, t.y, t.direction, currentLaserId, boardColors[possibleY][possibleX], hoverTile, 0);
 		
-		var tmp = hoverTile.properAnimation( t.direction);
+		var tmp = hoverTile.properAnimation(t.direction);
 		
 		if (tmp[0] != 0) {
 			l.angle = tmp[0];
@@ -332,6 +330,9 @@ class PlayState extends FlxState {
 			} else {
 				l.flipY = true;	
 			}
+		} 
+		if (tmp[2] != null){
+			l.animation.play(tmp[2]);
 		}
 		
 		lasers.add(l);
@@ -403,33 +404,9 @@ class PlayState extends FlxState {
 				
 		if (FlxG.keys.justPressed.ESCAPE) {
 			FlxG.switchState(new MenuState());
-		}
-		
-		for (l1 in lasers) {
-			for (l2 in lasers) {
-				if (l1 != l2 && l1.x == l2.x && l1.y == l2.y && (l1.becomeHead.active || l2.becomeHead.active)) {
-					
-					var directionSum:Int = l1.direction + l2.direction;
-					
-					var hoverTile = getTile(board, l1.x, l1.y);
-					
-					if (hoverTile.type <= Tile.BACK_MIRROR && (directionSum == Settings.OPPOSITE_DIRECTIONS[hoverTile.type][0] || directionSum == Settings.OPPOSITE_DIRECTIONS[hoverTile.type][1])) {
-						l1.becomeHead.cancel();
-						l2.becomeHead.cancel();
-								
-						l1.animation.play(l1.animation.name + "Half", true, false, l1.animation.frameIndex);
-						l2.animation.play(l2.animation.name + "Half", true, false, l2.animation.frameIndex);		
-						
-						laserHeads.remove(l1);
-						laserHeads.remove(l2);
-					} 
-				}
-			}
 		}	
 		
 		for (l in laserHeads) {
-				 
-				
 				var currentTile = getTile(board, l.x, l.y);
 				var tmp = currentTile.nextMove(l.direction);
 				
@@ -495,6 +472,9 @@ class PlayState extends FlxState {
 							} else {
 								laser.flipY = true;	
 							}
+						}
+						if (tmp[2] != null){
+							laser.animation.play(tmp[2]);
 						}
 						
 						lasers.add(laser);								
