@@ -337,23 +337,6 @@ class PlayState extends FlxState {
 		var hoverTile = getTile(board, Std.int(t.x), Std.int(t.y));
 		
 		var l = new Laser(t.x, t.y, t.direction, currentLaserId, boardColors[possibleY][possibleX], hoverTile, 0);
-		
-		var tmp = hoverTile.properAnimation(t.direction);
-		
-		if (tmp[0] != 0) {
-			l.angle = tmp[0];
-		}
-		if (tmp[1] != 0) {
-			if (l.angle % 180 == 0) {
-				l.flipX = true;	
-			} else {
-				l.flipY = true;	
-			}
-		} 
-		if (tmp[2] != null){
-			l.animation.play(tmp[2]);
-		}
-		
 		lasers.add(l);
 		currentLaserId++;	
 		
@@ -463,7 +446,7 @@ class PlayState extends FlxState {
 					var spawnLaserHoverTile = getTile(board, currentTile.x - _moveX * (Settings.TILE_WIDTH + Settings.GRID_WIDTH), currentTile.y - _moveY * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH));
 					if (spawnLaserHoverTile != null && spawnLaserHoverTile.passable) {
 						var laser = new Laser(spawnLaserHoverTile.x, spawnLaserHoverTile.y, spawnLaserDirection, l.ID, l.colorId, spawnLaserHoverTile, l.laserNumber);
-							laser.becomeHead.start(Settings.LASER_SPEED, function(_){
+						laser.becomeHead.start(Settings.LASER_SPEED, function(_){
 							laserHeads.add(laser);
 						});
 						lasers.add(laser);
@@ -491,24 +474,7 @@ class PlayState extends FlxState {
 					}
 					
 					if (uniqueLaser) {
-						var laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, l.colorId, hoverTile, l.laserNumber + 1);	
-						
-						var tmp = hoverTile.properAnimation(nextDirection);
-						
-						if (tmp[0] != 0) {
-							laser.angle = tmp[0];
-						}
-						if (tmp[1] != 0) {
-							if (laser.angle % 180 == 0) {
-								laser.flipX = true;	
-							} else {
-								laser.flipY = true;	
-							}
-						}
-						if (tmp[2] != null){
-							laser.animation.play(tmp[2]);
-						}
-						
+						var laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, l.colorId, hoverTile, l.laserNumber + 1);		
 						lasers.add(laser);								
 						laser.becomeHead.start(Settings.LASER_SPEED, function(_){
 							laserHeads.add(laser);

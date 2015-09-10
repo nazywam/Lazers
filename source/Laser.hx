@@ -65,5 +65,20 @@ class Laser extends FlxSprite {
 				animation.play("merge");
 				flipY = false;
 		}
+		
+		var tmp = tile.properAnimation(direction);
+		if (tmp[0] != 0) {
+			angle = tmp[0];
+		}
+		if (tmp[1] != 0) {
+			if (angle % 180 == 0) {
+				flipX = true;	
+			} else {
+				flipY = true;	
+			}
+		} 
+		if (tmp[2] != null){
+			animation.play(tmp[2]);
+		}
 	}	
 }
