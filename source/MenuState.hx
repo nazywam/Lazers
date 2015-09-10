@@ -43,7 +43,7 @@ class MenuState extends FlxState {
 					transitionScreen.start();
 					
 					var t = new FlxTimer();
-					t.start(1.22, function(_) {
+					t.start(.65, function(_) {
 						FlxG.switchState(new PlayState(l.level));		
 					});
 				}

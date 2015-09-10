@@ -64,14 +64,12 @@ class Tile extends FlxSprite {
 			type = MERGE;
 		}
 		
-		
 		if(movable){
 			animation.add("default", [tileID + 20]);
 		} else {
 			animation.add("default", [tileID]);
 		}
 		animation.play("default");
-
 
 		switch (type) {
 			case BLANK:
@@ -126,7 +124,7 @@ class Tile extends FlxSprite {
 				
 				particles = new FlxEmitter(_x + width / 2, _y + height / 2, 50);
 				particles.loadParticles("assets/images/LaserParticles.png", 50, 16, true);
-				particles.lifespan.set(10000, 10000);
+				particles.lifespan.set(3, 5);
 				particles.color.set(Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId]);
 				particles.angularVelocity.set( -200, 200, -200, 200);
 			case MERGE:
