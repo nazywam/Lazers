@@ -3,6 +3,30 @@ import flixel.FlxObject;
 
 
 class Source extends Tile {
+
+	override public function new(_x:Float, _y:Float, _t:Int, _d:Int, _m:Bool, _c:Int, _bx:Int, _by:Int){
+		super(_x, _y, _t, _d, _m, _c, _bx, _by);
+		type = SOURCE;
+		
+		passable = false;
+				
+		var temp:BitmapData = new BitmapData(48, 48, true);
+		temp.copyPixels(pixels, new Rectangle(tileID * 48, 0, 48, 48), new Point(0, 0));
+		
+		switch(direction) {
+			case FlxObject.UP:
+				temp.floodFill(18, 23, Settings.AVAILABLE_COLORS[colorId]);
+			case FlxObject.RIGHT:
+				temp.floodFill(3, 19, Settings.AVAILABLE_COLORS[colorId]);
+			case FlxObject.DOWN:
+				temp.floodFill(18, 3, Settings.AVAILABLE_COLORS[colorId]);
+			case FlxObject.LEFT:
+				temp.floodFill(23, 19, Settings.AVAILABLE_COLORS[colorId]);
+		}
+				
+		pixels = temp;
+	}
+
 	override public function nextMove(_d:Int){
 		switch (_d) {
 			case FlxObject.UP:

@@ -56,82 +56,12 @@ class Tile extends FlxSprite {
 		direction = _d;
 		tileID = type;
 		
-		if (type > SOURCE && type <= SOURCE+3) {
-			type = SOURCE;
-		} else if (type > TARGET && type <= TARGET +3) {
-			type = TARGET;
-		} else if (type > MERGE && type <= MERGE + 3) {
-			type = MERGE;
-		}
-		
 		if(movable){
 			animation.add("default", [tileID + 20]);
 		} else {
 			animation.add("default", [tileID]);
 		}
 		animation.play("default");
-
-		switch (type) {
-			case BLANK:
-				passable = true;
-			case MIRROR:
-				passable = true;
-			case BACK_MIRROR:
-				passable = true;
-			case BLOCK:
-				passable = false;
-			case SOURCE:
-				passable = false;
-				
-				var temp:BitmapData = new BitmapData(48, 48, true);
-				temp.copyPixels(pixels, new Rectangle(tileID * 48, 0, 48, 48), new Point(0, 0));
-				
-				switch(direction) {
-					case FlxObject.UP:
-						temp.floodFill(18, 23, Settings.AVAILABLE_COLORS[colorId]);
-					case FlxObject.RIGHT:
-						temp.floodFill(3, 19, Settings.AVAILABLE_COLORS[colorId]);
-					case FlxObject.DOWN:
-						temp.floodFill(18, 3, Settings.AVAILABLE_COLORS[colorId]);
-					case FlxObject.LEFT:
-						temp.floodFill(23, 19, Settings.AVAILABLE_COLORS[colorId]);
-				}
-				
-				pixels = temp;
-				
-				
-			case TARGET:
-				passable = false;
-				
-				var temp:BitmapData = new BitmapData(48, 48, true);
-				temp.copyPixels(pixels, new Rectangle(tileID * 48, 0, 48, 48), new Point(0, 0));
-				
-				switch(direction) {
-					case FlxObject.UP:
-						temp.floodFill(13, 43, Settings.AVAILABLE_COLORS[colorId]);
-						temp.floodFill(35, 43, Settings.AVAILABLE_COLORS[colorId]);
-					case FlxObject.RIGHT:
-						temp.floodFill(8, 14, Settings.AVAILABLE_COLORS[colorId]);
-						temp.floodFill(8, 35, Settings.AVAILABLE_COLORS[colorId]);
-					case FlxObject.DOWN:
-						temp.floodFill(14, 8, Settings.AVAILABLE_COLORS[colorId]);
-						temp.floodFill(35, 8, Settings.AVAILABLE_COLORS[colorId]);
-					case FlxObject.LEFT:
-						temp.floodFill(42, 14, Settings.AVAILABLE_COLORS[colorId]);
-						temp.floodFill(42, 35, Settings.AVAILABLE_COLORS[colorId]);
-				}
-				pixels = temp;
-				
-				particles = new FlxEmitter(_x + width / 2, _y + height / 2, 50);
-				particles.loadParticles("assets/images/LaserParticles.png", 50, 16, true);
-				particles.lifespan.set(3, 5);
-				particles.color.set(Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId]);
-				particles.angularVelocity.set( -200, 200, -200, 200);
-			case MERGE:
-				passable = true;
-		}
-		
-
 
 		originalPosition = new FlxPoint(x, y);
 	}	

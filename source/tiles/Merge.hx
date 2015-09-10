@@ -4,7 +4,13 @@ import flixel.FlxObject;
 
 class Merge extends Tile {
 
-		override public function nextMove(_d:Int){
+	override public function new(_x:Float, _y:Float, _t:Int, _d:Int, _m:Bool, _c:Int, _bx:Int, _by:Int){
+		super(_x, _y, _t, _d, _m, _c, _bx, _by);
+		passable = true;
+		type = MERGE;			
+	}
+
+	override public function nextMove(_d:Int){
 		switch (_d) {
 			case FlxObject.UP:
 				switch (direction) {
