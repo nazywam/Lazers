@@ -15,6 +15,8 @@ class MenuState extends FlxState {
 	
 	var transitionScreen:TransitionScreen;
 	
+	var playButton:Button;
+	
 	override public function create() {
 		super.create();
 		
@@ -31,6 +33,8 @@ class MenuState extends FlxState {
 		transitionScreen = new TransitionScreen();
 		add(transitionScreen);
 		
+		playButton = new Button(0, 32, "Play", FlxG.width, 32);
+		add(playButton);
 	}
 	
 	

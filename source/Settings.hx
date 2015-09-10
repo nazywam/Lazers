@@ -60,5 +60,5 @@ class Settings {
 	[FlxObject.LEFT + FlxObject.UP, FlxObject.RIGHT + FlxObject.DOWN],
 	[FlxObject.LEFT + FlxObject.DOWN, FlxObject.UP + FlxObject.RIGHT]];
 	
-	
+	public static inline var FONT : String = "assets/beambl.ttf";
 }

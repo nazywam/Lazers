@@ -57,8 +57,6 @@ class PlayState extends FlxState {
 		availableTilesBackground = new FlxSprite(0, grid.y + grid.width, "assets/images/AvailableTiles.png");
 		add(availableTilesBackground);
 		
-		
-		
 		if (Assets.getText("assets/data/level"+Std.string(currentLevel)+".tmx") == null) {
 			loadMap(Assets.getText("assets/data/404.tmx"));
 		} else {
@@ -72,16 +70,14 @@ class PlayState extends FlxState {
 		add(lasers);
 	
 		fireButton = new Button(0, availableTilesBackground.y + availableTilesBackground.height, "Fire lasers", FlxG.width, 32);
+		
 		add(fireButton);
 		add(particles);
-	
-
 
 		transitionScreen = new TransitionScreen();
 		transitionScreen.setupHalf();
 		transitionScreen.startHalf();
 		add(transitionScreen);
-
  	}
 	
 	function isNumeric(str:String):Bool {
@@ -429,7 +425,6 @@ class PlayState extends FlxState {
 				var _moveY:Int = tmp[1];
 				var nextDirection:Int  = tmp[2];		
 
-				
 				if (tmp[3] == 1) {
 					var spawnLaserDirection:Int = FlxObject.UP;
 					switch(nextDirection) {

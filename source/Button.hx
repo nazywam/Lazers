@@ -3,6 +3,7 @@ package;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
 import flixel.text.FlxText;
+import flixel.util.FlxColor;
 
 /**
  * ...
@@ -23,8 +24,8 @@ class Button extends FlxGroup {
 		y = _y;
 		
 		text = new FlxText(_x, _y, _w, _t, _s);
-		text.color = 0;
-		text.alignment = FlxTextAlign.CENTER;
+		text.setFormat(Settings.FONT, _s, FlxColor.BLACK, "center");
+		
 		
 		background = new FlxSprite(_x, _y);
 		background.makeGraphic(_w, Std.int(text.height));
