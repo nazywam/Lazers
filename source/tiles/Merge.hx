@@ -60,8 +60,6 @@ class Merge extends Tile {
 		return Tile.STOP;
 	}
 	
-	
-	
 	override public function properAnimation(_d:Int):Array<Dynamic> {
 		switch (_d) {
 			case FlxObject.UP:

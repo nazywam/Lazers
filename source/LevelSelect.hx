@@ -30,6 +30,7 @@ class LevelSelect extends FlxState {
 		if (FlxG.mouse.justPressed) {			
 			for (l in levelIcons) {
 				if (FlxG.mouse.overlaps(l.icon)) {
+					transitionScreen.running = false;
 					transitionScreen.start();
 
 					var t = new FlxTimer();
