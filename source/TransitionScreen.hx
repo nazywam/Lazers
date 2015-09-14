@@ -51,16 +51,15 @@ class TransitionScreen extends FlxGroup {
 		}
 	}
 	
-	public function setupHalf() {
-		for(y in 0...board.length){
-			for(x in 0...board[y].length){
-				board[y][x].scale.x = board[y][x].scale.y = 1;
-			}
-		}
-	}
-
 	public function startHalf() {
 		if (!running) {
+			
+			for(y in 0...board.length){
+				for(x in 0...board[y].length){
+					board[y][x].scale.x = board[y][x].scale.y = 1;
+				}
+			}
+			
 			running = true;	
 			for(y in 0...board.length){
 				for(x in 0...board[y].length){

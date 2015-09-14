@@ -71,7 +71,7 @@ class Merge extends Tile {
 					case FlxObject.RIGHT:
 						return [270, 1];
 					case FlxObject.DOWN:
-						return [270, 1];
+						return [270, 1, "mergeSplit"];
 					case FlxObject.LEFT:
 						return [270, 0];
 				}
@@ -84,12 +84,12 @@ class Merge extends Tile {
 					case FlxObject.DOWN:
 						return [180, 1];
 					case FlxObject.LEFT:
-						return [180, 1];
+						return [180, 1, "mergeSplit"];
 				}
 			case FlxObject.DOWN:
 				switch (direction) {
 					case FlxObject.UP:
-						return [90, 0];
+						return [90, 0, "mergeSplit"];
 					case FlxObject.RIGHT:
 						return [90, 0];
 					case FlxObject.DOWN:
@@ -102,7 +102,7 @@ class Merge extends Tile {
 					case FlxObject.UP:
 						return [0, 1];
 					case FlxObject.RIGHT:
-						return [0, 1];
+						return [0, 1, "mergeSplit"];
 					case FlxObject.DOWN:
 						return [180, 0];
 					case FlxObject.LEFT:

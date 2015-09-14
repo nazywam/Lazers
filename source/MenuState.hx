@@ -11,10 +11,7 @@ import flixel.util.FlxTimer;
  */
 class MenuState extends FlxState {
 
-	var levelIcons:FlxTypedGroup<LevelIcon>;
-	
 	var transitionScreen:TransitionScreen;
-	
 	var playButton : Button;
 	var howToplayButton : Button;
 	var settingsButton : Button;
@@ -22,18 +19,7 @@ class MenuState extends FlxState {
 	override public function create() {
 		super.create();
 		
-		levelIcons = new FlxTypedGroup<LevelIcon>();
-		add(levelIcons);
 		
-		for (y in 0...Settings.LEVEL_ROWS) {
-			for (x in 0...Settings.LEVEL_COLUMNS) {
-				var l = new LevelIcon(x * 64 + (FlxG.width - Settings.LEVEL_COLUMNS * 64 + 16)/2, y * 64, y*Settings.LEVEL_ROWS + x + 1);
-				levelIcons.add(l);
-			}
-		}
-		
-		transitionScreen = new TransitionScreen();
-		add(transitionScreen);
 		
 		playButton = new Button(0, 128, "Play", FlxG.width, 64);
 		add(playButton);
@@ -43,23 +29,27 @@ class MenuState extends FlxState {
 
 		settingsButton = new Button(0, 384, "Settings", FlxG.width, 64);
 		add(settingsButton);
+		
+		transitionScreen = new TransitionScreen();
+		add(transitionScreen);
+
 	}
 	
+	function handleMouse() {
+		if (FlxG.mouse.justPressed) {
+			if (FlxG.mouse.overlaps(playButton)) {
+				transitionScreen.start();
+				
+				var t = new FlxTimer();
+				t.start(.65, function(_) {
+					FlxG.switchState(new LevelSelect());		
+				});
+			}
+		}
+	}	
 	
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
-		
-		if (FlxG.mouse.justPressed) {
-			for (l in levelIcons) {
-				if (FlxG.mouse.overlaps(l.icon)) {
-					transitionScreen.start();
-					
-					var t = new FlxTimer();
-					t.start(.65, function(_) {
-						FlxG.switchState(new LevelSelect());		
-					});
-				}
-			}
-		}
+		handleMouse();
 	}
 }

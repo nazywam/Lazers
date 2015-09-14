@@ -1,7 +1,5 @@
 Gameplay
 	Angle game mode
-	Colors connectors
-	Sometimes the laserheads aren't fully cleared
 Graphics
 	Animation when colliding with source/target
 UI

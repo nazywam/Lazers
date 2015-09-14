@@ -75,7 +75,6 @@ class PlayState extends FlxState {
 		add(particles);
 
 		transitionScreen = new TransitionScreen();
-		transitionScreen.setupHalf();
 		transitionScreen.startHalf();
 		add(transitionScreen);
  	}
@@ -414,7 +413,7 @@ class PlayState extends FlxState {
 
 
 		if (FlxG.keys.justPressed.ESCAPE) {
-			FlxG.switchState(new MenuState());
+			FlxG.switchState(new LevelSelect());
 		}	
 		
 		for (l in laserHeads) {
