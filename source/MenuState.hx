@@ -15,8 +15,10 @@ class MenuState extends FlxState {
 	
 	var transitionScreen:TransitionScreen;
 	
-	var playButton:Button;
-	
+	var playButton : Button;
+	var howToplayButton : Button;
+	var settingsButton : Button;
+
 	override public function create() {
 		super.create();
 		
@@ -33,8 +35,14 @@ class MenuState extends FlxState {
 		transitionScreen = new TransitionScreen();
 		add(transitionScreen);
 		
-		playButton = new Button(0, 32, "Play", FlxG.width, 32);
+		playButton = new Button(0, 128, "Play", FlxG.width, 64);
 		add(playButton);
+
+		howToplayButton = new Button(0, 256, "How to", FlxG.width, 64);
+		add(howToplayButton);
+
+		settingsButton = new Button(0, 384, "Settings", FlxG.width, 64);
+		add(settingsButton);
 	}
 	
 	
@@ -48,7 +56,7 @@ class MenuState extends FlxState {
 					
 					var t = new FlxTimer();
 					t.start(.65, function(_) {
-						FlxG.switchState(new PlayState(l.level));		
+						FlxG.switchState(new LevelSelect());		
 					});
 				}
 			}
