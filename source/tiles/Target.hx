@@ -10,7 +10,7 @@ class Target extends Tile {
 	override public function new(_x:Float, _y:Float, _t:Int, _d:Int, _m:Bool, _c:Int, _bx:Int, _by:Int){
 		super(_x, _y, _t, _d, _m, _c, _bx, _by);
 		type = Tile.TARGET;
-		passable = false;
+		passable = true;
 		
 		var temp:BitmapData = new BitmapData(48, 48, true);
 		temp.copyPixels(pixels, new Rectangle(tileID * 48, 0, 48, 48), new Point(0, 0));
@@ -42,12 +42,53 @@ class Target extends Tile {
 	override public function nextMove(_d:Int){
 		switch (_d) {
 			case FlxObject.UP:
+				switch (direction) {
+					case FlxObject.UP:
+						return Tile.STOP;
+					case FlxObject.RIGHT:
+						return Tile.TURN_UP;
+					case FlxObject.DOWN:
+						return Tile.STOP;
+					case FlxObject.LEFT:
+						return Tile.TURN_UP;
+				}
 				return Tile.TURN_UP;
 			case FlxObject.RIGHT:
+				switch (direction) {
+					case FlxObject.UP:
+						return Tile.TURN_RIGHT;
+					case FlxObject.RIGHT:
+						return Tile.STOP;
+					case FlxObject.DOWN:
+						return Tile.TURN_RIGHT;
+					case FlxObject.LEFT:
+						return Tile.STOP;
+
+				}
 				return Tile.TURN_RIGHT;
 			case FlxObject.DOWN:
+				switch (direction) {
+					case FlxObject.UP:
+						return Tile.STOP;
+					case FlxObject.RIGHT:
+						return Tile.TURN_DOWN;
+					case FlxObject.DOWN:
+						return Tile.STOP;
+					case FlxObject.LEFT:
+						return Tile.TURN_DOWN;
+				}
 				return Tile.TURN_DOWN;
 			case FlxObject.LEFT:
+				switch (direction) {
+					case FlxObject.UP:
+						return Tile.TURN_LEFT;
+					case FlxObject.RIGHT:
+						return Tile.STOP;
+					case FlxObject.DOWN:
+						return Tile.TURN_LEFT;
+					case FlxObject.LEFT:
+						return Tile.STOP;
+				}
 				return Tile.TURN_LEFT;
 		}
 		return Tile.STOP;
@@ -56,13 +97,33 @@ class Target extends Tile {
 	override public function properAnimation(_d:Int) :Array<Dynamic>{
 		switch (_d) {
 			case FlxObject.UP:
-				return [270, 0];
+				switch (direction) {
+					case FlxObject.UP:
+						return [270, 0, "disappear"];	
+					default:
+						return [270, 0];	
+				}
 			case FlxObject.RIGHT:
-				return [0, 0];
+				switch (direction) {
+					case FlxObject.RIGHT:
+						return [0, 0, "disappear"];	
+					default:
+						return [0, 0];	
+				}
 			case FlxObject.DOWN:
-				return [90, 0];
+				switch (direction) {
+					case FlxObject.DOWN:
+						return [90, 0, "disappear"];	
+					default:
+						return [90, 0];	
+				}
 			case FlxObject.LEFT:
-				return [180, 0];
+				switch (direction) {
+					case FlxObject.LEFT:
+						return [180, 0, "disappear"];	
+					default:
+						return [180, 0];	
+				}
 		}
 		return super.properAnimation(_d);
 	}

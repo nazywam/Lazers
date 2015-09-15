@@ -240,13 +240,10 @@ class PlayState extends FlxState {
 	}
 	
  	function handleMouse() {
-			
-		
 		if(FlxG.mouse.justPressed){
 			var pressedX:Int = Std.int(FlxG.mouse.x/Settings.TILE_WIDTH);
 			var pressedY:Int = Std.int(FlxG.mouse.y/Settings.TILE_HEIGHT);
 			
-
 			for(t in availableTiles){
 				if (FlxG.mouse.overlaps(t)) {
 

@@ -65,7 +65,7 @@ class Merge extends Tile {
 			case FlxObject.UP:
 				switch (direction) {
 					case FlxObject.UP:
-						return [0, 0];
+						return [90, 0, "mergeStop"];
 					case FlxObject.RIGHT:
 						return [270, 1];
 					case FlxObject.DOWN:
@@ -78,7 +78,7 @@ class Merge extends Tile {
 					case FlxObject.UP:
 						return [0, 0];
 					case FlxObject.RIGHT:
-						return [0, 0];
+						return [180, 0, "mergeStop"];
 					case FlxObject.DOWN:
 						return [180, 1];
 					case FlxObject.LEFT:
@@ -91,7 +91,7 @@ class Merge extends Tile {
 					case FlxObject.RIGHT:
 						return [90, 0];
 					case FlxObject.DOWN:
-						return [0, 0];
+						return [270, 0, "mergeStop"];
 					case FlxObject.LEFT:
 						return [90, 1];
 				}
@@ -104,7 +104,7 @@ class Merge extends Tile {
 					case FlxObject.DOWN:
 						return [180, 0];
 					case FlxObject.LEFT:
-						return [0, 0];
+						return [0, 0, "mergeStop"];
 				}
 		}
 		return super.properAnimation(_d);
