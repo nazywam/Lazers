@@ -27,7 +27,7 @@ class TransitionScreen extends FlxGroup {
 			board[y] = new Array<FlxSprite>();
 			for (x in 0...9) {
 				var s = new FlxSprite(48 * x, 48 * y);
-				s.loadGraphic("assets/images/Tiles.png", true, 48, 48);
+				s.loadGraphic(Settings.TILES_IMAGE, true, 48, 48);
 				s.animation.add("default", [Tile.BLOCK]);
 				s.animation.play("default");
 				s.scale.x = s.scale.y = 0; 

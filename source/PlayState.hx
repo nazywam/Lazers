@@ -49,18 +49,18 @@ class PlayState extends FlxState {
 		super.create();
 		//FlxG.camera.bgColor = 0xFF326f2c;
 		
-		grid = new FlxSprite(0, 0, "assets/images/Grid.png");
+		grid = new FlxSprite(0, 0, Settings.GRID);
 		add(grid);
 		
 		waveSprites = new FlxTypedGroup<FlxWaveSprite>();
 
-		availableTilesBackground = new FlxSprite(0, grid.y + grid.width, "assets/images/AvailableTiles.png");
+		availableTilesBackground = new FlxSprite(0, grid.y + grid.width, Settings.AVAILABLE_TILES);
 		add(availableTilesBackground);
 		
-		if (Assets.getText("assets/data/level"+Std.string(currentLevel)+".tmx") == null) {
-			loadMap(Assets.getText("assets/data/404.tmx"));
+		if (Assets.getText(Settings.LEVEL +Std.string(currentLevel)+".tmx") == null) {
+			loadMap(Assets.getText(Settings.LEVEL_404));
 		} else {
-			loadMap(Assets.getText("assets/data/level" + Std.string(currentLevel) + ".tmx"));	
+			loadMap(Assets.getText(Settings.LEVEL + Std.string(currentLevel) + ".tmx"));	
 		}
 
 		add(waveSprites);
@@ -125,20 +125,20 @@ class PlayState extends FlxState {
 										var _tile = Std.parseInt(tile) - 1;
 
 										if(_tile >= Tile.BLANK && _tile < Tile.MIRROR){
-											board[l-1][t] = new Blank(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
+											board[l-1][t] = new Blank(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
 										} else if(_tile >= Tile.MIRROR && _tile < Tile.BACK_MIRROR){
-											board[l-1][t] = new Mirror(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
+											board[l-1][t] = new Mirror(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
 										} else if(_tile >= Tile.BACK_MIRROR && _tile < Tile.BLOCK){
-											board[l-1][t] = new BackMirror(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
+											board[l-1][t] = new BackMirror(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
 										}else if(_tile >= Tile.BLOCK && _tile < Tile.SOURCE){
-											board[l-1][t] = new Block(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
+											board[l-1][t] = new Block(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
 										} else if(_tile >= Tile.SOURCE && _tile < Tile.TARGET){
-											board[l-1][t] = new Source(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
+											board[l-1][t] = new Source(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
 										} else if(_tile >= Tile.TARGET && _tile < Tile.MERGE){
-											board[l - 1][t] = new Target(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
+											board[l - 1][t] = new Target(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
 											particles.add(board[l - 1][t].particles);
 										} else if(_tile >= Tile.MERGE){
-											board[l - 1][t] = new Merge(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET.x, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET.y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
+											board[l - 1][t] = new Merge(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
 										} else {
 											trace("Unidetified block on the grid!!!");
 										}

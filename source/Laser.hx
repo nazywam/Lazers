@@ -24,7 +24,7 @@ class Laser extends FlxSprite {
 		
 		blend = BlendMode.ADD;
 		
-		loadGraphic("assets/images/Laser.png", true, Settings.LASER_WIDTH, Settings.LASER_HEIGHT);
+		loadGraphic(Settings.LASER, true, Settings.LASER_WIDTH, Settings.LASER_HEIGHT);
 		animation.add("default", [0, 1, 2, 3, 4, 5, 6, 7], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("mirror", [8, 9, 10, 11, 12, 13 , 14, 15], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("sourceReverse", [24, 25, 26, 27], Std.int(4 / Settings.LASER_SPEED), false);

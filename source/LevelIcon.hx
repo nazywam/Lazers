@@ -25,7 +25,7 @@ class LevelIcon extends FlxGroup {
 		level = _l;
 		
 		icon = new FlxSprite(x, y);
-		icon.loadGraphic("assets/images/LevelIcon.png");
+		icon.loadGraphic(Settings.LEVEL_ICON);
 		add(icon);
 		
 		
