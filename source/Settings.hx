@@ -61,7 +61,7 @@ class Settings {
 	[FlxObject.LEFT + FlxObject.UP, FlxObject.RIGHT + FlxObject.DOWN],
 	[FlxObject.LEFT + FlxObject.DOWN, FlxObject.UP + FlxObject.RIGHT]];
 	
-	public static inline var FONT :				String = "assets/beambl.ttf";
+	public static inline var FONT :				String = "assets/BMarmy.ttf";
 	public static inline var TILES_IMAGE : 		String = "assets/images/Tiles.png";
 	public static inline var GRID : 			String = "assets/images/Grid.png";
 	public static inline var AVAILABLE_TILES : 	String = "assets/images/AvailableTiles.png";

@@ -26,7 +26,6 @@ class Button extends FlxGroup {
 		text = new FlxText(_x, _y, _w, _t, _s);
 		text.setFormat(Settings.FONT, _s, FlxColor.BLACK, "center");
 		
-		
 		background = new FlxSprite(_x, _y);
 		background.makeGraphic(_w, Std.int(text.height));
 		
