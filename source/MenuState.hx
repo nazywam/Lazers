@@ -50,6 +50,15 @@ class MenuState extends FlxState {
 					FlxG.switchState(new LevelSelect());		
 				});
 			}
+
+			if (FlxG.mouse.overlaps(settingsButton)) {
+				transitionScreen.start();
+				
+				var t = new FlxTimer();
+				t.start(.65, function(_) {
+					FlxG.switchState(new SettingsState());		
+				});
+			}
 		}
 	}	
 	
