@@ -28,10 +28,12 @@ class LevelIcon extends FlxGroup {
 		icon.loadGraphic(Settings.LEVEL_ICON);
 		add(icon);
 		
-		
-		text = new FlxText(x, y, icon.width, Std.string(level), 16);
-		add(text);
-				
+		text = new FlxText(x, y + icon.height/2, icon.width, Std.string(level), 32);
+		text.font = Settings.FONT;
+		text.alignment = FlxTextAlign.CENTER;
+		text.bold = true;
+		text.y -= text.height/2;
+		add(text);		
 	}
 	
 }

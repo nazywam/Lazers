@@ -69,5 +69,7 @@ class Settings {
 	public static inline var LEVEL_ICON : 		String = "assets/images/LevelIcon.png";
 	public static inline var LASER : 			String = "assets/images/Laser.png";
 	public static inline var LEVEL : 			String = "assets/data/level";
+	public static inline var FIRE_DEM_LAZERS : 	String = "assets/images/FireDemLazers.png";
+
 	
 }

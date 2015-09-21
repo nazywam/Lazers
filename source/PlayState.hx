@@ -69,7 +69,7 @@ class PlayState extends FlxState {
 		laserHeads = new FlxTypedGroup<Laser>();
 		add(lasers);
 	
-		fireButton = new Button(0, availableTilesBackground.y + availableTilesBackground.height, "Fire lasers", FlxG.width, 32);
+		fireButton = new Button(0, availableTilesBackground.y + availableTilesBackground.height, "Fire lasers", FlxG.width, 48);
 		
 		add(fireButton);
 		add(particles);

@@ -16,7 +16,7 @@ class LevelSelect extends FlxState {
 		
 		for (y in 0...Settings.LEVEL_ROWS) {
 			for (x in 0...Settings.LEVEL_COLUMNS) {
-				var l = new LevelIcon(x * 64 + (FlxG.width - Settings.LEVEL_COLUMNS * 64 + 16)/2, y * 64, y*Settings.LEVEL_ROWS + x + 1);
+				var l = new LevelIcon(x * 64 + (FlxG.width - Settings.LEVEL_COLUMNS * 64 + 16)/2, 24 + y * 64, y*Settings.LEVEL_ROWS + x + 1);
 				levelIcons.add(l);
 			}
 		}

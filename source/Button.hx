@@ -29,7 +29,6 @@ class Button extends FlxGroup {
 		
 		x = _x;
 		y = _y;
-		
 
 		text = new FlxText(_x, _y, _w, _t, _s);
 		text.setFormat(Settings.FONT, _s, FlxColor.BLACK, "center");
@@ -40,15 +39,12 @@ class Button extends FlxGroup {
 		add(background);
 		add(text);
 
-		colorID = Std.random(Settings.AVAILABLE_COLORS.length);
+		colorID = Std.random(Settings.AVAILABLE_COLORS.length-1);
 		specialFormat = new FlxTextFormat(Settings.AVAILABLE_COLORS[colorID], true, false, 0xFFFF8000);
 		blink();
 	}
 
 	function blink(){
-	//	colorID = Std.random(Settings.AVAILABLE_COLORS.length);
-	//	specialFormat = new FlxTextFormat(Settings.AVAILABLE_COLORS[colorID], true, false, 0xFFFF8000);
-
 		for(i in 0...text.text.length+1){
 			var t = new FlxTimer();
 			t.start(i/20, function(_){
