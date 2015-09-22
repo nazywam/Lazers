@@ -9,6 +9,7 @@ import flixel.util.*;
 import openfl.*;
 import tiles.*;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import openfl.events.KeyboardEvent;
 
 class PlayState extends FlxState {
 
@@ -43,6 +44,27 @@ class PlayState extends FlxState {
 	override public function new(_c:Int) {
 		currentLevel = _c;
 		super();
+
+		Lib.current.stage.addEventListener (KeyboardEvent.KEY_UP, onKeyUp);
+	}
+
+	private function onKeyUp (event:KeyboardEvent) {
+		#if android
+			if(event.keyCode == 16777234){
+				FlxG.debugger.visible = !FlxG.debugger.visible;
+			}
+			if (event.keyCode == 27) {
+				event.stopImmediatePropagation();
+
+				//transitionScreen.running = false;
+				//transitionScreen.start();
+
+//				var t = new FlxTimer();
+//				t.start(.65, function(_) {
+					FlxG.switchState(new LevelSelect());	
+//				});
+			}
+		#end
 	}
 	
 	override public function create():Void {
@@ -226,13 +248,13 @@ class PlayState extends FlxState {
 	function resetBoard() {
 		laserHeads.clear();
 		lasers.clear();
-		
+
 		for (j in 0...board.length) {
 			for (i in 0...board[j].length) {
 				if (board[j][i].type == Tile.TARGET) {
 					while (board[j][i].connectedColors.length > 0) {
-					board[j][i].connectedColors.pop();	
-					board[j][i].particlesLaunched = false;	
+						board[j][i].connectedColors.pop();	
+						board[j][i].particlesLaunched = false;	
 					}
 				}
 			}
@@ -279,7 +301,6 @@ class PlayState extends FlxState {
 				} else {
 					generateLasers();	
 				}
-				
 			}
 		}
 

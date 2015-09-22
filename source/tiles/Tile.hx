@@ -86,7 +86,7 @@ class Tile extends FlxSprite {
 	
 
 	public function complete() {
-		if (!particlesLaunched) {
+		if (!particlesLaunched && Settings.PARTICLES_ON) {
 			particles.start(true, 0.1, 0);
 			particlesLaunched = true;	
 		}

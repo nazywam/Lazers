@@ -31,12 +31,13 @@ class Target extends Tile {
 		}
 		pixels = temp;
 		
-		particles = new FlxEmitter(_x + width / 2, _y + height / 2, 50);
-		particles.loadParticles("assets/images/LaserParticles.png", 50, 16, true);
-		particles.lifespan.set(3, 5);
-		particles.color.set(Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId]);
-		particles.angularVelocity.set( -200, 200, -200, 200);
-
+		if(Settings.PARTICLES_ON){
+			particles = new FlxEmitter(_x + width / 2, _y + height / 2, 50);
+			particles.loadParticles("assets/images/LaserParticles.png", 50, 16, true);
+			particles.lifespan.set(3, 5);
+			particles.color.set(Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId], Settings.AVAILABLE_COLORS[colorId]);
+			particles.angularVelocity.set( -200, 200, -200, 200);	
+		}
 	}
 
 	override public function nextMove(_d:Int){
