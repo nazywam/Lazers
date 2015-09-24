@@ -36,4 +36,8 @@ class LevelIcon extends FlxGroup {
 		add(text);		
 	}
 	
+	override public function update(elapsed:Float) {
+		super.update(elapsed);
+	}
+	
 }

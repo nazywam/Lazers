@@ -12,14 +12,16 @@ class Stage extends FlxGroup {
 	var levelIcons:FlxTypedGroup<LevelIcon>;
 
 	var y:Float;
-
 	override public function new(_s:Int){
 		super();
 
 		stageNumber = _s;
 		y = Settings.STAGE_HEIGHT * _s;
 
-		background = new FlxSprite(0, y, Settings.STAGE + Std.string(_s) + '.png');
+		background = new FlxSprite(0, y);
+		background.loadGraphic(Settings.STAGES, true, FlxG.width, 180);
+		background.animation.add("default", [stageNumber]);
+		background.animation.play("default");
 		add(background);
 
 		levelIcons = new FlxTypedGroup<LevelIcon>();
@@ -28,17 +30,16 @@ class Stage extends FlxGroup {
 		for(i in 0...Settings.LEVELS_IN_STAGE){
 			var moveY = 0;
 			if(i % 2 == 1){
-				moveY = 56;
+				moveY = 60;
 			}
 
-			var l = new LevelIcon(12 + i*32, y + 64 + moveY, i+1);
+			var l = new LevelIcon(8 + i*33, y + 64 + moveY, i+1);
 			levelIcons.add(l);
 		}
 	}
 
 	override public function update(elapsed:Float){
 		super.update(elapsed);
-
 		if(FlxG.mouse.justPressed){
 			for(l in levelIcons){
 				if(FlxG.mouse.overlaps(l.icon)){

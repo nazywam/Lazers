@@ -75,5 +75,5 @@ class Settings {
 	public static inline var LEVEL : 			String = "assets/data/level";
 	public static inline var FIRE_DEM_LAZERS : 	String = "assets/images/FireDemLazers.png";
 
-	public static inline var STAGE : 			String = "assets/images/Stage";
+	public static inline var STAGES : 			String = "assets/images/Stages.png";
 }

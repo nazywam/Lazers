@@ -1,6 +1,8 @@
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxG;
+import flixel.input.FlxPointer;
+import flixel.math.FlxPoint;
 import flixel.util.FlxTimer;
 import flixel.FlxSprite;
 class LevelSelect extends FlxState {
@@ -8,19 +10,25 @@ class LevelSelect extends FlxState {
 	var levelIcons:FlxTypedGroup<LevelIcon>;
 	var transitionScreen:TransitionScreen;
 
-	var stages:Array<Stage>;
+	var stages:FlxTypedGroup<Stage>;
 
-	var animation:FlxTypedGroup<FlxSprite>;
-
+	var scroll:Float = 0;
+	var tmpScroll:Float = 0;
+	
+	var pressedPoint:FlxPoint;
+	var scrolling:Bool = false;
+	
 	override public function create(){
 		super.create();
 	
-		stages = new Array<Stage>();
-
-		for(i in 0...1){
+		stages = new FlxTypedGroup<Stage>();
+		add(stages);
+		pressedPoint = new FlxPoint(-1, -1);
+		
+		
+		for(i in 0...5){
 			var s = new Stage(i);
-			add(s);
-			stages.push(s);
+			stages.add(s);
 		}
 /*
 		stage1 = new FlxSprite(0, 0, Settings.STAGE_1);
@@ -49,6 +57,10 @@ class LevelSelect extends FlxState {
 	
 	function handleMouse() {
 		if (FlxG.mouse.justPressed) {			
+			
+			pressedPoint.set(FlxG.mouse.screenX, FlxG.mouse.screenY);
+			tmpScroll = scroll;
+			/*
 			for (l in levelIcons) {
 				if (FlxG.mouse.overlaps(l.icon)) {
 					transitionScreen.running = false;
@@ -59,12 +71,25 @@ class LevelSelect extends FlxState {
 						FlxG.switchState(new PlayState(l.level));		
 					});
 				}
+			}*/
+		}
+		
+		if (FlxG.mouse.justReleased) {
+			pressedPoint.set( -1, -1);
+			scrolling = false;
+		}
+		
+		if (pressedPoint.y != -1) {
+			if (Math.abs(FlxG.mouse.screenY - pressedPoint.y) > 4 || scrolling) {
+				scroll = tmpScroll + pressedPoint.y - FlxG.mouse.screenY;
+				scrolling = true;
 			}
-		}	
+		}
 	}
 	
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
-		//handleMouse();
+		handleMouse();
+		FlxG.camera.scroll.y = scroll;
 	}
 }
