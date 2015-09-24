@@ -32,7 +32,8 @@ class PlayState extends FlxState {
 	var pressedTile:Tile;
 	var pressed:Bool=false;
 
-	var fireButton:Button;	
+	var fireButton:Button;
+	var menuButton:Button;	
 	
 	var transitionScreen:TransitionScreen;
 	
@@ -92,8 +93,10 @@ class PlayState extends FlxState {
 		add(lasers);
 	
 		fireButton = new Button(0, availableTilesBackground.y + availableTilesBackground.height, "Fire lasers", FlxG.width, 48);
-		
+		menuButton = new Button(0, fireButton.y + fireButton.background.height, "Menu", FlxG.width, 48);
 		add(fireButton);
+		add(menuButton);
+
 		add(particles);
 
 		transitionScreen = new TransitionScreen();
@@ -301,6 +304,15 @@ class PlayState extends FlxState {
 				} else {
 					generateLasers();	
 				}
+			}
+			if (FlxG.mouse.overlaps(menuButton)){
+				transitionScreen.running = false;
+				transitionScreen.start();
+					
+				var t = new FlxTimer();
+				t.start(.65, function(_) {
+					FlxG.switchState(new LevelSelect(currentLevel));	
+				});
 			}
 		}
 

@@ -26,6 +26,10 @@ class Settings {
 	
 	public static var STRIPE_SPEED	 	:Int =		30;
 	
+	public static var STAGE_HEIGHT	 	:Int =		180;
+	public static var LEVELS_IN_STAGE	:Int =		10;
+
+
 	public static var RED : Int = 				0;
 	public static var GREEN : Int = 			1;
 	public static var BLUE : Int = 				2;
@@ -71,5 +75,5 @@ class Settings {
 	public static inline var LEVEL : 			String = "assets/data/level";
 	public static inline var FIRE_DEM_LAZERS : 	String = "assets/images/FireDemLazers.png";
 
-	
+	public static inline var STAGE : 			String = "assets/images/Stage";
 }
