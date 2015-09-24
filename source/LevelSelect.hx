@@ -90,6 +90,11 @@ class LevelSelect extends FlxState {
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
 		handleMouse();
-		FlxG.camera.scroll.y = scroll;
+		if (scroll < 0) {
+			scroll += ( -scroll) / 4;
+		} else if (scroll + FlxG.height > 4 * Settings.STAGE_HEIGHT) {
+			scroll += (4 * Settings.STAGE_HEIGHT - FlxG.height - scroll) / 4;
+		}
+		FlxG.camera.scroll.y += (scroll - FlxG.camera.scroll.y)/3;
 	}
 }
