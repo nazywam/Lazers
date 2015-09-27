@@ -72,7 +72,7 @@ class Settings {
 	public static inline var LEVEL_404 : 		String = "assets/data/404.tmx";
 	public static inline var LEVEL_ICON : 		String = "assets/images/LevelIcon.png";
 	public static inline var LASER : 			String = "assets/images/Laser.png";
-	public static inline var LEVEL : 			String = "assets/data/level";
+	public static inline var LEVEL : 			String = "assets/data/";
 	public static inline var FIRE_DEM_LAZERS : 	String = "assets/images/FireDemLazers.png";
 
 	public static inline var STAGES : 			String = "assets/images/Stages.png";

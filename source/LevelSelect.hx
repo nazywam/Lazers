@@ -7,7 +7,6 @@ import flixel.util.FlxTimer;
 import flixel.FlxSprite;
 class LevelSelect extends FlxState {
 	
-	var levelIcons:FlxTypedGroup<LevelIcon>;
 	var transitionScreen:TransitionScreen;
 
 	var stages:FlxTypedGroup<Stage>;
@@ -60,18 +59,19 @@ class LevelSelect extends FlxState {
 			
 			pressedPoint.set(FlxG.mouse.screenX, FlxG.mouse.screenY);
 			tmpScroll = scroll;
-			/*
-			for (l in levelIcons) {
-				if (FlxG.mouse.overlaps(l.icon)) {
-					transitionScreen.running = false;
-					transitionScreen.start();
+			for(s in stages){
+				for (l in s.levelIcons) {
+					if (FlxG.mouse.overlaps(l.icon)) {
+						transitionScreen.running = false;
+						transitionScreen.start();
 
-					var t = new FlxTimer();
-					t.start(.65, function(_) {
-						FlxG.switchState(new PlayState(l.level));		
-					});
+						var t = new FlxTimer();
+						t.start(.65, function(_) {
+							FlxG.switchState(new PlayState(l.stage, l.level));		
+						});
+					}
 				}
-			}*/
+			}
 		}
 		
 		if (FlxG.mouse.justReleased) {

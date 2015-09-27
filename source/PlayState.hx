@@ -14,6 +14,7 @@ import openfl.events.KeyboardEvent;
 class PlayState extends FlxState {
 
 	var currentLevel:Int;
+	var currentStage:Int;
 	
 	var currentLaserId:Int = 0;
 
@@ -42,8 +43,10 @@ class PlayState extends FlxState {
 	var grid:FlxSprite;
 
 
-	override public function new(_c:Int) {
+	override public function new(_s:Int, _c:Int) {
+
 		currentLevel = _c;
+		currentStage = _s;
 		super();
 
 		Lib.current.stage.addEventListener (KeyboardEvent.KEY_UP, onKeyUp);
@@ -79,11 +82,11 @@ class PlayState extends FlxState {
 
 		availableTilesBackground = new FlxSprite(0, grid.y + grid.width, Settings.AVAILABLE_TILES);
 		add(availableTilesBackground);
-		
-		if (Assets.getText(Settings.LEVEL +Std.string(currentLevel)+".tmx") == null) {
+		trace(Settings.LEVEL + Std.string(currentStage)+ '-' + Std.string(currentLevel)+".tmx");
+		if (Assets.getText(Settings.LEVEL + Std.string(currentStage)+ '-' + Std.string(currentLevel)+".tmx") == null) {
 			loadMap(Assets.getText(Settings.LEVEL_404));
 		} else {
-			loadMap(Assets.getText(Settings.LEVEL + Std.string(currentLevel) + ".tmx"));	
+			loadMap(Assets.getText(Settings.LEVEL + Std.string(currentStage)+ '-' + Std.string(currentLevel) + ".tmx"));	
 		}
 
 		add(waveSprites);
@@ -299,7 +302,7 @@ class PlayState extends FlxState {
 					
 					var t = new FlxTimer();
 					t.start(.65, function(_) {
-						FlxG.switchState(new PlayState(currentLevel+1));	
+						FlxG.switchState(new PlayState(currentStage, currentLevel+1));	
 					});
 				} else {
 					generateLasers();	
@@ -311,7 +314,7 @@ class PlayState extends FlxState {
 					
 				var t = new FlxTimer();
 				t.start(.65, function(_) {
-					FlxG.switchState(new LevelSelect(currentLevel));	
+					FlxG.switchState(new LevelSelect());	
 				});
 			}
 		}

@@ -9,7 +9,7 @@ class Stage extends FlxGroup {
 
 	var stageNumber:Int;
 
-	var levelIcons:FlxTypedGroup<LevelIcon>;
+	public var levelIcons:FlxTypedGroup<LevelIcon>;
 
 	var y:Float;
 	override public function new(_s:Int){
