@@ -27,7 +27,7 @@ class Settings {
 	public static var STRIPE_SPEED	 	:Int =		30;
 	
 	public static var STAGE_HEIGHT	 	:Int =		180;
-	public static var LEVELS_IN_STAGE	:Int =		10;
+	public static var LEVELS_IN_STAGE	:Int =		8;
 
 
 	public static var RED : Int = 				0;

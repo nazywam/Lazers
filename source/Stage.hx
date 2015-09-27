@@ -32,8 +32,8 @@ class Stage extends FlxGroup {
 			if(i % 2 == 1){
 				moveY = 60;
 			}
-
-			var l = new LevelIcon(8 + i*33, y + 64 + moveY, stageNumber+1, i+1);
+			
+			var l = new LevelIcon(16 + i*38, y + 64 + moveY, stageNumber+1, i+1);
 			levelIcons.add(l);
 		}
 	}
@@ -42,7 +42,7 @@ class Stage extends FlxGroup {
 		super.update(elapsed);
 		if(FlxG.mouse.justPressed){
 			for(l in levelIcons){
-				if(FlxG.mouse.overlaps(l.icon)){
+				if(FlxG.mouse.overlaps(l.icon) && l.stage != 5){
 					l.icon.scale.x = l.icon.scale.y = 2;
 					FlxTween.tween(l.icon.scale, {x:1, y:1}, 1);
 				}
