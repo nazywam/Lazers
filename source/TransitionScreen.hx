@@ -22,11 +22,12 @@ class TransitionScreen extends FlxGroup {
 		super();
 		
 		board = new Array < Array < FlxSprite >> ();
-		
+
 		for (y in 0...16) {
 			board[y] = new Array<FlxSprite>();
 			for (x in 0...9) {
 				var s = new FlxSprite(48 * x, 48 * y);
+				s.scrollFactor.x = s.scrollFactor.y = 0;
 				s.loadGraphic(Settings.TILES_IMAGE, true, 48, 48);
 				s.animation.add("default", [Tile.BLOCK]);
 				s.animation.play("default");

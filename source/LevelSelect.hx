@@ -15,6 +15,7 @@ class LevelSelect extends FlxState {
 	var tmpScroll:Float = 0;
 	
 	var pressedPoint:FlxPoint;
+	var pressedLevelIcon:LevelIcon;
 	var scrolling:Bool = false;
 	
 	override public function create(){
@@ -62,13 +63,7 @@ class LevelSelect extends FlxState {
 			for(s in stages){
 				for (l in s.levelIcons) {
 					if (FlxG.mouse.overlaps(l.icon)) {
-						transitionScreen.running = false;
-						transitionScreen.start();
-
-						var t = new FlxTimer();
-						t.start(.65, function(_) {
-							FlxG.switchState(new PlayState(l.stage, l.level));		
-						});
+						pressedLevelIcon = l;
 					}
 				}
 			}
@@ -76,6 +71,20 @@ class LevelSelect extends FlxState {
 		
 		if (FlxG.mouse.justReleased) {
 			pressedPoint.set( -1, -1);
+			
+			if(pressedLevelIcon != null && FlxG.mouse.overlaps(pressedLevelIcon) && !scrolling){
+				transitionScreen.running = false;
+				transitionScreen.start();
+
+				var _stage = pressedLevelIcon.stage;
+				var _level = pressedLevelIcon.level;
+
+				var t = new FlxTimer();
+				t.start(.65, function(_) {
+					FlxG.switchState(new PlayState(_stage, _level));		
+				});
+			}
+			pressedLevelIcon = null;
 			scrolling = false;
 		}
 		
