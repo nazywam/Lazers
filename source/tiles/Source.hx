@@ -46,7 +46,6 @@ class Source extends Tile {
 	override public function properAnimation(_d:Int):Array<Dynamic> {
 		switch (_d) {
 			case FlxObject.UP:
-				trace(direction);
 				switch (direction) {
 					case FlxObject.UP:
 						return [270, 0];
