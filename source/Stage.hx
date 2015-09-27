@@ -33,7 +33,7 @@ class Stage extends FlxGroup {
 				moveY = 60;
 			}
 
-			var l = new LevelIcon(8 + i*33, y + 64 + moveY, i+1);
+			var l = new LevelIcon(8 + i*33, y + 64 + moveY, stageNumber+1, i+1);
 			levelIcons.add(l);
 		}
 	}
