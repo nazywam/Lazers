@@ -39,7 +39,7 @@ class LevelIcon extends FlxGroup {
 		text.y -= text.height/2;
 		add(text);		
 
-		if(Assets.getText(Settings.LEVEL + Std.string(stage)+ '-' + Std.string(level)+".tmx") == null){
+		if(Assets.getText(Settings.LEVEL + Std.string(stage)+ '/' + Std.string(level)+".tmx") == null){
 			text.color = 0xFFFF0000;
 		}
 	}

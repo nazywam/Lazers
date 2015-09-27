@@ -82,11 +82,10 @@ class PlayState extends FlxState {
 
 		availableTilesBackground = new FlxSprite(0, grid.y + grid.width, Settings.AVAILABLE_TILES);
 		add(availableTilesBackground);
-		trace(Settings.LEVEL + Std.string(currentStage)+ '-' + Std.string(currentLevel)+".tmx");
-		if (Assets.getText(Settings.LEVEL + Std.string(currentStage)+ '-' + Std.string(currentLevel)+".tmx") == null) {
+		if (Assets.getText(Settings.LEVEL + Std.string(currentStage)+ '/' + Std.string(currentLevel)+".tmx") == null) {
 			loadMap(Assets.getText(Settings.LEVEL_404));
 		} else {
-			loadMap(Assets.getText(Settings.LEVEL + Std.string(currentStage)+ '-' + Std.string(currentLevel) + ".tmx"));	
+			loadMap(Assets.getText(Settings.LEVEL + Std.string(currentStage)+ '/' + Std.string(currentLevel) + ".tmx"));	
 		}
 
 		add(waveSprites);
