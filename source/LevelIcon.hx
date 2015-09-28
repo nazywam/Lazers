@@ -1,5 +1,6 @@
 package;
 
+import flixel.util.FlxColor;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
 import flixel.text.FlxText;
@@ -30,7 +31,7 @@ class LevelIcon extends FlxGroup {
 		icon.loadGraphic(Settings.LEVEL_ICON);
 		add(icon);
 		
-		text = new FlxText(x, y + icon.height/2, icon.width, Std.string(stage) + '-' + Std.string(level), 20);
+		text = new FlxText(x, y + icon.height/2, icon.width, Std.string(stage) + '-' + Std.string(level), 18);
 		if(stage == 5){
 			text.text = '?-?';
 		}

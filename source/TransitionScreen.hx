@@ -31,6 +31,7 @@ class TransitionScreen extends FlxGroup {
 				s.loadGraphic(Settings.TILES_IMAGE, true, 48, 48);
 				s.animation.add("default", [Tile.BLOCK]);
 				s.animation.play("default");
+				s.color = Settings.AVAILABLE_COLORS[((x+y)*(x+y) + x - y) % Settings.AVAILABLE_COLORS.length];
 				s.scale.x = s.scale.y = 0; 
 				board[y].push(s);
 				add(s);

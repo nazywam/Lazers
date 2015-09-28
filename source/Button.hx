@@ -32,6 +32,7 @@ class Button extends FlxGroup {
 
 		text = new FlxText(_x, _y, _w, _t, _s);
 		text.setFormat(Settings.FONT, _s, FlxColor.BLACK, "center");
+		text.bold = true;
 		
 		background = new FlxSprite(_x, _y);
 		background.makeGraphic(_w, Std.int(text.height));
@@ -41,10 +42,10 @@ class Button extends FlxGroup {
 
 		colorID = Std.random(Settings.AVAILABLE_COLORS.length-1);
 		specialFormat = new FlxTextFormat(Settings.AVAILABLE_COLORS[colorID], true, false, 0xFFFF8000);
-		blink();
+		blink(true);
 	}
 
-	function blink(){
+	public function blink(loop:Bool){
 		for(i in 0...text.text.length+1){
 			var t = new FlxTimer();
 			t.start(i/20, function(_){
@@ -57,8 +58,10 @@ class Button extends FlxGroup {
 			});	
 		}
 
-		var t = new FlxTimer();
-		t.start(Math.sqrt(Math.random()*6), function(_){blink();});
+		if (loop) {		
+			var t = new FlxTimer();
+			t.start(Math.sqrt(Math.random() * 6), function(_) { blink(true); } );
+		}
 	}
 
 	override public function update(elapsed:Float){
