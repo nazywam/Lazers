@@ -499,7 +499,7 @@ class PlayState extends FlxState {
 						uniqueLaser = false;
 					}
 					
-					if (uniqueLaser) {
+					if (uniqueLaser && !(hoverTile.type == Tile.SOURCE && hoverTile.direction == nextDirection)) {
 						var laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, l.colorId, hoverTile, l.laserNumber + 1);		
 						lasers.add(laser);								
 						laser.becomeHead.start(Settings.LASER_SPEED, function(_){

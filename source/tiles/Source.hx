@@ -50,16 +50,21 @@ class Source extends Tile {
 					case FlxObject.UP:
 						return [270, 0];
 					case FlxObject.RIGHT:
+						return [270, 0, "stopAtSource"];
 					case FlxObject.DOWN:
 						return [90, 0, "sourceReverse"];
 					case FlxObject.LEFT:
+						return [270, 0, "stopAtSource"];
+
 				}
 			case FlxObject.RIGHT:
 				switch (direction) {
 					case FlxObject.UP:
+						return [0, 0, "stopAtSource"];
 					case FlxObject.RIGHT:
 						return [0, 0];
 					case FlxObject.DOWN:
+						return [0, 0, "stopAtSource"];
 					case FlxObject.LEFT:
 						return [180, 0, "sourceReverse"];
 				}
@@ -68,16 +73,21 @@ class Source extends Tile {
 					case FlxObject.UP:
 						return [270, 0, "sourceReverse"];
 					case FlxObject.RIGHT:
+						return [90, 0, "stopAtSource"];
 					case FlxObject.DOWN:
 						return [90, 0];
 					case FlxObject.LEFT:
+						return [90, 0, "stopAtSource"];
+
 				}
 			case FlxObject.LEFT:
 				switch (direction) {
 					case FlxObject.UP:
+						return [180, 0, "stopAtSource"];
 					case FlxObject.RIGHT:
 						return [0, 0, "sourceReverse"];
 					case FlxObject.DOWN:
+						return [180, 0, "stopAtSource"];
 					case FlxObject.LEFT:
 						return [180, 0];
 				}

@@ -33,6 +33,7 @@ class Laser extends FlxSprite {
 		animation.add("target", [0, 1, 2, 3, 4, 5, 6, 7], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("mergeSplit", [48, 49, 50, 51, 52, 53 ,54 ,55], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("mergeStop", [24, 25, 26], Std.int(3 / Settings.LASER_SPEED), false);
+		animation.add("stopAtSource", [16, 17, 18], Std.int(3 / Settings.LASER_SPEED), false);
 		animation.add("disappear", [59], Std.int(1 / Settings.LASER_SPEED), false);
 		animation.play("default");
 
