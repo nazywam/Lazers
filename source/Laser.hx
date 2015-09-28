@@ -82,5 +82,10 @@ class Laser extends FlxSprite {
 		if (tmp[2] != null){
 			animation.play(tmp[2]);
 		}
-	}	
+	}
+	override public function destroy() {
+		tile = null;
+		becomeHead = null;
+		super.destroy();	
+	}
 }

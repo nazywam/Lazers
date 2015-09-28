@@ -66,11 +66,6 @@ class Button extends FlxGroup {
 
 	override public function update(elapsed:Float){
 		super.update(elapsed);
-		if(FlxG.mouse.justPressed){
-			if(FlxG.mouse.overlaps(this)){
-				
-			}
-		}
 	}
 	
 }

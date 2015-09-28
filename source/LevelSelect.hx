@@ -81,7 +81,7 @@ class LevelSelect extends FlxState {
 
 				var t = new FlxTimer();
 				t.start(.65, function(_) {
-					FlxG.switchState(new PlayState(_stage, _level));		
+					FlxG.switchState(new PlayState(_stage, _level, true));		
 				});
 			}
 			pressedLevelIcon = null;

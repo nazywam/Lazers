@@ -15,6 +15,8 @@ class PlayState extends FlxState {
 
 	var currentLevel:Int;
 	var currentStage:Int;
+	var runTransitionScreen:Bool;
+	
 	
 	var currentLaserId:Int = 0;
 
@@ -44,10 +46,12 @@ class PlayState extends FlxState {
 	var grid:FlxSprite;
 
 
-	override public function new(_s:Int, _c:Int) {
+	override public function new(_s:Int, _c:Int, _r:Bool) {
 
 		currentLevel = _c;
 		currentStage = _s;
+		runTransitionScreen = _r;
+		
 		super();
 
 		Lib.current.stage.addEventListener (KeyboardEvent.KEY_UP, onKeyUp);
@@ -105,7 +109,9 @@ class PlayState extends FlxState {
 		add(particles);
 
 		transitionScreen = new TransitionScreen();
-		transitionScreen.startHalf();
+		if (runTransitionScreen) {
+			transitionScreen.startHalf();	
+		}
 		add(transitionScreen);
  	}
 	
@@ -252,8 +258,18 @@ class PlayState extends FlxState {
 		}
 		return -order;
 	}
-	
+
 	function resetBoard() {
+		for (l in laserHeads) {
+			remove(l);
+			l.destroy();
+			l = null;
+		}
+		for (l in lasers) {
+			remove(l);
+			l.destroy();
+			l = null;
+		}
 		laserHeads.clear();
 		lasers.clear();
 
@@ -268,6 +284,23 @@ class PlayState extends FlxState {
 			}
 		}
 	}
+		
+	function startNextLevel() {
+		transitionScreen.running = false;
+		transitionScreen.start();
+				
+		var t = new FlxTimer();
+			t.start(.65, function(_) {
+
+			if (currentLevel < 7) {
+				FlxG.switchState(new PlayState(currentStage, currentLevel+1, true));		
+			} else {
+				FlxG.switchState(new LevelSelect());
+			}
+			
+		});
+	}
+	
 	
  	function handleMouse() {
 		if(FlxG.mouse.justPressed){
@@ -300,33 +333,21 @@ class PlayState extends FlxState {
 			if (FlxG.mouse.overlaps(fireButton)) {
 				fireButton.blink(false);
 				if (levelComplete) {
-					transitionScreen.running = false;
-					transitionScreen.start();
-					
-					var t = new FlxTimer();
-					t.start(.65, function(_) {
-						FlxG.switchState(new PlayState(currentStage, currentLevel+1));	
-					});
+					startNextLevel();
 				} else {
 					generateLasers();	
 				}
 			}
 			if (FlxG.mouse.overlaps(menuButton)) {
 				menuButton.blink(false);
-				transitionScreen.running = false;
-				transitionScreen.start();
-				
-				var t = new FlxTimer();
-				t.start(.65, function(_) {
-					FlxG.switchState(new PlayState(currentStage, currentLevel+1));	
-				});
-				
+	
 				if (levelComplete) {
+					startNextLevel();
+				} else {
 					var t = new FlxTimer();
 					t.start(.65, function(_) {
-						FlxG.switchState(new PlayState(currentStage, currentLevel+1));	
+						FlxG.switchState(new PlayState(currentStage, currentLevel+1, true));	
 					});
-				} else {
 					var t = new FlxTimer();
 					t.start(.65, function(_) {
 						FlxG.switchState(new LevelSelect());	
@@ -336,15 +357,10 @@ class PlayState extends FlxState {
 			if (FlxG.mouse.overlaps(resetButton)) {
 				resetButton.blink(false);
 				if (levelComplete) {
-					transitionScreen.running = false;
-					transitionScreen.start();
-					
-					var t = new FlxTimer();
-					t.start(.65, function(_) {
-						FlxG.switchState(new PlayState(currentStage, currentLevel+1));	
-					});
+					startNextLevel();
 				} else {
-					resetBoard();
+					//resetBoard();
+					FlxG.switchState(new PlayState(currentStage, currentLevel, false));
 				}
 			}
 		}
