@@ -48,7 +48,7 @@ class LevelSelect extends FlxState {
 		
 		howTos = new FlxTypedGroup<FlxSprite>();
 		add(howTos);
-		for (x in 0...2) {
+		for (x in 0...Settings.AVAILABLE_HOW_TOS) {
 			var h = new FlxSprite(0, howToPlayTitle.y + howToPlayTitle.background.height + 180 * x);
 			h.loadGraphic(Settings.HOW_TO_PLAY + Std.string(x) + ".png", true, 360, 180);
 			h.animation.add("default", [for (i in 0...Settings.HOW_TO_ANIMATIONS[x]) i], 3);
@@ -56,8 +56,7 @@ class LevelSelect extends FlxState {
 			howTos.add(h);
 		}
 		
-		
-		levelSelectTitle = new Button(0, howToPlayTitle.y + howToPlayTitle.background.height + 180 * 2, "Select Level", FlxG.width, 36);
+		levelSelectTitle = new Button(0, howToPlayTitle.y + howToPlayTitle.background.height + 180 * Settings.AVAILABLE_HOW_TOS, "Select Level", FlxG.width, 36);
 		add(levelSelectTitle);
 		
 		stages = new FlxTypedGroup<Stage>();

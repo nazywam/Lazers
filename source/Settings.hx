@@ -82,6 +82,7 @@ class Settings {
 
 	public static inline var STAGES : 			String = "assets/images/Stages.png";
 	
-	public static var HOW_TO_ANIMATIONS : Array<Int> = [6, 10, 5];
+	public static inline var AVAILABLE_HOW_TOS: Int = 4;
+	public static var HOW_TO_ANIMATIONS:		Array<Int> = [6, 10, 8, 9];
 	
 }
