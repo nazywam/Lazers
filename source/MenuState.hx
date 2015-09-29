@@ -18,8 +18,6 @@ class MenuState extends FlxState {
 
 	override public function create() {
 		super.create();
-		
-
 
 		playButton = new Button(0, 256, "Start", FlxG.width, 48);
 		add(playButton);

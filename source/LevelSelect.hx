@@ -36,6 +36,9 @@ class LevelSelect extends FlxState {
 			Settings.SAVES.data.completedLevels = new Array<Bool>();
 		}
 				
+		scroll = Settings.SAVED_SCROLL;
+		FlxG.camera.scroll.y = scroll;
+		
 		logo = new FlxSprite(FlxG.width/2, 32);
 		logo.loadGraphic(Settings.FIRE_DEM_LAZERS, true, 240, 156);
 		logo.x -= logo.width/2;
@@ -100,6 +103,7 @@ class LevelSelect extends FlxState {
 
 				var t = new FlxTimer();
 				t.start(.65, function(_) {
+					Settings.SAVED_SCROLL = scroll;
 					FlxG.switchState(new PlayState(_stage, _level, true));		
 				});
 			}

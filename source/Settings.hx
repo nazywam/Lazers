@@ -6,6 +6,7 @@ class Settings {
 	
 	public static var SAVES				:FlxSave;
 
+	public static var SAVED_SCROLL 		:Float =		0;
 	
 	public static var PARTICLES_ON		:Bool =		true;
 	public static var FUN				:Bool = 	false;
@@ -33,7 +34,9 @@ class Settings {
 	public static var STAGE_HEIGHT	 	:Int =		180;
 	public static var LEVELS_IN_STAGE	:Int =		8;
 
-
+	public static var AVAILABLE_HOW_TOS: Int = 4;
+	public static var HOW_TO_ANIMATIONS:		Array<Int> = [6, 10, 8, 9];
+	
 	public static var RED : Int = 				0;
 	public static var GREEN : Int = 			1;
 	public static var BLUE : Int = 				2;
@@ -82,7 +85,6 @@ class Settings {
 
 	public static inline var STAGES : 			String = "assets/images/Stages.png";
 	
-	public static inline var AVAILABLE_HOW_TOS: Int = 4;
-	public static var HOW_TO_ANIMATIONS:		Array<Int> = [6, 10, 8, 9];
+	
 	
 }
