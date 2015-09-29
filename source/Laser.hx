@@ -1,9 +1,7 @@
-import flixel.effects.particles.FlxEmitter;
-import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.util.FlxTimer;
-import tiles.Tile;
 import openfl.display.BlendMode;
+import tiles.Tile;
 
 class Laser extends FlxSprite {
 

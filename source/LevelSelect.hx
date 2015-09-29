@@ -1,11 +1,10 @@
+import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.FlxG;
-import flixel.input.FlxPointer;
 import flixel.math.FlxPoint;
 import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
-import flixel.FlxSprite;
 class LevelSelect extends FlxState {
 	
 	var transitionScreen:TransitionScreen;
@@ -23,6 +22,9 @@ class LevelSelect extends FlxState {
 	var howToPlayTitle:Button;
 	var howTos:FlxTypedGroup<FlxSprite>;
 	var levelSelectTitle:Button;
+	var credits:Button;
+	
+	var maxScrollY : Float;
 	
 	override public function create(){
 		super.create();
@@ -72,9 +74,14 @@ class LevelSelect extends FlxState {
 			stages.add(s);
 		}
 		
+		credits = new Button(0, levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * 5 + 16, "By: Nazywam : )", FlxG.width, 36);
+		add(credits);
+		
 		transitionScreen = new TransitionScreen();
 		transitionScreen.startHalf();
 		add(transitionScreen);
+		
+		maxScrollY = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * 4;
 	}
 	
 	function handleMouse() {
@@ -124,8 +131,8 @@ class LevelSelect extends FlxState {
 		handleMouse();
 		if (scroll < 0) {
 			scroll += ( -scroll) / 4;
-		} else if (scroll + FlxG.height > 1600) {
-			scroll += (1600 - FlxG.height - scroll) / 4;
+		} else if (scroll + FlxG.height > maxScrollY) {
+			scroll += (maxScrollY - FlxG.height - scroll) / 4;
 		}
 		FlxG.camera.scroll.y += (scroll - FlxG.camera.scroll.y)/3;
 	}

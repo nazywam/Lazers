@@ -1,5 +1,4 @@
 import flixel.FlxObject;
-import flixel.math.FlxPoint;
 import flixel.util.FlxSave;
 
 class Settings {	

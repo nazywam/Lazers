@@ -1,5 +1,5 @@
-import flixel.FlxState;
 import flixel.FlxG;
+import flixel.FlxState;
 import flixel.util.FlxTimer;
 import openfl.events.KeyboardEvent;
 import openfl.Lib;

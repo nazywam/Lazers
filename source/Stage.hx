@@ -1,7 +1,6 @@
-import flixel.group.FlxGroup;
-import flixel.FlxSprite;
 import flixel.FlxG;
-import flixel.tweens.FlxTween;
+import flixel.FlxSprite;
+import flixel.group.FlxGroup;
 
 class Stage extends FlxGroup {
 

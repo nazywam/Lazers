@@ -4,12 +4,12 @@ import flixel.*;
 import flixel.addons.effects.*;
 import flixel.effects.particles.*;
 import flixel.group.FlxGroup.*;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.tweens.*;
 import flixel.util.*;
 import openfl.*;
-import tiles.*;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import openfl.events.KeyboardEvent;
+import tiles.*;
 
 class PlayState extends FlxState {
 
@@ -65,13 +65,13 @@ class PlayState extends FlxState {
 			if (event.keyCode == 27) {
 				event.stopImmediatePropagation();
 
-				//transitionScreen.running = false;
-				//transitionScreen.start();
+				transitionScreen.running = false;
+				transitionScreen.start();
 
-//				var t = new FlxTimer();
-//				t.start(.65, function(_) {
+				var t = new FlxTimer();
+				t.start(.65, function(_) {
 					FlxG.switchState(new LevelSelect());	
-//				});
+				});
 			}
 		#end
 	}

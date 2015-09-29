@@ -4,9 +4,6 @@ import flixel.FlxSprite;
 import flixel.group.FlxGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import flixel.addons.effects.FlxWaveSprite;
-import flixel.FlxG;
-import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 /**
  * ...
