@@ -300,7 +300,6 @@ class PlayState extends FlxState {
 			} else {
 				FlxG.switchState(new LevelSelect());
 			}
-			
 		});
 	}
 	
@@ -344,27 +343,18 @@ class PlayState extends FlxState {
 			if (FlxG.mouse.overlaps(menuButton)) {
 				menuButton.blink(false);
 	
-				if (levelComplete) {
-					startNextLevel();
-				} else {
-					var t = new FlxTimer();
-					t.start(.65, function(_) {
-						FlxG.switchState(new PlayState(currentStage, currentLevel+1, true));	
-					});
-					var t = new FlxTimer();
-					t.start(.65, function(_) {
-						FlxG.switchState(new LevelSelect());	
-					});
-				}
+				transitionScreen.running = false;
+				transitionScreen.start();
+	
+				var t = new FlxTimer();
+				t.start(.65, function(_) {
+					FlxG.switchState(new LevelSelect());	
+				});
 			}
 			if (FlxG.mouse.overlaps(resetButton)) {
 				resetButton.blink(false);
-				if (levelComplete) {
-					startNextLevel();
-				} else {
-					//resetBoard();
-					FlxG.switchState(new PlayState(currentStage, currentLevel, false));
-				}
+				
+				FlxG.switchState(new PlayState(currentStage, currentLevel, false));
 			}
 		}
 
@@ -476,8 +466,6 @@ class PlayState extends FlxState {
 	function completeLevel() {
 		levelComplete = true;
 		fireButton.text.text = "Next level";
-		menuButton.text.text = "Next level";
-		resetButton.text.text = "Next level";
 	}
 	
 	override public function update(elapsed:Float):Void {

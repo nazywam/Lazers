@@ -60,7 +60,7 @@ class Button extends FlxGroup {
 
 		if (loop) {		
 			var t = new FlxTimer();
-			t.start(Math.sqrt(Math.random() * 6), function(_) { blink(true); } );
+			t.start(Math.sqrt(Math.random() * 6) + 2, function(_) { blink(true); } );
 		}
 	}
 

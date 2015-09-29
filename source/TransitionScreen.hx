@@ -76,8 +76,6 @@ class TransitionScreen extends FlxGroup {
 	
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
-
-
 	}
 	
 	
