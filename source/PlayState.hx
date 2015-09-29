@@ -78,7 +78,6 @@ class PlayState extends FlxState {
 	
 	override public function create():Void {
 		super.create();
-		//FlxG.camera.bgColor = 0xFF326f2c;
 		
 		grid = new FlxSprite(0, 0, Settings.GRID);
 		add(grid);
@@ -295,7 +294,7 @@ class PlayState extends FlxState {
 		var t = new FlxTimer();
 			t.start(.65, function(_) {
 
-			if (currentLevel < 6) {
+			if (currentLevel < 7) {
 				FlxG.switchState(new PlayState(currentStage, currentLevel+1, true));		
 			} else {
 				FlxG.switchState(new LevelSelect());

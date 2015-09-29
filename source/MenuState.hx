@@ -12,26 +12,14 @@ import flixel.FlxSprite;
  */
 class MenuState extends FlxState {
 
-	var transitionScreen:TransitionScreen;
 	var playButton : Button;
 	var howToplayButton : Button;
 	var settingsButton : Button;
-	var logo:FlxSprite;
 
 	override public function create() {
 		super.create();
 		
-		if (Settings.SAVES == null) {		
-			Settings.SAVES = new FlxSave();
-			Settings.SAVES.bind("1010011010");
-		}
-		
-		logo = new FlxSprite(FlxG.width/2, 32);
-		logo.loadGraphic(Settings.FIRE_DEM_LAZERS, true, 240, 156);
-		logo.x -= logo.width/2;
-		logo.animation.add("default", [0,1,2,3,4, 4, 4, 4, 4, 4, 4, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0,], 12);
-		logo.animation.play("default");
-		add(logo);
+
 
 		playButton = new Button(0, 256, "Start", FlxG.width, 48);
 		add(playButton);
@@ -43,12 +31,14 @@ class MenuState extends FlxState {
 		add(settingsButton);
 		
 		transitionScreen = new TransitionScreen();
+		transitionScreen.startHalf();
 		add(transitionScreen);
 	}
 	
 	function handleMouse() {
 		if (FlxG.mouse.justPressed) {
 			if (FlxG.mouse.overlaps(playButton)) {
+				transitionScreen.running = false;
 				transitionScreen.start();
 				
 				var t = new FlxTimer();
@@ -58,6 +48,7 @@ class MenuState extends FlxState {
 			}
 
 			if (FlxG.mouse.overlaps(settingsButton)) {
+				transitionScreen.running = false;
 				transitionScreen.start();
 				
 				var t = new FlxTimer();

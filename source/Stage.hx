@@ -12,11 +12,11 @@ class Stage extends FlxGroup {
 	public var levelIcons:FlxTypedGroup<LevelIcon>;
 
 	var y:Float;
-	override public function new(_s:Int){
+	override public function new(_s:Int, _y:Float){
 		super();
 
 		stageNumber = _s;
-		y = Settings.STAGE_HEIGHT * _s;
+		y = _y + Settings.STAGE_HEIGHT * _s;
 
 		background = new FlxSprite(0, y);
 		background.loadGraphic(Settings.STAGES, true, FlxG.width, 180);

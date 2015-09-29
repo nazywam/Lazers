@@ -19,13 +19,46 @@ class LevelSelect extends FlxState {
 	var pressedLevelIcon:LevelIcon;
 	var scrolling:Bool = false;
 	
+	var logo:FlxSprite;
+	var howToPlayTitle:Button;
+	var howTos:FlxTypedGroup<FlxSprite>;
+	var levelSelectTitle:Button;
 	
 	override public function create(){
 		super.create();
 		
+		if (Settings.SAVES == null) {		
+			Settings.SAVES = new FlxSave();
+			Settings.SAVES.bind("1010011010");
+		}
+		
 		if (Settings.SAVES.data.completedLevels == null) {
 			Settings.SAVES.data.completedLevels = new Array<Bool>();
 		}
+				
+		logo = new FlxSprite(FlxG.width/2, 32);
+		logo.loadGraphic(Settings.FIRE_DEM_LAZERS, true, 240, 156);
+		logo.x -= logo.width/2;
+		logo.animation.add("default", [0,1,2,3,4, 4, 4, 4, 4, 4, 4, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0,], 12);
+		logo.animation.play("default");
+		add(logo);
+		
+		howToPlayTitle = new Button(0, logo.y + logo.height + 32, "How To Play", FlxG.width, 36);
+		add(howToPlayTitle);
+		
+		howTos = new FlxTypedGroup<FlxSprite>();
+		add(howTos);
+		for (x in 0...2) {
+			var h = new FlxSprite(0, howToPlayTitle.y + howToPlayTitle.background.height + 180 * x);
+			h.loadGraphic(Settings.HOW_TO_PLAY + Std.string(x) + ".png", true, 360, 180);
+			h.animation.add("default", [for (i in 0...Settings.HOW_TO_ANIMATIONS[x]) i], 3);
+			h.animation.play("default");
+			howTos.add(h);
+		}
+		
+		
+		levelSelectTitle = new Button(0, howToPlayTitle.y + howToPlayTitle.background.height + 180 * 2, "Select Level", FlxG.width, 36);
+		add(levelSelectTitle);
 		
 		stages = new FlxTypedGroup<Stage>();
 		add(stages);
@@ -33,7 +66,7 @@ class LevelSelect extends FlxState {
 		
 		
 		for(i in 0...5){
-			var s = new Stage(i);
+			var s = new Stage(i, levelSelectTitle.y + levelSelectTitle.background.height);
 			stages.add(s);
 		}
 		
@@ -88,8 +121,8 @@ class LevelSelect extends FlxState {
 		handleMouse();
 		if (scroll < 0) {
 			scroll += ( -scroll) / 4;
-		} else if (scroll + FlxG.height > 4 * Settings.STAGE_HEIGHT) {
-			scroll += (4 * Settings.STAGE_HEIGHT - FlxG.height - scroll) / 4;
+		} else if (scroll + FlxG.height > 1600) {
+			scroll += (1600 - FlxG.height - scroll) / 4;
 		}
 		FlxG.camera.scroll.y += (scroll - FlxG.camera.scroll.y)/3;
 	}
