@@ -1,7 +1,11 @@
 import flixel.FlxObject;
 import flixel.math.FlxPoint;
+import flixel.util.FlxSave;
 
 class Settings {	
+	
+	public static var SAVES				:FlxSave;
+
 	
 	public static var PARTICLES_ON		:Bool =		true;
 	public static var FUN				:Bool = 	false;

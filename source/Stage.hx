@@ -33,20 +33,12 @@ class Stage extends FlxGroup {
 				moveY = 60;
 			}
 			
-			var l = new LevelIcon(16 + i*38, y + 64 + moveY, stageNumber+1, i+1);
+			var l = new LevelIcon(16 + i*38, y + 64 + moveY, stageNumber, i, Settings.SAVES.data.completedLevels[i + stageNumber * Settings.LEVELS_IN_STAGE]);
 			levelIcons.add(l);
 		}
 	}
 
 	override public function update(elapsed:Float){
 		super.update(elapsed);
-		if(FlxG.mouse.justPressed){
-			for(l in levelIcons){
-				if(FlxG.mouse.overlaps(l.icon) && l.stage != 5){
-					l.icon.scale.x = l.icon.scale.y = 2;
-					FlxTween.tween(l.icon.scale, {x:1, y:1}, 1);
-				}
-			}
-		}
 	}
 }

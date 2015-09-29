@@ -20,20 +20,32 @@ class LevelIcon extends FlxGroup {
 	public var level:Int;
 	public var stage:Int;
 
-	public function new(_x:Float, _y:Float, _s:Int, _l:Int)  {
+	var completed:Bool;
+	
+	public function new(_x:Float, _y:Float, _s:Int, _l:Int, _c:Bool)  {
 		super();
 		x = _x;
 		y = _y;
 		level = _l;
 		stage = _s;
+		completed = _c;
 		
 		icon = new FlxSprite(x, y);
-		icon.loadGraphic(Settings.LEVEL_ICON);
+		icon.loadGraphic(Settings.LEVEL_ICON, true, 52, 52);
+		icon.animation.add("default", [0]);
+		icon.animation.add("completed", [1, 2, 3, 4, 5, 6, 7, 8], 8);
 		add(icon);
 		
-		text = new FlxText(x, y + icon.height/2, icon.width, Std.string(stage) + '-' + Std.string(level), 18);
-		if(stage == 5){
-			text.text = '?-?';
+		if (completed) {
+			icon.animation.play("completed");
+		} else {
+			icon.animation.play("default");
+		}
+		
+		
+		text = new FlxText(x, y + icon.height/2, icon.width, Std.string(Settings.LEVELS_IN_STAGE * (stage) + level), 18);
+		if(stage == 4){
+			text.text = '?';
 		}
 		text.alignment = FlxTextAlign.CENTER;
 		text.bold = true;

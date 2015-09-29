@@ -3,6 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
 import flixel.FlxSprite;
 /**
@@ -19,6 +20,11 @@ class MenuState extends FlxState {
 
 	override public function create() {
 		super.create();
+		
+		if (Settings.SAVES == null) {		
+			Settings.SAVES = new FlxSave();
+			Settings.SAVES.bind("1010011010");
+		}
 		
 		logo = new FlxSprite(FlxG.width/2, 32);
 		logo.loadGraphic(Settings.FIRE_DEM_LAZERS, true, 240, 156);

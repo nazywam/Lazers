@@ -289,10 +289,13 @@ class PlayState extends FlxState {
 		transitionScreen.running = false;
 		transitionScreen.start();
 				
+		Settings.SAVES.data.completedLevels[currentLevel + currentStage * Settings.LEVELS_IN_STAGE] = true;
+		Settings.SAVES.flush();
+		
 		var t = new FlxTimer();
 			t.start(.65, function(_) {
 
-			if (currentLevel < 7) {
+			if (currentLevel < 6) {
 				FlxG.switchState(new PlayState(currentStage, currentLevel+1, true));		
 			} else {
 				FlxG.switchState(new LevelSelect());

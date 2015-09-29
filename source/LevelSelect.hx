@@ -3,6 +3,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxG;
 import flixel.input.FlxPointer;
 import flixel.math.FlxPoint;
+import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
 import flixel.FlxSprite;
 class LevelSelect extends FlxState {
@@ -18,9 +19,14 @@ class LevelSelect extends FlxState {
 	var pressedLevelIcon:LevelIcon;
 	var scrolling:Bool = false;
 	
+	
 	override public function create(){
 		super.create();
-	
+		
+		if (Settings.SAVES.data.completedLevels == null) {
+			Settings.SAVES.data.completedLevels = new Array<Bool>();
+		}
+		
 		stages = new FlxTypedGroup<Stage>();
 		add(stages);
 		pressedPoint = new FlxPoint(-1, -1);
@@ -30,25 +36,6 @@ class LevelSelect extends FlxState {
 			var s = new Stage(i);
 			stages.add(s);
 		}
-/*
-		stage1 = new FlxSprite(0, 0, Settings.STAGE_1);
-		add(stage1);
-
-		levelIcons = new FlxTypedGroup<LevelIcon>();
-		add(levelIcons);
-		
-		for (y in 0...Settings.LEVEL_ROWS) {
-			for (x in 0...Settings.LEVEL_COLUMNS) {
-				var moveY = 0;
-				if(x % 2 == 1){
-					moveY = 32;
-				}
-
-				var l = new LevelIcon(x * 64 + (FlxG.width - Settings.LEVEL_COLUMNS * 64 + 16)/2, 24 + y * 64 + moveY, y*Settings.LEVEL_ROWS + x + 1);
-				levelIcons.add(l);
-			}
-		}
-		*/
 		
 		transitionScreen = new TransitionScreen();
 		transitionScreen.startHalf();
