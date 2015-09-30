@@ -81,8 +81,8 @@ class Settings {
 	public static inline var LEVEL : 			String = "assets/data/";
 	public static inline var FIRE_DEM_LAZERS : 	String = "assets/images/FireDemLazers.png";
 	public static inline var HOW_TO_PLAY	: 	String = "assets/images/HowTo";
-
 	public static inline var STAGES : 			String = "assets/images/Stages.png";
+	public static inline var BACKGROUND : 		String = "assets/images/Background.png";
 	
 	
 	

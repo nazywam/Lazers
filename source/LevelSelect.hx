@@ -42,6 +42,8 @@ class LevelSelect extends FlxState {
 		
 		if (Settings.SAVES.data.completedLevels == null) {
 			Settings.SAVES.data.completedLevels = new Array<Bool>();
+		} else {
+			howToVisible = false;
 		}
 				
 		scroll = Settings.SAVED_SCROLL;
@@ -57,7 +59,12 @@ class LevelSelect extends FlxState {
 		
 		howTos = new FlxTypedGroup<FlxSprite>();
 		for (x in 0...Settings.AVAILABLE_HOW_TOS) {
-			var h = new FlxSprite(0, howToPlayTitle.y + howToPlayTitle.background.height + 180 * x);
+			
+			var posY = howToPlayTitle.y + howToPlayTitle.background.height + 180 * x - 10;
+			if (!howToVisible) {
+				posY = -180 * (Settings.AVAILABLE_HOW_TOS - x) - 10 + howToPlayTitle.y + howToPlayTitle.background.height;
+			}
+			var h = new FlxSprite(0, posY);
 			h.loadGraphic(Settings.HOW_TO_PLAY + Std.string(x) + ".png", true, 360, 180);
 			h.animation.add("default", [for (i in 0...Settings.HOW_TO_ANIMATIONS[x]) i], 3);
 			h.animation.play("default");
@@ -81,7 +88,7 @@ class LevelSelect extends FlxState {
 		
 		maxScrollY = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * 4;
 		
-		var background = new FlxSprite(0, -FlxG.height, "assets/images/Background.png");
+		var background = new FlxSprite(0, -FlxG.height, Settings.BACKGROUND);
 		
 		add(howTos);
 		add(stages);
@@ -91,6 +98,11 @@ class LevelSelect extends FlxState {
 		add(levelSelectTitle);
 		add(logo);
 		add(transitionScreen);
+		
+		if (!howToVisible) {
+			howToVisible = true;
+			toggleHowTo();
+		}
 	}
 	
 	function toggleHowTo() {
@@ -102,9 +114,9 @@ class LevelSelect extends FlxState {
 				var h = howTos.members[i];
 				
 				if (howToVisible) {
-					FlxTween.tween(h, { y:howToPlayTitle.y + howToPlayTitle.background.height + 180 * i }, 1, {ease:FlxEase.cubeInOut});
+					FlxTween.tween(h, { y:howToPlayTitle.y + howToPlayTitle.background.height + 180 * i - 10}, 1, {ease:FlxEase.cubeInOut});
 				} else {
-					FlxTween.tween(h, { y:-180*(howTos.members.length - i) + howToPlayTitle.y + howToPlayTitle.background.height }, 1, {ease:FlxEase.cubeInOut});
+					FlxTween.tween(h, { y:-180*(howTos.members.length - i) - 10 + howToPlayTitle.y + howToPlayTitle.background.height }, 1, {ease:FlxEase.cubeInOut});
 				}
 			}
 			
@@ -175,12 +187,13 @@ class LevelSelect extends FlxState {
 		FlxG.camera.scroll.y += (scroll - FlxG.camera.scroll.y) / 3;
 		
 		
-		levelSelectTitle.y = howTos.members[howTos.members.length - 1].y + 180 + 32;
+		levelSelectTitle.y = howTos.members[howTos.members.length - 1].y + 180 + 24;
 		maxScrollY = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * 4;
 		
 		for (s in 0...stages.members.length) {
 			stages.members[s].y = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * s;
 		}
+		credits.y = stages.members[stages.members.length-1].y +Settings.STAGE_HEIGHT + 32;
 		
 	}
 }
