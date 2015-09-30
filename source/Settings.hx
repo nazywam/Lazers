@@ -83,6 +83,7 @@ class Settings {
 	public static inline var HOW_TO_PLAY	: 	String = "assets/images/HowTo";
 	public static inline var STAGES : 			String = "assets/images/Stages.png";
 	public static inline var BACKGROUND : 		String = "assets/images/Background.png";
+	public static inline var LOGO_SCREEN : 		String = "assets/images/LogoScreen.png";
 	
 	
 	
