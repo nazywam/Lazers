@@ -63,6 +63,9 @@ class Button extends FlxGroup {
 
 	override public function update(elapsed:Float){
 		super.update(elapsed);
+		
+		text.y = y;
+		background.y = y;
 	}
 	
 }

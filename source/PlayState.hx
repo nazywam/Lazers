@@ -45,7 +45,6 @@ class PlayState extends FlxState {
 	
 	var grid:FlxSprite;
 
-
 	override public function new(_s:Int, _c:Int, _r:Bool) {
 
 		currentLevel = _c;
@@ -484,7 +483,13 @@ class PlayState extends FlxState {
 
 
 		if (FlxG.keys.justPressed.ESCAPE) {
-			FlxG.switchState(new LevelSelect());
+				transitionScreen.running = false;
+				transitionScreen.start();
+
+			var t = new FlxTimer();
+			t.start(.65, function(_) {
+				FlxG.switchState(new LevelSelect());	
+			});
 		}	
 		
 		for (l in laserHeads) {

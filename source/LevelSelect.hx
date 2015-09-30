@@ -5,6 +5,8 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxPoint;
 import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
 class LevelSelect extends FlxState {
 	
 	var transitionScreen:TransitionScreen;
@@ -16,6 +18,8 @@ class LevelSelect extends FlxState {
 	
 	var pressedPoint:FlxPoint;
 	var pressedLevelIcon:LevelIcon;
+	var pressedButton:Button;
+	
 	var scrolling:Bool = false;
 	
 	var logo:FlxSprite;
@@ -26,6 +30,8 @@ class LevelSelect extends FlxState {
 	
 	var maxScrollY : Float;
 	
+	var howToVisible : Bool = true;
+	var toggleRunning : Bool = false;
 	override public function create(){
 		super.create();
 		
@@ -46,13 +52,10 @@ class LevelSelect extends FlxState {
 		logo.x -= logo.width/2;
 		logo.animation.add("default", [0,1,2,3,4, 4, 4, 4, 4, 4, 4, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0,], 12);
 		logo.animation.play("default");
-		add(logo);
 		
 		howToPlayTitle = new Button(0, logo.y + logo.height + 32, "How To Play", FlxG.width, 36);
-		add(howToPlayTitle);
 		
 		howTos = new FlxTypedGroup<FlxSprite>();
-		add(howTos);
 		for (x in 0...Settings.AVAILABLE_HOW_TOS) {
 			var h = new FlxSprite(0, howToPlayTitle.y + howToPlayTitle.background.height + 180 * x);
 			h.loadGraphic(Settings.HOW_TO_PLAY + Std.string(x) + ".png", true, 360, 180);
@@ -62,12 +65,9 @@ class LevelSelect extends FlxState {
 		}
 		
 		levelSelectTitle = new Button(0, howToPlayTitle.y + howToPlayTitle.background.height + 180 * Settings.AVAILABLE_HOW_TOS, "Select Level", FlxG.width, 36);
-		add(levelSelectTitle);
 		
 		stages = new FlxTypedGroup<Stage>();
-		add(stages);
 		pressedPoint = new FlxPoint(-1, -1);
-		
 		
 		for(i in 0...5){
 			var s = new Stage(i, levelSelectTitle.y + levelSelectTitle.background.height);
@@ -75,13 +75,42 @@ class LevelSelect extends FlxState {
 		}
 		
 		credits = new Button(0, levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * 5 + 16, "By: Nazywam : )", FlxG.width, 36);
-		add(credits);
 		
 		transitionScreen = new TransitionScreen();
 		transitionScreen.startHalf();
-		add(transitionScreen);
 		
 		maxScrollY = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * 4;
+		
+		var background = new FlxSprite(0, -FlxG.height, "assets/images/Background.png");
+		
+		add(howTos);
+		add(stages);
+		add(background);
+		add(credits);
+		add(howToPlayTitle);
+		add(levelSelectTitle);
+		add(logo);
+		add(transitionScreen);
+	}
+	
+	function toggleHowTo() {
+		if (!toggleRunning) {
+			toggleRunning = true;
+			howToVisible = !howToVisible;
+			
+			for (i in 0...howTos.members.length) {		
+				var h = howTos.members[i];
+				
+				if (howToVisible) {
+					FlxTween.tween(h, { y:howToPlayTitle.y + howToPlayTitle.background.height + 180 * i }, 1, {ease:FlxEase.cubeInOut});
+				} else {
+					FlxTween.tween(h, { y:-180*(howTos.members.length - i) + howToPlayTitle.y + howToPlayTitle.background.height }, 1, {ease:FlxEase.cubeInOut});
+				}
+			}
+			
+			var t = new FlxTimer();
+			t.start(1, function(_) { toggleRunning = false; } );
+		}
 	}
 	
 	function handleMouse() {
@@ -96,10 +125,18 @@ class LevelSelect extends FlxState {
 					}
 				}
 			}
+			
+			if (FlxG.mouse.overlaps(howToPlayTitle)) {
+				pressedButton = howToPlayTitle;
+			}
 		}
 		
 		if (FlxG.mouse.justReleased) {
 			pressedPoint.set( -1, -1);
+			
+			if (pressedButton == howToPlayTitle && FlxG.mouse.overlaps(howToPlayTitle) && !scrolling) {
+				toggleHowTo();
+			}
 			
 			if(pressedLevelIcon != null && FlxG.mouse.overlaps(pressedLevelIcon) && !scrolling){
 				transitionScreen.running = false;
@@ -115,6 +152,7 @@ class LevelSelect extends FlxState {
 				});
 			}
 			pressedLevelIcon = null;
+			pressedButton = null;
 			scrolling = false;
 		}
 		
@@ -134,6 +172,15 @@ class LevelSelect extends FlxState {
 		} else if (scroll + FlxG.height > maxScrollY) {
 			scroll += (maxScrollY - FlxG.height - scroll) / 4;
 		}
-		FlxG.camera.scroll.y += (scroll - FlxG.camera.scroll.y)/3;
+		FlxG.camera.scroll.y += (scroll - FlxG.camera.scroll.y) / 3;
+		
+		
+		levelSelectTitle.y = howTos.members[howTos.members.length - 1].y + 180 + 32;
+		maxScrollY = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * 4;
+		
+		for (s in 0...stages.members.length) {
+			stages.members[s].y = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * s;
+		}
+		
 	}
 }

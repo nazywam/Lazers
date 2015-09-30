@@ -58,6 +58,9 @@ class LevelIcon extends FlxGroup {
 	
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
+		
+		icon.y = y;
+		text.y = y + (icon.height - text.height)/2;
 	}
 	
 }

@@ -10,7 +10,8 @@ class Stage extends FlxGroup {
 
 	public var levelIcons:FlxTypedGroup<LevelIcon>;
 
-	var y:Float;
+	public var y:Float;
+	
 	override public function new(_s:Int, _y:Float){
 		super();
 
@@ -39,5 +40,16 @@ class Stage extends FlxGroup {
 
 	override public function update(elapsed:Float){
 		super.update(elapsed);
+		
+		background.y = y;
+		
+		for (i in 0...levelIcons.members.length) {
+			var moveY = 0;
+			if(i % 2 == 1){
+				moveY = 60;
+			}
+			
+			levelIcons.members[i].y = y + 64 + moveY;
+		}
 	}
 }
