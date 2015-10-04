@@ -2,8 +2,8 @@
 <project>
 	<!------------------------------APPLICATION SETTINGS---------------------------->
 	
-	<app title="Fire Dem Lazers" file="Fire Dem Lazers" main="Main" version="1.0.0" company="Nazywam" />
-	<meta title="Fire Dem Lazers" package="com.nazywam.Fire.Dem.Lazers"/>
+	<app title="Laser Hazard" file="Laser Hazard" main="Main" version="1.0.0" company="Nazywam" />
+	<meta title="Laser Hazard" package="com.nazywam.Lazer.Hazard"/>
 	
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 	<!--or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"!-->
