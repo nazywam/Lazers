@@ -4,10 +4,13 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.FlxG;
 import flixel.util.FlxTimer;
+import flixel.addons.plugin.screengrab.FlxScreenGrab;
 
 class LogoScreen extends FlxState {
 	override public function create(){
 		super.create();
+		var a = new FlxScreenGrab();
+		
 		var logo = new FlxSprite(0,0, Settings.LOGO_SCREEN);
 		add(logo);
 
@@ -24,6 +27,5 @@ class LogoScreen extends FlxState {
 		r.start(1.9, function(_){
 			FlxG.switchState(new LevelSelect());
 		});
-
 	}
 }
