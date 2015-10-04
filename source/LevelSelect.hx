@@ -49,13 +49,12 @@ class LevelSelect extends FlxState {
 		scroll = Settings.SAVED_SCROLL;
 		FlxG.camera.scroll.y = scroll;
 		
-		logo = new FlxSprite(FlxG.width/2, 32);
-		logo.loadGraphic(Settings.FIRE_DEM_LAZERS, true, 240, 156);
-		logo.x -= logo.width/2;
-		logo.animation.add("default", [0,1,2,3,4, 4, 4, 4, 4, 4, 4, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0,], 12);
+		logo = new FlxSprite(0, 32);
+		logo.loadGraphic(Settings.FIRE_DEM_LAZERS, true, 360, 60);
+		logo.animation.add("default", [1,2,2, 3 ,3,4, 4, 4, 4, 4, 4, 4, 3,3 , 2, 2, 1, 1, 1, 1, 1, 1], 12);
 		logo.animation.play("default");
 		
-		howToPlayTitle = new Button(0, logo.y + logo.height + 32, "How To Play", FlxG.width, 36);
+		howToPlayTitle = new Button(0, logo.y + logo.height + 16, "How To Play", FlxG.width, 36);
 		
 		howTos = new FlxTypedGroup<FlxSprite>();
 		for (x in 0...Settings.AVAILABLE_HOW_TOS) {
@@ -88,7 +87,7 @@ class LevelSelect extends FlxState {
 		
 		maxScrollY = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * 4;
 		
-		var background = new FlxSprite(0, -FlxG.height, Settings.BACKGROUND);
+		var background = new FlxSprite(0, -FlxG.height - 48, Settings.BACKGROUND);
 		
 		add(howTos);
 		add(stages);
