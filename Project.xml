@@ -14,7 +14,8 @@
 	<set name="SWF_VERSION" value="11.8" />
 	
 	<!--------------------------------WINDOW SETTINGS------------------------------->
-	
+	<certificate path="RGBlocks.keystore" alias="RGBlocks" if="android" ></certificate>
+
 	<!--These window settings apply to all targets-->
 	<window width="360" height="640" fps="30" background="#000000" hardware="true" vsync="true" />
 	
@@ -25,7 +26,7 @@
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" />
 	
 	<!--Mobile-specific-->
-	<window if="mobile" orientation="portrait" fullscreen="true" fps="30" width="0" height="0"/>
+	<window if="mobile" orientation="portrait" fullscreen="true" fps="30" width="360" height="640"/>
 	
 	<!--------------------------------PATHS SETTINGS-------------------------------->
 	

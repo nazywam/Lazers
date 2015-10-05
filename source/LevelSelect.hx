@@ -42,6 +42,9 @@ class LevelSelect extends FlxState {
 		
 		if (Settings.SAVES.data.completedLevels == null) {
 			Settings.SAVES.data.completedLevels = new Array<Bool>();
+			for(i in 0...Settings.LEVELS_IN_STAGE * 4){
+				Settings.SAVES.data.completedLevels.push(false);
+			}
 		} else {
 			howToVisible = false;
 		}
