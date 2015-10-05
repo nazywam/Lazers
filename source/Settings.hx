@@ -71,7 +71,7 @@ class Settings {
 	[FlxObject.LEFT + FlxObject.UP, FlxObject.RIGHT + FlxObject.DOWN],
 	[FlxObject.LEFT + FlxObject.DOWN, FlxObject.UP + FlxObject.RIGHT]];
 	
-	public static inline var FONT :				String = "assets/edunline.ttf";
+	public static inline var FONT :				String = "assets/kenpixel_high_square.ttf";
 	public static inline var TILES_IMAGE : 		String = "assets/images/Tiles.png";
 	public static inline var GRID : 			String = "assets/images/Grid.png";
 	public static inline var AVAILABLE_TILES : 	String = "assets/images/AvailableTiles.png";
@@ -86,7 +86,7 @@ class Settings {
 	public static inline var LOGO_SCREEN : 		String = "assets/images/LogoScreen.png";
 	
 	
-	public static inline var EXPLOSION :		String = "assets/sounds/explosion.wav";
-	
+	public static inline var EXPLOSION :		String = "assets/sounds/explosion";
+	public static inline var EXPLOSION_FILES :  Int  = 4;
 	
 }

@@ -57,7 +57,7 @@ class LevelSelect extends FlxState {
 		logo.animation.add("default", [1,2,2, 3 ,3,4, 4, 4, 4, 4, 4, 4, 3,3 , 2, 2, 1, 1, 1, 1, 1, 1], 12);
 		logo.animation.play("default");
 		
-		howToPlayTitle = new Button(0, logo.y + logo.height + 16, "How To Play", FlxG.width, 36);
+		howToPlayTitle = new Button(0, logo.y + logo.height + 16, "How To Play", FlxG.width, 42);
 		
 		howTos = new FlxTypedGroup<FlxSprite>();
 		for (x in 0...Settings.AVAILABLE_HOW_TOS) {
@@ -73,7 +73,7 @@ class LevelSelect extends FlxState {
 			howTos.add(h);
 		}
 		
-		levelSelectTitle = new Button(0, howToPlayTitle.y + howToPlayTitle.background.height + 180 * Settings.AVAILABLE_HOW_TOS, "Select Level", FlxG.width, 36);
+		levelSelectTitle = new Button(0, howToPlayTitle.y + howToPlayTitle.background.height + 180 * Settings.AVAILABLE_HOW_TOS, "Select Level", FlxG.width, 42);
 		
 		stages = new FlxTypedGroup<Stage>();
 		pressedPoint = new FlxPoint(-1, -1);

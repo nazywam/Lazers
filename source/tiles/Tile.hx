@@ -88,7 +88,7 @@ class Tile extends FlxSprite {
 
 	public function complete() {
 			
-		FlxG.sound.play(Settings.EXPLOSION);
+		FlxG.sound.play(Settings.EXPLOSION + Std.random(Settings.EXPLOSION_FILES) + ".wav");
 
 		if (!particlesLaunched && Settings.PARTICLES_ON) {
 			particles.start(true, 0.1, 0);
