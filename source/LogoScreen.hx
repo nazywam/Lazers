@@ -24,7 +24,7 @@ class LogoScreen extends FlxState {
 		});
 
 		var r = new FlxTimer();
-		r.start(1.9, function(_){
+		r.start(1.95, function(_){
 			FlxG.switchState(new LevelSelect());
 		});
 	}
