@@ -84,9 +84,4 @@ class Settings {
 	public static inline var STAGES : 			String = "assets/images/Stages.png";
 	public static inline var BACKGROUND : 		String = "assets/images/Background.png";
 	public static inline var LOGO_SCREEN : 		String = "assets/images/LogoScreen.png";
-	
-	
-	public static inline var EXPLOSION :		String = "assets/sounds/explosion";
-	public static inline var EXPLOSION_FILES :  Int  = 4;
-	
 }
