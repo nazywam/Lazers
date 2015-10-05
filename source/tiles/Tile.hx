@@ -1,5 +1,6 @@
 package tiles;
 
+import flixel.FlxG;
 import flixel.effects.particles.FlxEmitter;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -86,6 +87,9 @@ class Tile extends FlxSprite {
 	
 
 	public function complete() {
+			
+		FlxG.sound.play(Settings.EXPLOSION);
+
 		if (!particlesLaunched && Settings.PARTICLES_ON) {
 			particles.start(true, 0.1, 0);
 			particlesLaunched = true;	

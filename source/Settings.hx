@@ -86,5 +86,7 @@ class Settings {
 	public static inline var LOGO_SCREEN : 		String = "assets/images/LogoScreen.png";
 	
 	
+	public static inline var EXPLOSION :		String = "assets/sounds/explosion.wav";
+	
 	
 }
