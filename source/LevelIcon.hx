@@ -43,9 +43,6 @@ class LevelIcon extends FlxGroup {
 		
 		
 		text = new FlxText(x, y + icon.height/2, icon.width, Std.string(Settings.LEVELS_IN_STAGE * (stage) + level), 18);
-		if(stage == 4){
-			text.text = '?';
-		}
 		text.alignment = FlxTextAlign.CENTER;
 		text.bold = true;
 		text.y -= text.height/2;

@@ -26,6 +26,8 @@ class Laser extends FlxSprite {
 		animation.add("default", [0, 1, 2, 3, 4, 5, 6, 7], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("mirror", [8, 9, 10, 11, 12, 13 , 14, 15], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("sourceReverse", [24, 25, 26, 27], Std.int(4 / Settings.LASER_SPEED), false);
+		animation.add("teleport", [59, 60, 61], Std.int(3 / Settings.LASER_SPEED), false);
+		animation.add("stopAtTeleport", [56, 57, 58], Std.int(3 / Settings.LASER_SPEED), false);
 		animation.add("source", [28, 29, 30, 31], Std.int(4 / Settings.LASER_SPEED), false);
 		animation.add("merge", [40, 41, 42, 43,44 ,45 ,46 ,47], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("target", [0, 1, 2, 3, 4, 5, 6, 7], Std.int(8 / Settings.LASER_SPEED), false);

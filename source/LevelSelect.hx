@@ -35,6 +35,8 @@ class LevelSelect extends FlxState {
 	override public function create(){
 		super.create();
 		
+		FlxG.switchState(new PlayState(4, 0, false));
+		
 		if (Settings.SAVES == null) {		
 			Settings.SAVES = new FlxSave();
 			Settings.SAVES.bind("1010011010");
@@ -88,7 +90,7 @@ class LevelSelect extends FlxState {
 		transitionScreen = new TransitionScreen();
 		transitionScreen.startHalf();
 		
-		maxScrollY = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * 4;
+		maxScrollY = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * 5;
 		
 		var background = new FlxSprite(0, -FlxG.height - 48, Settings.BACKGROUND);
 		
@@ -190,7 +192,7 @@ class LevelSelect extends FlxState {
 		
 		
 		levelSelectTitle.y = howTos.members[howTos.members.length - 1].y + 180 + 24;
-		maxScrollY = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * 4;
+		maxScrollY = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * 5;
 		
 		for (s in 0...stages.members.length) {
 			stages.members[s].y = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * s;

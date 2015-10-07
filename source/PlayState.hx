@@ -144,7 +144,7 @@ class PlayState extends FlxState {
 									var tile = line.split(',')[t];
 
 									if (isNumeric(tile)) {
-										boardColors[l - 1][t] = Std.parseInt(tile) - 41;
+										boardColors[l - 1][t] = Std.parseInt(tile) - 81;
 									}
 								}
 							case "Tiles":
@@ -171,8 +171,12 @@ class PlayState extends FlxState {
 										} else if(_tile >= Tile.TARGET && _tile < Tile.MERGE){
 											board[l - 1][t] = new Target(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
 											particles.add(board[l - 1][t].particles);
-										} else if(_tile >= Tile.MERGE){
+										} else if(_tile >= Tile.MERGE && _tile < Tile.PORTAL_IN){
 											board[l - 1][t] = new Merge(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
+										} else if (_tile >= Tile.PORTAL_IN && _tile < Tile.PORTAL_OUT) {
+											board[l - 1][t] = new PortalIn(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
+										} else if (_tile >= Tile.PORTAL_OUT) {
+											board[l - 1][t] = new PortalOut(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
 										} else {
 											trace("Unidetified block on the grid!!!");
 										}
@@ -526,10 +530,20 @@ class PlayState extends FlxState {
 				}
 				
 				
+				
 				var hoverTile = getTile(board, l.x + _moveX * (Settings.TILE_WIDTH + Settings.GRID_WIDTH), l.y + _moveY * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH));
 				
+				if (tmp == Tile.TELEPORT) {
+					for (y in 0...board.length) {
+						for (x in 0...board[y].length) {
+							if (board[y][x].type == Tile.PORTAL_OUT && board[y][x].colorId == currentTile.colorId) {
+								hoverTile = board[y][x]; 
+							}
+						}
+					}
+				}
+				
 				if (hoverTile != null && hoverTile != currentTile) {
-					
 					var uniqueLaser:Bool = true;
 			
 					for (laser in lasers) {

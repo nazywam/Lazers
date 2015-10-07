@@ -32,7 +32,8 @@ class Tile extends FlxSprite {
 	public static var TURN_UP: 						Array<Int> = [0, -1, FlxObject.UP];
 	public static var TURN_RIGHT: 					Array<Int> = [1, 0, FlxObject.RIGHT];
 	public static var TURN_DOWN: 					Array<Int> = [0, 1, FlxObject.DOWN];
-	public static var TURN_LEFT: 					Array<Int> = [-1, 0, FlxObject.LEFT];
+	public static var TURN_LEFT: 					Array<Int> = [ -1, 0, FlxObject.LEFT];
+	public static var TELEPORT: 					Array<Int> = [-99, -99, FlxObject.UP];
 	public static var STOP: 						Array<Int> = [0, 0, FlxObject.UP];
 	
 	
@@ -43,6 +44,8 @@ class Tile extends FlxSprite {
 	public static inline var SOURCE:			Int = 4;
 	public static inline var TARGET:			Int = 8;
 	public static inline var MERGE:				Int = 12;
+	public static inline var PORTAL_IN:			Int = 20;
+	public static inline var PORTAL_OUT:		Int = 24;
 	
 	override public function new(_x:Float, _y:Float, _t:Int, _d:Int, _m:Bool, _c:Int, _bx:Int, _by:Int){
 		super(_x, _y);
@@ -58,7 +61,7 @@ class Tile extends FlxSprite {
 		tileID = type;
 		
 		if(movable){
-			animation.add("default", [tileID + 20]);
+			animation.add("default", [tileID + 40]);
 		} else {
 			animation.add("default", [tileID]);
 		}
