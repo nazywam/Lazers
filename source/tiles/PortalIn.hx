@@ -17,8 +17,18 @@ class PortalIn extends Tile {
 		
 		
 		var temp:BitmapData = new BitmapData(48, 48, true);
-		temp.copyPixels(pixels, new Rectangle(tileID * 48, 0, 48, 48), new Point(0, 0));	
-		temp.floodFill(18, 23, Settings.AVAILABLE_COLORS[colorId]);
+		temp.copyPixels(pixels, new Rectangle(tileID * 48, 0, 48, 48), new Point(0, 0));
+		
+		switch(direction) {
+			case FlxObject.UP:
+				temp.floodFill(24, 13, Settings.AVAILABLE_COLORS[colorId]);
+			case FlxObject.RIGHT:
+				temp.floodFill(35, 26, Settings.AVAILABLE_COLORS[colorId]);
+			case FlxObject.DOWN:
+				temp.floodFill(24, 36, Settings.AVAILABLE_COLORS[colorId]);
+			case FlxObject.LEFT:
+				temp.floodFill(13, 24, Settings.AVAILABLE_COLORS[colorId]);
+		}
 		pixels = temp;
 		
 	}
@@ -42,9 +52,7 @@ class PortalIn extends Tile {
 				case FlxObject.LEFT:
 					return [270, 1, "stopAtTeleport"];
 			}
-			
 		}
-
-		return super.properAnimation(_d);
+		return [0, 0, "disappear"];
 	}
 }

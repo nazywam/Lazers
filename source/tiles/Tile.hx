@@ -33,7 +33,7 @@ class Tile extends FlxSprite {
 	public static var TURN_RIGHT: 					Array<Int> = [1, 0, FlxObject.RIGHT];
 	public static var TURN_DOWN: 					Array<Int> = [0, 1, FlxObject.DOWN];
 	public static var TURN_LEFT: 					Array<Int> = [ -1, 0, FlxObject.LEFT];
-	public static var TELEPORT: 					Array<Int> = [-99, -99, FlxObject.UP];
+	public static var TELEPORT: 					Array<Int> = [-99, -99, 0x666];
 	public static var STOP: 						Array<Int> = [0, 0, FlxObject.UP];
 	
 	

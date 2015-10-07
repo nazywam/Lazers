@@ -35,7 +35,7 @@ class LevelSelect extends FlxState {
 	override public function create(){
 		super.create();
 		
-		FlxG.switchState(new PlayState(4, 0, false));
+		FlxG.switchState(new PlayState(4, 1, false));
 		
 		if (Settings.SAVES == null) {		
 			Settings.SAVES = new FlxSave();
