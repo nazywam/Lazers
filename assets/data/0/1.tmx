@@ -4,16 +4,16 @@
   <property name="availableTiles" value="1, 1, 2"/>
  </properties>
  <tileset firstgid="1" source="tiles.tsx"/>
- <tileset firstgid="81" source="tiles.tsx"/>
+ <tileset firstgid="161" source="tiles.tsx"/>
  <layer name="Colors" width="7" height="7">
   <data encoding="csv">
-41,41,41,41,41,41,41,
-41,41,41,41,41,41,41,
-41,41,41,41,41,41,41,
-41,41,41,41,41,41,41,
-41,41,41,41,41,41,41,
-41,41,41,41,41,41,41,
-41,41,41,41,41,41,41
+87,87,87,87,87,87,87,
+87,87,87,87,87,87,87,
+87,87,87,87,87,87,87,
+87,87,87,87,87,87,87,
+87,83,87,87,87,83,87,
+87,87,87,87,87,87,87,
+87,87,87,87,87,87,87
 </data>
  </layer>
  <layer name="Tiles" width="7" height="7">
