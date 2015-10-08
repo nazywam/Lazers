@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="7" height="7" tilewidth="48" tileheight="48">
  <properties>
-  <property name="AvailableTiles" value="1, 2, 2, 2"/>
+  <property name="AvailableColors" value="3, 4, 5"/>
+  <property name="AvailableTiles" value="26, 26, 26, 1, 1, 1"/>
  </properties>
  <tileset firstgid="1" source="tiles.tsx"/>
  <layer name="Colors" width="7" height="7">
   <data encoding="csv">
 87,87,87,87,87,87,87,
 87,87,87,87,87,87,87,
+81,87,87,87,87,87,84,
+82,87,87,87,87,87,85,
+83,87,87,87,87,87,86,
 87,87,87,87,87,87,87,
-87,87,87,87,87,87,87,
-87,87,87,87,87,87,87,
-87,87,87,87,87,87,87,
-87,87,87,87,87,87,87
+87,87,81,82,83,87,87
 </data>
  </layer>
  <layer name="Tiles" width="7" height="7">
   <data encoding="csv">
 1,1,1,1,1,1,1,
 1,1,1,1,1,1,1,
+10,1,1,1,1,1,22,
+10,1,1,1,1,1,22,
+10,1,1,1,1,1,22,
 1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,
-1,1,1,1,1,1,1
+1,1,5,5,5,1,1
 </data>
  </layer>
 </map>

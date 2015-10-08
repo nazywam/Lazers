@@ -81,6 +81,7 @@ class PlayState extends FlxState {
 	override public function create():Void {
 		super.create();
 		
+		
 		grid = new FlxSprite(0, 0, Settings.GRID);
 		add(grid);
 		
