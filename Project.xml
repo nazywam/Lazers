@@ -17,7 +17,7 @@
 	<certificate path="RGBlocks.keystore" alias="RGBlocks" if="android" ></certificate>
 
 	<!--These window settings apply to all targets-->
-	<window width="720" height="1280" fps="30" background="#000000" hardware="true" vsync="true" />
+	<window width="360" height="640" fps="30" background="#000000" hardware="true" vsync="true" />
 	
 	<!--Web-specific-->
 	<window if="web" orientation="portrait"  />

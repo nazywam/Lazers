@@ -35,9 +35,7 @@ class LevelSelect extends FlxState {
 	override public function create(){
 		super.create();
 
-		FlxG.switchState(new PlayState(5, 1, false));
-
-						trace("here");
+//		FlxG.switchState(new PlayState(5, 1, false));
 
 		
 		if (Settings.SAVES == null) {		
@@ -77,17 +75,19 @@ class LevelSelect extends FlxState {
 			h.animation.play("default");
 			howTos.add(h);
 		}
-		
+
 		levelSelectTitle = new Button(0, howToPlayTitle.y + howToPlayTitle.background.height + 180 * Settings.AVAILABLE_HOW_TOS, "Select Level", FlxG.width, 42);
 		
 		stages = new FlxTypedGroup<Stage>();
 		pressedPoint = new FlxPoint(-1, -1);
-		
-		for(i in 0...Settings.AVAILABLE_STAGES){
+														
+
+		for (i in 0...Settings.AVAILABLE_STAGES) {
 			var s = new Stage(i, levelSelectTitle.y + levelSelectTitle.background.height);
 			stages.add(s);
 		}
-		
+
+
 		credits = new Button(0, levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * Settings.AVAILABLE_STAGES + 16, "By: Nazywam : )", FlxG.width, 36);
 		
 		transitionScreen = new TransitionScreen();
@@ -110,6 +110,7 @@ class LevelSelect extends FlxState {
 			howToVisible = true;
 			toggleHowTo();
 		}
+
 	}
 	
 	function toggleHowTo() {
@@ -181,6 +182,7 @@ class LevelSelect extends FlxState {
 				scrolling = true;
 			}
 		}
+		
 	}
 	
 	override public function update(elapsed:Float) {
