@@ -34,10 +34,11 @@ class LevelSelect extends FlxState {
 	var toggleRunning : Bool = false;
 	override public function create(){
 		super.create();
-		
+
 		FlxG.switchState(new PlayState(5, 1, false));
 
-		
+						trace("here");
+
 		
 		if (Settings.SAVES == null) {		
 			Settings.SAVES = new FlxSave();
