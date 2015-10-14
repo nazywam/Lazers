@@ -354,7 +354,6 @@ class PlayState extends FlxState {
 			}
 			
 			if (FlxG.mouse.overlaps(fireButton)) {
-				fireButton.blink(false);
 				if (levelComplete) {
 					startNextLevel();
 				} else {
@@ -362,7 +361,6 @@ class PlayState extends FlxState {
 				}
 			}
 			if (FlxG.mouse.overlaps(menuButton)) {
-				menuButton.blink(false);
 	
 				transitionScreen.running = false;
 				transitionScreen.start();
@@ -373,7 +371,6 @@ class PlayState extends FlxState {
 				});
 			}
 			if (FlxG.mouse.overlaps(resetButton)) {
-				resetButton.blink(false);
 				
 				FlxG.switchState(new PlayState(currentStage, currentLevel, false));
 			}
