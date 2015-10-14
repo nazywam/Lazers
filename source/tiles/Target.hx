@@ -128,4 +128,14 @@ class Target extends Tile {
 		}
 		return super.properAnimation(_d);
 	}
+	
+	override public function update(elapsed : Float) {
+		super.update(elapsed);
+		
+		if(Settings.PARTICLES_ON){
+			particles.x = x + width / 2;
+			particles.y = y + height / 2;
+
+		}
+	}
 }
