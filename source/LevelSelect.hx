@@ -32,6 +32,9 @@ class LevelSelect extends FlxState {
 	
 	var howToVisible : Bool = true;
 	var toggleRunning : Bool = false;
+	
+	var heart : FlxSprite;
+	
 	override public function create(){
 		super.create();
 
@@ -109,6 +112,12 @@ class LevelSelect extends FlxState {
 			toggleHowTo();
 		}
 
+		//heart = new FlxSprite(FlxG.width / 2, credits.y + credits.background.height * 3, Settings.HEART);
+		heart = new FlxSprite(FlxG.width / 2, 1500, Settings.HEART);
+		heart.alpha = 0;
+		heart.x -= heart.width / 2;
+		add(heart);
+		
 	}
 	
 	function toggleHowTo() {
@@ -186,10 +195,15 @@ class LevelSelect extends FlxState {
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
 		handleMouse();
+		heart.alpha += ( -heart.alpha) / 10;
 		if (scroll < 0) {
 			scroll += ( -scroll) / 4;
 		} else if (scroll + FlxG.height > maxScrollY) {
 			scroll += (maxScrollY - FlxG.height - scroll) / 4;
+			
+			if (scroll + FlxG.height/3 - maxScrollY > 1) {
+				heart.alpha += (1 - heart.alpha) / 9;
+			}
 		}
 		FlxG.camera.scroll.y += (scroll - FlxG.camera.scroll.y) / 3;
 		
