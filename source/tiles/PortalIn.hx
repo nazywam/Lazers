@@ -16,13 +16,9 @@ class PortalIn extends Tile {
 		type = Tile.PORTAL_IN;	
 		
 
-		var moveY = 0;
-		if (movable) {
-			moveY = Settings.TILE_HEIGHT;
-		}
 		
 		var temp:BitmapData = new BitmapData(48, 48, true);
-		temp.copyPixels(pixels, new Rectangle(tileID * 48, moveY, 48, 48), new Point(0, 0));
+		temp.copyPixels(pixels, new Rectangle(tileID * 48, bitmapDataMoveY, 48, 48), new Point(0, 0));
 		
 		switch(direction) {
 			case FlxObject.UP:

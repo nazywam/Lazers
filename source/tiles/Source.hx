@@ -13,7 +13,7 @@ class Source extends Tile {
 		passable = false;
 				
 		var temp:BitmapData = new BitmapData(48, 48, true);
-		temp.copyPixels(pixels, new Rectangle(tileID * 48, 0, 48, 48), new Point(0, 0));
+		temp.copyPixels(pixels, new Rectangle(tileID * 48, bitmapDataMoveY, 48, 48), new Point(0, 0));
 		
 		switch(direction) {
 			case FlxObject.UP:

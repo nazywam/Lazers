@@ -23,6 +23,8 @@ class Tile extends FlxSprite {
 	public var colorId:							Int;
 	public var connectedColors: 				Array<Int> = [];
 	
+	public var bitmapDataMoveY: 				Int = 0;
+	
 	public var boardX: 							Int;
 	public var boardY: 							Int;
 	
@@ -47,6 +49,8 @@ class Tile extends FlxSprite {
 	public static inline var PORTAL_IN:			Int = 20;
 	public static inline var PORTAL_OUT:		Int = 24;
 	
+	
+	
 	override public function new(_x:Float, _y:Float, _t:Int, _d:Int, _m:Bool, _c:Int, _bx:Int, _by:Int){
 		super(_x, _y);
 		loadGraphic("assets/images/Tiles.png", true, Settings.TILE_WIDTH, Settings.TILE_HEIGHT);
@@ -68,6 +72,11 @@ class Tile extends FlxSprite {
 		animation.play("default");
 
 		originalPosition = new FlxPoint(x, y);
+		
+		if (movable) {
+			bitmapDataMoveY = Settings.TILE_HEIGHT;
+		}
+		
 	}	
 	
 	public function nextMove(_d:Int):Array<Int>{ 

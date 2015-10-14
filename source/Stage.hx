@@ -17,15 +17,12 @@ class Stage extends FlxGroup {
 
 		stageNumber = _s;
 		y = _y + Settings.STAGE_HEIGHT * _s;
-															trace("here1");
 
 		background = new FlxSprite(0, y);
 		background.loadGraphic(Settings.STAGES, true, 360, 180);
 		background.animation.add("default", [stageNumber]);
 		background.animation.play("default");
 		add(background);
-															trace("here2");
-
 		
 		levelIcons = new FlxTypedGroup<LevelIcon>();
 		add(levelIcons);

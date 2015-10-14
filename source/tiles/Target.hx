@@ -13,7 +13,7 @@ class Target extends Tile {
 		passable = true;
 		
 		var temp:BitmapData = new BitmapData(48, 48, true);
-		temp.copyPixels(pixels, new Rectangle(tileID * 48, 0, 48, 48), new Point(0, 0));
+		temp.copyPixels(pixels, new Rectangle(tileID * 48, bitmapDataMoveY, 48, 48), new Point(0, 0));
 		
 		switch(direction) {
 			case FlxObject.UP:
@@ -26,8 +26,8 @@ class Target extends Tile {
 				temp.floodFill(14, 8, Settings.AVAILABLE_COLORS[colorId]);
 				temp.floodFill(35, 8, Settings.AVAILABLE_COLORS[colorId]);
 			case FlxObject.LEFT:
-				temp.floodFill(42, 14, Settings.AVAILABLE_COLORS[colorId]);
-				temp.floodFill(42, 35, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(41, 14, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(41, 35, Settings.AVAILABLE_COLORS[colorId]);
 		}
 		pixels = temp;
 		
