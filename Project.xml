@@ -2,7 +2,7 @@
 <project>
 	<!------------------------------APPLICATION SETTINGS---------------------------->
 	
-	<app title="Laser Hazard" file="Laser Hazard" main="Main" version="1.1.0" company="Nazywam" />
+	<app title="Laser Hazard" file="Laser Hazard" main="Main" version="1.2.0" company="Nazywam" />
 	<meta title="Laser Hazard" package="com.nazywam.Lazer.Hazard"/>
 	
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
