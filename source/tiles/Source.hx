@@ -26,7 +26,7 @@ class Source extends Tile {
 				temp.floodFill(23, 19, Settings.AVAILABLE_COLORS[colorId]);
 		}
 				
-		pixels = temp;
+	//	pixels = temp;
 	}
 
 	override public function nextMove(_d:Int){
