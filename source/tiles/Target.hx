@@ -12,22 +12,22 @@ class Target extends Tile {
 		type = Tile.TARGET;
 		passable = true;
 		
-		var temp:BitmapData = new BitmapData(48, 48, true);
-		temp.copyPixels(pixels, new Rectangle(tileID * 48, bitmapDataMoveY, 48, 48), new Point(0, 0));
+		var temp:BitmapData = new BitmapData(Settings.TILE_WIDTH, Settings.TILE_HEIGHT, true);
+		temp.copyPixels(pixels, new Rectangle(tileID * Settings.TILE_WIDTH, bitmapDataMoveY, Settings.TILE_WIDTH, Settings.TILE_HEIGHT), new Point(0, 0));
 		
 		switch(direction) {
 			case FlxObject.UP:
-				temp.floodFill(13, 43, Settings.AVAILABLE_COLORS[colorId]);
-				temp.floodFill(35, 43, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(13*2, 43*2, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(35*2, 43*2, Settings.AVAILABLE_COLORS[colorId]);
 			case FlxObject.RIGHT:
-				temp.floodFill(8, 14, Settings.AVAILABLE_COLORS[colorId]);
-				temp.floodFill(8, 35, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(8*2, 14*2, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(8*2, 35*2, Settings.AVAILABLE_COLORS[colorId]);
 			case FlxObject.DOWN:
-				temp.floodFill(14, 8, Settings.AVAILABLE_COLORS[colorId]);
-				temp.floodFill(35, 8, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(14*2, 8*2, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(35*2, 8*2, Settings.AVAILABLE_COLORS[colorId]);
 			case FlxObject.LEFT:
-				temp.floodFill(41, 14, Settings.AVAILABLE_COLORS[colorId]);
-				temp.floodFill(41, 35, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(41*2, 14*2, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(41*2, 35*2, Settings.AVAILABLE_COLORS[colorId]);
 		}
 		pixels = temp;
 		

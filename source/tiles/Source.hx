@@ -11,22 +11,25 @@ class Source extends Tile {
 		type = Tile.SOURCE;
 		
 		passable = false;
-				
-		var temp:BitmapData = new BitmapData(48, 48, true);
-		temp.copyPixels(pixels, new Rectangle(tileID * 48, bitmapDataMoveY, 48, 48), new Point(0, 0));
+		
+
+		/*		
+		var temp:BitmapData = new BitmapData(Settings.TILE_WIDTH, Settings.TILE_HEIGHT, true);
+		temp.copyPixels(pixels, new Rectangle(tileID * Settings.TILE_WIDTH, bitmapDataMoveY, Settings.TILE_WIDTH, Settings.TILE_HEIGHT), new Point(0, 0));
 		
 		switch(direction) {
 			case FlxObject.UP:
-				temp.floodFill(18, 23, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(18*2, 23*2, Settings.AVAILABLE_COLORS[colorId]);
 			case FlxObject.RIGHT:
-				temp.floodFill(3, 19, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(3*2, 19*2, Settings.AVAILABLE_COLORS[colorId]);
 			case FlxObject.DOWN:
-				temp.floodFill(18, 3, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(18*2, 3*2, Settings.AVAILABLE_COLORS[colorId]);
 			case FlxObject.LEFT:
-				temp.floodFill(23, 19, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(23*2, 19*2, Settings.AVAILABLE_COLORS[colorId]);
 		}
 				
-	//	pixels = temp;
+		pixels = temp;
+		*/
 	}
 
 	override public function nextMove(_d:Int){

@@ -10,18 +10,18 @@ class Settings {
 	public static var PARTICLES_ON		:Bool =		true;
 	public static var FUN				:Bool = 	false;
 	
-	public static var BOARD_OFFSET_X	:Int = 		3;
-	public static var BOARD_OFFSET_Y	:Int =		3;
-	public static var GRID_WIDTH		:Int =		3;
+	public static var BOARD_OFFSET_X	:Int = 		6;
+	public static var BOARD_OFFSET_Y	:Int =		6;
+	public static var GRID_WIDTH		:Int =		6;
 	
 	public static var BOARD_WIDTH 		:Int = 		7;
 	public static var BOARD_HEIGHT 		:Int = 		7;
 
-	public static var TILE_WIDTH 		:Int = 		48;
-	public static var TILE_HEIGHT 		:Int = 		48;
+	public static var TILE_WIDTH 		:Int = 		96;
+	public static var TILE_HEIGHT 		:Int = 		96;
 	
-	public static var LASER_WIDTH 		:Int = 		48;
-	public static var LASER_HEIGHT 		:Int = 		48;
+	public static var LASER_WIDTH 		:Int = 		96;
+	public static var LASER_HEIGHT 		:Int = 		96;
 	public static var LASER_SPEED		:Float = 	4/60;
 
 	
@@ -30,7 +30,7 @@ class Settings {
 	
 	public static var STRIPE_SPEED	 	:Int =		30;
 	
-	public static var STAGE_HEIGHT	 	:Int =		180;
+	public static var STAGE_HEIGHT	 	:Int =		360;
 	public static var LEVELS_IN_STAGE	:Int =		8;
 
 	public static var AVAILABLE_HOW_TOS: Int = 5;

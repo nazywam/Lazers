@@ -57,27 +57,27 @@ class LevelSelect extends FlxState {
 		FlxG.camera.scroll.y = scroll;
 		
 		logo = new FlxSprite(0, 32);
-		logo.loadGraphic(Settings.FIRE_DEM_LAZERS, true, 360, 60);
+		logo.loadGraphic(Settings.FIRE_DEM_LAZERS, true, 720, 120);
 		logo.animation.add("default", [1,2,2, 3 ,3,4, 4, 4, 4, 4, 4, 4, 3,3 , 2, 2, 1, 1, 1, 1, 1, 1], 12);
 		logo.animation.play("default");
 		
-		howToPlayTitle = new Button(0, logo.y + logo.height + 16, "How To Play", FlxG.width, 42);
+		howToPlayTitle = new Button(0, logo.y + logo.height + 16, "How To Play", FlxG.width, 84);
 		
 		howTos = new FlxTypedGroup<FlxSprite>();
 		for (x in 0...Settings.AVAILABLE_HOW_TOS) {
 			
-			var posY = howToPlayTitle.y + howToPlayTitle.background.height + 180 * x - 10;
+			var posY = howToPlayTitle.y + howToPlayTitle.background.height + 360 * x - 10;
 			if (!howToVisible) {
-				posY = -180 * (Settings.AVAILABLE_HOW_TOS - x) - 10 + howToPlayTitle.y + howToPlayTitle.background.height;
+				posY = -720 * (Settings.AVAILABLE_HOW_TOS - x) - 20 + howToPlayTitle.y + howToPlayTitle.background.height;
 			}
 			var h = new FlxSprite(0, posY);
-			h.loadGraphic(Settings.HOW_TO_PLAY + Std.string(x) + ".png", true, 360, 180);
+			h.loadGraphic(Settings.HOW_TO_PLAY + Std.string(x) + ".png", true, 720, 360);
 			h.animation.add("default", [for (i in 0...Settings.HOW_TO_ANIMATIONS[x]) i], 3);
 			h.animation.play("default");
 			howTos.add(h);
 		}
 
-		levelSelectTitle = new Button(0, howToPlayTitle.y + howToPlayTitle.background.height + 180 * Settings.AVAILABLE_HOW_TOS, "Select Level", FlxG.width, 42);
+		levelSelectTitle = new Button(0, howToPlayTitle.y + howToPlayTitle.background.height + 360 * Settings.AVAILABLE_HOW_TOS, "Select Level", FlxG.width, 84);
 		
 		stages = new FlxTypedGroup<Stage>();
 		pressedPoint = new FlxPoint(-1, -1);
@@ -96,7 +96,7 @@ class LevelSelect extends FlxState {
 		
 		maxScrollY = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * Settings.AVAILABLE_STAGES;
 		
-		var background = new FlxSprite(0, -FlxG.height - 48, Settings.BACKGROUND);
+		var background = new FlxSprite(0, -FlxG.height - 96*2, Settings.BACKGROUND);
 		
 		add(howTos);
 		add(stages);
@@ -129,9 +129,9 @@ class LevelSelect extends FlxState {
 				var h = howTos.members[i];
 				
 				if (howToVisible) {
-					FlxTween.tween(h, { y:howToPlayTitle.y + howToPlayTitle.background.height + 180 * i - 10}, 1, {ease:FlxEase.cubeInOut});
+					FlxTween.tween(h, { y:howToPlayTitle.y + howToPlayTitle.background.height + 360 * i - 20}, 1, {ease:FlxEase.cubeInOut});
 				} else {
-					FlxTween.tween(h, { y:-180*(howTos.members.length - i) - 10 + howToPlayTitle.y + howToPlayTitle.background.height }, 1, {ease:FlxEase.cubeInOut});
+					FlxTween.tween(h, { y:-360*(howTos.members.length - i) - 20 + howToPlayTitle.y + howToPlayTitle.background.height }, 1, {ease:FlxEase.cubeInOut});
 				}
 			}
 			
@@ -208,7 +208,7 @@ class LevelSelect extends FlxState {
 		FlxG.camera.scroll.y += (scroll - FlxG.camera.scroll.y) / 3;
 		
 		
-		levelSelectTitle.y = howTos.members[howTos.members.length - 1].y + 180 + 24;
+		levelSelectTitle.y = howTos.members[howTos.members.length - 1].y + 360 + 48;
 		maxScrollY = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * Settings.AVAILABLE_STAGES;
 		
 		for (s in 0...stages.members.length) {

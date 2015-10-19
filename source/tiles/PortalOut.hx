@@ -14,18 +14,18 @@ class PortalOut extends Tile{
 		type = Tile.PORTAL_OUT;	
 		
 
-		var temp:BitmapData = new BitmapData(48, 48, true);
-		temp.copyPixels(pixels, new Rectangle(tileID * 48, bitmapDataMoveY, 48, 48), new Point(0, 0));
+var temp:BitmapData = new BitmapData(Settings.TILE_WIDTH, Settings.TILE_HEIGHT, true);
+		temp.copyPixels(pixels, new Rectangle(tileID * Settings.TILE_WIDTH, bitmapDataMoveY, Settings.TILE_WIDTH, Settings.TILE_HEIGHT), new Point(0, 0));
 		
 		switch(direction) {
 			case FlxObject.UP:
-				temp.floodFill(24, 32, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(24*2, 32*2, Settings.AVAILABLE_COLORS[colorId]);
 			case FlxObject.RIGHT:
-				temp.floodFill(17, 24, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(17*2, 24*2, Settings.AVAILABLE_COLORS[colorId]);
 			case FlxObject.DOWN:
-				temp.floodFill(25, 17, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(25*2, 17*2, Settings.AVAILABLE_COLORS[colorId]);
 			case FlxObject.LEFT:
-				temp.floodFill(32, 25, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(32*2, 25*2, Settings.AVAILABLE_COLORS[colorId]);
 		}
 		pixels = temp;
 		

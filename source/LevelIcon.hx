@@ -30,7 +30,7 @@ class LevelIcon extends FlxGroup {
 		completed = _c;
 		
 		icon = new FlxSprite(x, y);
-		icon.loadGraphic(Settings.LEVEL_ICON, true, 52, 52);
+		icon.loadGraphic(Settings.LEVEL_ICON, true, 104, 104);
 		icon.animation.add("default", [0]);
 		icon.animation.add("completed", [1, 2, 3, 4, 5, 6, 7, 8], 8);
 		add(icon);
@@ -42,7 +42,7 @@ class LevelIcon extends FlxGroup {
 		}
 		
 		
-		text = new FlxText(x, y + icon.height/2, icon.width, Std.string(Settings.LEVELS_IN_STAGE * (stage) + level), 18);
+		text = new FlxText(x, y + icon.height/2, icon.width, Std.string(Settings.LEVELS_IN_STAGE * (stage) + level), 36);
 		text.alignment = FlxTextAlign.CENTER;
 		text.bold = true;
 		text.y -= text.height/2;

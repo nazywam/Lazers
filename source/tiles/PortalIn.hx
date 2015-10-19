@@ -17,18 +17,18 @@ class PortalIn extends Tile {
 		
 
 		
-		var temp:BitmapData = new BitmapData(48, 48, true);
-		temp.copyPixels(pixels, new Rectangle(tileID * 48, bitmapDataMoveY, 48, 48), new Point(0, 0));
+		var temp:BitmapData = new BitmapData(Settings.TILE_WIDTH, Settings.TILE_HEIGHT, true);
+		temp.copyPixels(pixels, new Rectangle(tileID * Settings.TILE_WIDTH, bitmapDataMoveY, Settings.TILE_WIDTH, Settings.TILE_HEIGHT), new Point(0, 0));
 		
 		switch(direction) {
 			case FlxObject.UP:
-				temp.floodFill(24, 13, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(24*2, 13*2, Settings.AVAILABLE_COLORS[colorId]);
 			case FlxObject.RIGHT:
-				temp.floodFill(35, 26, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(35*2, 26*2, Settings.AVAILABLE_COLORS[colorId]);
 			case FlxObject.DOWN:
-				temp.floodFill(24, 36, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(24*2, 36*2, Settings.AVAILABLE_COLORS[colorId]);
 			case FlxObject.LEFT:
-				temp.floodFill(13, 24, Settings.AVAILABLE_COLORS[colorId]);
+				temp.floodFill(13*2, 24*2, Settings.AVAILABLE_COLORS[colorId]);
 		}
 		pixels = temp;
 		
