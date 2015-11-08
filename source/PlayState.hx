@@ -101,9 +101,9 @@ class PlayState extends FlxState {
 		laserHeads = new FlxTypedGroup<Laser>();
 		add(lasers);
 	
-		fireButton = new Button(0, availableTilesBackground.y + availableTilesBackground.height, "Fire lasers", FlxG.width, 48);
-		resetButton = new Button(0, fireButton.y + fireButton.background.height + 24, "Reset Board", FlxG.width, 48); 
-		menuButton = new Button(0, resetButton.y + resetButton.background.height + 25, "Menu", FlxG.width, 48);
+		fireButton = new Button(0, availableTilesBackground.y + availableTilesBackground.height, "Fire lasers", FlxG.width, 96);
+		resetButton = new Button(0, fireButton.y + fireButton.background.height + 24, "Reset Board", FlxG.width, 96); 
+		menuButton = new Button(0, resetButton.y + resetButton.background.height + 25, "Menu", FlxG.width, 96);
 		add(fireButton);
 		add(menuButton);
 		add(resetButton);
