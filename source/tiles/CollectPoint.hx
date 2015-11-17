@@ -31,11 +31,6 @@ class CollectPoint extends Tile {
 	override public function complete() {
 			completed = true;
 	}
-	
-	override public function revert() {
-		
-	}
-	
 	override public function nextMove(_d:Int){
 		switch (_d) {
 			case FlxObject.UP:
@@ -64,4 +59,22 @@ class CollectPoint extends Tile {
 		return super.properAnimation(_d);
 	}
 	
+	function checkConnections() {
+		completed = false;
+		
+		if (connectedColors.length == 1) {
+			if (connectedColors[0] == colorId) {
+				completed = true;
+			}
+		} else {
+			if (Settings.MIXED_COLORS[connectedColors[0]][connectedColors[1]] == colorId) {
+				completed = true;
+			}
+		}
+	}
+	
+	override public function update(elapsed:Float) {
+		super.update(elapsed);
+		checkConnections();
+	}
 }

@@ -304,6 +304,11 @@ class PlayState extends FlxState {
 					}
 				} else if (board[j][i].type == Tile.COLLECT_POINT) {
 					board[j][i].completed = false;
+					
+					while (board[j][i].connectedColors.length != 0) {
+						board[j][i].connectedColors.pop();
+					}
+					
 				}
 			}
 		}
@@ -522,83 +527,81 @@ class PlayState extends FlxState {
 		}	
 		
 		for (l in laserHeads) {
-				var currentTile = getTile(board, l.x, l.y);
-				var tmp = currentTile.nextMove(l.direction);
-				
-				var _moveX:Int = tmp[0];
-				var _moveY:Int = tmp[1];
-				var nextDirection:Int  = tmp[2];		
-
-				if (tmp[3] == 1) {
-					var spawnLaserDirection:Int = FlxObject.UP;
-					switch(nextDirection) {
-						case FlxObject.UP:	
-							spawnLaserDirection = FlxObject.DOWN;
-						case FlxObject.RIGHT:
-							spawnLaserDirection = FlxObject.LEFT;
-						case FlxObject.DOWN:
-							spawnLaserDirection = FlxObject.UP;
-						case FlxObject.LEFT:
-							spawnLaserDirection = FlxObject.RIGHT;
-					}
-					
-					var spawnLaserHoverTile = getTile(board, currentTile.x - _moveX * (Settings.TILE_WIDTH + Settings.GRID_WIDTH), currentTile.y - _moveY * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH));
-					if (spawnLaserHoverTile != null && spawnLaserHoverTile.passable) {
-						var laser = new Laser(spawnLaserHoverTile.x, spawnLaserHoverTile.y, spawnLaserDirection, l.ID, l.colorId, spawnLaserHoverTile, l.laserNumber);
-						laser.becomeHead.start(Settings.LASER_SPEED, function(_){
-							laserHeads.add(laser);
-						});
-						lasers.add(laser);
-					}
-				}
-				
-				
-				var hoverTile = getTile(board, l.x + _moveX * (Settings.TILE_WIDTH + Settings.GRID_WIDTH), l.y + _moveY * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH));
-				
-				if (tmp == Tile.TELEPORT) {
-					for (y in 0...board.length) {
-						for (x in 0...board[y].length) {
-							if (board[y][x].type == Tile.PORTAL_OUT && board[y][x].colorId == currentTile.colorId) {
-								hoverTile = board[y][x]; 
-							}
-						}
-					}
-				}
-				
-				if (hoverTile != null && hoverTile != currentTile) {
-					var uniqueLaser:Bool = true;
+			var currentTile = getTile(board, l.x, l.y);
+			var tmp = currentTile.nextMove(l.direction);
 			
-					for (laser in lasers) {
-						if (laser.x == l.x && laser.y == l.y && laser.direction == l.direction && laser != l) {
-							if (l.ID == laser.ID) {
-								uniqueLaser = false;	
-							}
+			var _moveX:Int = tmp[0];
+			var _moveY:Int = tmp[1];
+			var nextDirection:Int  = tmp[2];		
+
+			if (tmp[3] == 1) {
+				var spawnLaserDirection:Int = FlxObject.UP;
+				switch(nextDirection) {
+					case FlxObject.UP:	
+						spawnLaserDirection = FlxObject.DOWN;
+					case FlxObject.RIGHT:
+						spawnLaserDirection = FlxObject.LEFT;
+					case FlxObject.DOWN:
+						spawnLaserDirection = FlxObject.UP;
+					case FlxObject.LEFT:
+						spawnLaserDirection = FlxObject.RIGHT;
+				}
+				
+				var spawnLaserHoverTile = getTile(board, currentTile.x - _moveX * (Settings.TILE_WIDTH + Settings.GRID_WIDTH), currentTile.y - _moveY * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH));
+				if (spawnLaserHoverTile != null && spawnLaserHoverTile.passable) {
+					var laser = new Laser(spawnLaserHoverTile.x, spawnLaserHoverTile.y, spawnLaserDirection, l.ID, l.colorId, spawnLaserHoverTile, l.laserNumber);
+					laser.becomeHead.start(Settings.LASER_SPEED, function(_){
+						laserHeads.add(laser);
+					});
+					lasers.add(laser);
+				}
+			}
+			
+			
+			var hoverTile = getTile(board, l.x + _moveX * (Settings.TILE_WIDTH + Settings.GRID_WIDTH), l.y + _moveY * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH));
+			
+			if (tmp == Tile.TELEPORT) {
+				for (y in 0...board.length) {
+					for (x in 0...board[y].length) {
+						if (board[y][x].type == Tile.PORTAL_OUT && board[y][x].colorId == currentTile.colorId) {
+							hoverTile = board[y][x]; 
 						}
-						  
 					}
-					if (hoverTile.type == Tile.BLOCK || (!currentTile.passable && l.laserNumber != 0)) {
-						uniqueLaser = false;
-					}
-					
-					if (uniqueLaser && !(hoverTile.type == Tile.SOURCE && hoverTile.direction == nextDirection)) {
-						var laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, l.colorId, hoverTile, l.laserNumber + 1);		
-						lasers.add(laser);								
-						laser.becomeHead.start(Settings.LASER_SPEED, function(_){
-							laserHeads.add(laser);
-						});
-						
-						if (hoverTile.type == Tile.TARGET) {
-							checkLevelComplete();	
+				}
+			}
+			
+			if (hoverTile != null && hoverTile != currentTile) {
+				var uniqueLaser:Bool = true;
+		
+				for (laser in lasers) {
+					if (laser.x == l.x && laser.y == l.y && laser.direction == l.direction && laser != l) {
+						if (l.ID == laser.ID) {
+							uniqueLaser = false;	
 						}
 					}
+					  
+				}
+				if (hoverTile.type == Tile.BLOCK || (!currentTile.passable && l.laserNumber != 0)) {
+					uniqueLaser = false;
+				}
+				
+				if (uniqueLaser && !(hoverTile.type == Tile.SOURCE && hoverTile.direction == nextDirection)) {
+					var laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, l.colorId, hoverTile, l.laserNumber + 1);		
+					lasers.add(laser);								
+					laser.becomeHead.start(Settings.LASER_SPEED, function(_){
+						laserHeads.add(laser);
+					});
 					
-					if (hoverTile.type == Tile.COLLECT_POINT && hoverTile.colorId == l.colorId) {
-						hoverTile.complete();
+					if (hoverTile.type == Tile.TARGET) {
+						checkLevelComplete();	
 					}
 				}
 				
-				laserHeads.remove(l);
-				 
+				if (hoverTile.type == Tile.COLLECT_POINT) {
+					hoverTile.connectedColors.push(l.colorId);
+				}
 			}
+			laserHeads.remove(l);
 		}
+	}
 }

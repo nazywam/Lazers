@@ -101,10 +101,6 @@ class Tile extends FlxSprite {
 			FlxTween.tween(scale, {x:1, y:1}, .3, {ease:FlxEase.elasticOut});
 		});
 	} 
-	
-	public function revert() {
-		
-	}
 
 	public function complete() {
 
