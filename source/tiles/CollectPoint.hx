@@ -8,8 +8,12 @@ import openfl.geom.Point;
  * ...
  * @author Michael
  */
+
 class CollectPoint extends Tile {
 
+	
+	var originalImage : BitmapData;
+	
 	public function new(_x:Float, _y:Float, _t:Int, _d:Int, _m:Bool, _c:Int, _bx:Int, _by:Int) {
 		super(_x, _y, _t, _d, _m, _c, _bx, _by);
 		type = Tile.COLLECT_POINT;
@@ -19,8 +23,18 @@ class CollectPoint extends Tile {
 		temp.copyPixels(pixels, new Rectangle(tileID * Settings.TILE_WIDTH, bitmapDataMoveY, Settings.TILE_WIDTH, Settings.TILE_HEIGHT), new Point(0, 0));
 		temp.floodFill(48, 7, Settings.AVAILABLE_COLORS[colorId]);
 		pixels = temp;
+		
+		originalImage = new BitmapData(Settings.TILE_WIDTH, Settings.TILE_HEIGHT, true);
+		originalImage.copyPixels(pixels, new Rectangle(0, 0, Settings.TILE_WIDTH, Settings.TILE_HEIGHT), new Point(0, 0));
 	}
 	
+	override public function complete() {
+			completed = true;
+	}
+	
+	override public function revert() {
+		
+	}
 	
 	override public function nextMove(_d:Int){
 		switch (_d) {

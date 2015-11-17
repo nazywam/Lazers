@@ -302,6 +302,8 @@ class PlayState extends FlxState {
 						board[j][i].connectedColors.pop();	
 						board[j][i].particlesLaunched = false;	
 					}
+				} else if (board[j][i].type == Tile.COLLECT_POINT) {
+					board[j][i].completed = false;
 				}
 			}
 		}
@@ -455,8 +457,9 @@ class PlayState extends FlxState {
 		
 		for(j in 0...board.length){
  			for (i in 0...board[j].length) {
+				var target = board[j][i];
+
 				if (board[j][i].type == Tile.TARGET) {
-					var target = board[j][i];
 					
 					switch(target.connectedColors.length) {
 						case 0:
@@ -475,6 +478,10 @@ class PlayState extends FlxState {
 							}
 						default:
 							c = false;
+					}
+				} else if (board[j][i].type == Tile.COLLECT_POINT) {
+					if (!target.completed) {
+						c = false;
 					}
 				}
 			}
@@ -543,9 +550,7 @@ class PlayState extends FlxState {
 						});
 						lasers.add(laser);
 					}
-					
 				}
-				
 				
 				
 				var hoverTile = getTile(board, l.x + _moveX * (Settings.TILE_WIDTH + Settings.GRID_WIDTH), l.y + _moveY * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH));
@@ -585,7 +590,11 @@ class PlayState extends FlxState {
 						if (hoverTile.type == Tile.TARGET) {
 							checkLevelComplete();	
 						}
-					} 
+					}
+					
+					if (hoverTile.type == Tile.COLLECT_POINT && hoverTile.colorId == l.colorId) {
+						hoverTile.complete();
+					}
 				}
 				
 				laserHeads.remove(l);

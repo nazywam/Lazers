@@ -26,6 +26,8 @@ class Tile extends FlxSprite {
 	public var direction:						Int = FlxObject.UP;
 	public var colorId:							Int;
 	public var connectedColors: 				Array<Int> = [];
+	public var completed:Bool = false;
+
 	
 	public var bitmapDataMoveY: 				Int = 0;
 	
@@ -80,10 +82,6 @@ class Tile extends FlxSprite {
 		if (movable) {
 			bitmapDataMoveY = Settings.TILE_HEIGHT;
 		}
-		
-		if (Assets.exists("assets/images/tiles/" + tileID + ".svg")) {
-			pixels = getBitmapFromSvg("assets/images/tiles/"+tileID+".svg", 0, 0, Settings.TILE_WIDTH, Settings.TILE_HEIGHT);
-		}
 	}	
 	
 	public function nextMove(_d:Int):Array<Int>{ 
@@ -104,6 +102,9 @@ class Tile extends FlxSprite {
 		});
 	} 
 	
+	public function revert() {
+		
+	}
 
 	public function complete() {
 
@@ -111,16 +112,6 @@ class Tile extends FlxSprite {
 			particles.start(true, 0.1, 0);
 			particlesLaunched = true;	
 		}
-	}
-	
-	public function getBitmapFromSvg(id:String, X:Int=0, Y:Float=0, Width:Float=-1, Height:Float=-1):BitmapData{
-		var svgText:String = Assets.getText(id);
-		var svg:SVG = new SVG(svgText);
-		var spr:Sprite = new Sprite();
-		svg.render(spr.graphics, X, Y, Std.int(Width), Std.int(Height));
-		var bd:BitmapData = new BitmapData(Std.int(spr.width),Std.int(spr.height),true, 0x0);
-		bd.draw(spr);
-		return bd;
 	}
 	
 	override public function update(elapsed) {
