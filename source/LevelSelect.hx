@@ -84,7 +84,7 @@ class LevelSelect extends FlxState {
 														
 
 		for (i in 0...Settings.AVAILABLE_STAGES) {
-			var s = new Stage(i, levelSelectTitle.y + levelSelectTitle.background.height);
+			var s = new Stage(i, levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * i);
 			stages.add(s);
 		}
 
@@ -109,7 +109,7 @@ class LevelSelect extends FlxState {
 		
 		if (!howToVisible) {
 			howToVisible = true;
-			toggleHowTo();
+			toggleHowTo(0.1);
 		}
 
 		//heart = new FlxSprite(FlxG.width / 2, credits.y + credits.background.height * 3, Settings.HEART);
@@ -120,7 +120,7 @@ class LevelSelect extends FlxState {
 		
 	}
 	
-	function toggleHowTo() {
+	function toggleHowTo(time:Float) {
 		if (!toggleRunning) {
 			toggleRunning = true;
 			howToVisible = !howToVisible;
@@ -129,14 +129,14 @@ class LevelSelect extends FlxState {
 				var h = howTos.members[i];
 				
 				if (howToVisible) {
-					FlxTween.tween(h, { y:howToPlayTitle.y + howToPlayTitle.background.height + 360 * i - 20}, 1, {ease:FlxEase.cubeInOut});
+				FlxTween.tween(h, { y:howToPlayTitle.y + howToPlayTitle.background.height + 360 * i - 20}, time, {ease:FlxEase.cubeInOut});
 				} else {
-					FlxTween.tween(h, { y:-360*(howTos.members.length - i) - 20 + howToPlayTitle.y + howToPlayTitle.background.height }, 1, {ease:FlxEase.cubeInOut});
+				FlxTween.tween(h, { y:-360*(howTos.members.length - i) - 20 + howToPlayTitle.y + howToPlayTitle.background.height }, time, {ease:FlxEase.cubeInOut});
 				}
 			}
 			
 			var t = new FlxTimer();
-			t.start(1, function(_) { toggleRunning = false; } );
+			t.start(time, function(_) { toggleRunning = false; } );
 		}
 	}
 	
@@ -162,7 +162,7 @@ class LevelSelect extends FlxState {
 			pressedPoint.set( -1, -1);
 			
 			if (pressedButton == howToPlayTitle && FlxG.mouse.overlaps(howToPlayTitle) && !scrolling) {
-				toggleHowTo();
+				toggleHowTo(1);
 			}
 			
 			if(pressedLevelIcon != null && FlxG.mouse.overlaps(pressedLevelIcon) && !scrolling){
@@ -214,6 +214,6 @@ class LevelSelect extends FlxState {
 		for (s in 0...stages.members.length) {
 			stages.members[s].y = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * s;
 		}
-		credits.y = stages.members[stages.members.length-1].y +Settings.STAGE_HEIGHT + 32;
+		credits.y = stages.members[stages.members.length - 1].y +Settings.STAGE_HEIGHT + 32;
 	}
 }

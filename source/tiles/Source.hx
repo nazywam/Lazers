@@ -12,8 +12,6 @@ class Source extends Tile {
 		
 		passable = false;
 		
-
-		/*		
 		var temp:BitmapData = new BitmapData(Settings.TILE_WIDTH, Settings.TILE_HEIGHT, true);
 		temp.copyPixels(pixels, new Rectangle(tileID * Settings.TILE_WIDTH, bitmapDataMoveY, Settings.TILE_WIDTH, Settings.TILE_HEIGHT), new Point(0, 0));
 		
@@ -29,7 +27,7 @@ class Source extends Tile {
 		}
 				
 		pixels = temp;
-		*/
+		
 	}
 
 	override public function nextMove(_d:Int){
