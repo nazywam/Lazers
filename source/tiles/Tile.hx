@@ -52,7 +52,7 @@ class Tile extends FlxSprite {
 	public static inline var MERGE:				Int = 12;
 	public static inline var PORTAL_IN:			Int = 20;
 	public static inline var PORTAL_OUT:		Int = 24;
-	
+	public static inline var COLLECT_POINT: 	Int = 28;
 	
 	
 	override public function new(_x:Float, _y:Float, _t:Int, _d:Int, _m:Bool, _c:Int, _bx:Int, _by:Int){

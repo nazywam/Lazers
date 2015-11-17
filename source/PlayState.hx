@@ -179,8 +179,10 @@ class PlayState extends FlxState {
 											board[l - 1][t] = new Merge(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
 										} else if (_tile >= Tile.PORTAL_IN && _tile < Tile.PORTAL_OUT) {
 											board[l - 1][t] = new PortalIn(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
-										} else if (_tile >= Tile.PORTAL_OUT) {
+										} else if (_tile >= Tile.PORTAL_OUT && _tile < Tile.COLLECT_POINT) {
 											board[l - 1][t] = new PortalOut(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
+										} else if (_tile == Tile.COLLECT_POINT) {
+											board[l - 1][t] = new CollectPoint(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
 										} else {
 											trace("Unidetified block on the grid!!!");
 										}

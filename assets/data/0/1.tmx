@@ -3,8 +3,8 @@
  <properties>
   <property name="availableTiles" value="1, 1, 2"/>
  </properties>
- <tileset firstgid="1" source="tiles.tsx"/>
- <tileset firstgid="161" source="tiles.tsx"/>
+ <tileset firstgid="1" source="../tiles.tsx"/>
+ <tileset firstgid="161" source="../tiles.tsx"/>
  <layer name="Colors" width="7" height="7">
   <data encoding="csv">
 87,87,87,87,87,87,87,
