@@ -469,24 +469,31 @@ class PlayState extends FlxState {
 					switch(target.connectedColors.length) {
 						case 0:
 							c = false;
+							trace("0");
+
 						case 1:
 							if (target.colorId != target.connectedColors[0]) {
 								c = false;
+								trace("simple");
 							} else {
 								target.complete();
 							}
 						case 2:
 							if (target.colorId != Settings.MIXED_COLORS[target.connectedColors[0]][target.connectedColors[1]]) {
-								c = false;	
+								c = false;
+								trace("mixed");
 							} else {
 								target.complete();
 							}
 						default:
 							c = false;
+							trace("much");
+
 					}
 				} else if (board[j][i].type == Tile.COLLECT_POINT) {
 					if (!target.completed) {
 						c = false;
+						trace(board[j][i].connectedColors.length);
 					}
 				}
 			}
@@ -599,6 +606,8 @@ class PlayState extends FlxState {
 				
 				if (hoverTile.type == Tile.COLLECT_POINT) {
 					hoverTile.connectedColors.push(l.colorId);
+					hoverTile.update(elapsed);
+					checkLevelComplete();
 				}
 			}
 			laserHeads.remove(l);
