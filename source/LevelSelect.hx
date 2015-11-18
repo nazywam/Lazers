@@ -81,7 +81,8 @@ class LevelSelect extends FlxState {
 		levelSelectTitle = new Button(0, howToPlayTitle.y + howToPlayTitle.background.height + 360 * Settings.AVAILABLE_HOW_TOS, "Select Level", FlxG.width, 84);
 		
 		stages = new FlxTypedGroup<Stage>();
-		pressedPoint = new FlxPoint(-1, -1);
+		pressedPoint = new FlxPoint( -1, -1);
+		
 														
 
 		for (i in 0...Settings.AVAILABLE_STAGES) {
