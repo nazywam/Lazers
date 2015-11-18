@@ -33,9 +33,9 @@ class Settings {
 	public static var STAGE_HEIGHT	 	:Int =		360;
 	public static var LEVELS_IN_STAGE	:Int =		8;
 
-	public static var AVAILABLE_HOW_TOS: Int = 5;
+	public static var AVAILABLE_HOW_TOS: Int = 6;
 	public static var AVAILABLE_STAGES : Int = 7;
-	public static var HOW_TO_ANIMATIONS:		Array<Int> = [6, 10, 8, 9, 6];
+	public static var HOW_TO_ANIMATIONS:		Array<Int> = [6, 10, 8, 9, 6, 11];
 	
 
 	

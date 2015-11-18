@@ -90,7 +90,7 @@ class LevelSelect extends FlxState {
 		}
 
 
-		credits = new Button(0, levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * Settings.AVAILABLE_STAGES + 16, "By: Nazywam : )", FlxG.width, 36);
+		credits = new Button(0, levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * Settings.AVAILABLE_STAGES + 16, "By: Nazywam : )", FlxG.width, 72);
 		
 		transitionScreen = new TransitionScreen();
 		transitionScreen.startHalf();

@@ -516,7 +516,6 @@ class PlayState extends FlxState {
 			}
 		}
 
-
 		if (FlxG.keys.justPressed.ESCAPE) {
 				transitionScreen.running = false;
 				transitionScreen.start();
