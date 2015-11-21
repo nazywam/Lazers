@@ -42,7 +42,6 @@ class Laser extends FlxSprite {
 		
 		becomeHead = new FlxTimer();
 		
-		
 		var directionSum = tile.direction + direction;
 		
 		switch(tile.type) {

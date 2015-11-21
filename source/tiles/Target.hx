@@ -40,6 +40,13 @@ class Target extends Tile {
 		}
 	}
 
+	override public function resetState(){
+		while (connectedColors.length > 0) {
+			connectedColors.pop();	
+			particlesLaunched = false;	
+		}
+	}
+
 	override public function nextMove(_d:Int){
 		switch (_d) {
 			case FlxObject.UP:

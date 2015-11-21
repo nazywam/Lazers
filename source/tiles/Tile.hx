@@ -84,6 +84,10 @@ class Tile extends FlxSprite {
 		}
 	}	
 	
+	public function resetState(){
+		
+	}
+
 	public function nextMove(_d:Int):Array<Int>{ 
 		return [0, 0, FlxObject.UP, 0]; //moveX, moveY, direction, shouldFireOpositeLaser
 	}

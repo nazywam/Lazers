@@ -88,4 +88,5 @@ class Settings {
 	public static inline var BACKGROUND : 		String = "assets/images/Background.png";
 	public static inline var HEART : 			String = "assets/images/Heart.png";
 	public static inline var LOGO_SCREEN : 		String = "assets/images/LogoScreen.png";
+	public static inline var INNER_CIRCLE : 	String = "assets/images/InnerCircle.png";
 }

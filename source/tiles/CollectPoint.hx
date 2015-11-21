@@ -3,6 +3,7 @@ import openfl.display.BitmapData;
 import flixel.FlxObject;
 import openfl.geom.Rectangle;
 import openfl.geom.Point;
+import flixel.FlxSprite;
 
 /**
  * ...
@@ -12,8 +13,8 @@ import openfl.geom.Point;
 class CollectPoint extends Tile {
 
 	
-	var originalImage : BitmapData;
-	
+	public var innerCircle : FlxSprite;
+
 	public function new(_x:Float, _y:Float, _t:Int, _d:Int, _m:Bool, _c:Int, _bx:Int, _by:Int) {
 		super(_x, _y, _t, _d, _m, _c, _bx, _by);
 		type = Tile.COLLECT_POINT;
@@ -24,12 +25,27 @@ class CollectPoint extends Tile {
 		temp.floodFill(48, 7, Settings.AVAILABLE_COLORS[colorId]);
 		pixels = temp;
 		
-		originalImage = new BitmapData(Settings.TILE_WIDTH, Settings.TILE_HEIGHT, true);
-		originalImage.copyPixels(pixels, new Rectangle(0, 0, Settings.TILE_WIDTH, Settings.TILE_HEIGHT), new Point(0, 0));
+		innerCircle = new FlxSprite(_x, _y);
+		innerCircle.loadGraphic(Settings.INNER_CIRCLE, true, Settings.TILE_WIDTH, Settings.TILE_HEIGHT);
+		innerCircle.animation.add("default", [0]);
+		innerCircle.animation.add("complete", [0, 1, 2, 3, 4, 5], Std.int(6 / Settings.LASER_SPEED), false);
+		innerCircle.animation.play("default");
+		innerCircle.color = Settings.AVAILABLE_COLORS[colorId];
 	}
 	
+	override public function resetState(){
+		completed = false;
+		innerCircle.animation.play("default");
+
+		while (connectedColors.length != 0) {
+			connectedColors.pop();
+		}
+	}
+
 	override public function complete() {
-			completed = true;
+		completed = true;
+
+		innerCircle.animation.play("complete");
 	}
 	override public function nextMove(_d:Int){
 		switch (_d) {
@@ -64,17 +80,21 @@ class CollectPoint extends Tile {
 		
 		if (connectedColors.length == 1) {
 			if (connectedColors[0] == colorId) {
+				complete();
 				completed = true;
 			}
-		} else {
+		} else if (connectedColors.length == 2){
 			if (Settings.MIXED_COLORS[connectedColors[0]][connectedColors[1]] == colorId) {
 				completed = true;
+				complete();
 			}
 		}
 	}
 	
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
-		checkConnections();
+		if(!completed){
+			checkConnections();
+		}
 	}
 }

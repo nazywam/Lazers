@@ -182,7 +182,9 @@ class PlayState extends FlxState {
 										} else if (_tile >= Tile.PORTAL_OUT && _tile < Tile.COLLECT_POINT) {
 											board[l - 1][t] = new PortalOut(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
 										} else if (_tile == Tile.COLLECT_POINT) {
-											board[l - 1][t] = new CollectPoint(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
+											var c = new CollectPoint(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
+											board[l - 1][t] = c;
+											add(c.innerCircle);
 										} else {
 											trace("Unidetified block on the grid!!!");
 										}
@@ -297,19 +299,7 @@ class PlayState extends FlxState {
 
 		for (j in 0...board.length) {
 			for (i in 0...board[j].length) {
-				if (board[j][i].type == Tile.TARGET) {
-					while (board[j][i].connectedColors.length > 0) {
-						board[j][i].connectedColors.pop();	
-						board[j][i].particlesLaunched = false;	
-					}
-				} else if (board[j][i].type == Tile.COLLECT_POINT) {
-					board[j][i].completed = false;
-					
-					while (board[j][i].connectedColors.length != 0) {
-						board[j][i].connectedColors.pop();
-					}
-					
-				}
+				board[j][i].resetState();
 			}
 		}
 	}
