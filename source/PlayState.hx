@@ -428,6 +428,12 @@ class PlayState extends FlxState {
 		l.becomeHead.start(Settings.LASER_SPEED, function(_){
 			laserHeads.add(l);
 		});
+
+		if (hoverTile.type == Tile.COLLECT_POINT) {
+			hoverTile.connectedColors.push(l.colorId);
+			hoverTile.update(0);
+			checkLevelComplete();
+		}
  	}
 
  	function generateLasers(){
@@ -544,6 +550,12 @@ class PlayState extends FlxState {
 						laserHeads.add(laser);
 					});
 					lasers.add(laser);
+
+					if(spawnLaserHoverTile.type == Tile.COLLECT_POINT){
+						spawnLaserHoverTile.connectedColors.push(l.colorId);
+						spawnLaserHoverTile.update(0);
+						checkLevelComplete();
+					}
 				}
 			}
 			
@@ -588,6 +600,7 @@ class PlayState extends FlxState {
 				}
 				
 				if (hoverTile.type == Tile.COLLECT_POINT) {
+
 					hoverTile.connectedColors.push(l.colorId);
 					hoverTile.update(elapsed);
 					checkLevelComplete();
