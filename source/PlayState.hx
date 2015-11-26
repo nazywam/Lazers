@@ -166,17 +166,19 @@ class PlayState extends FlxState {
 											board[l-1][t] = new Blank(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
 										} else if(_tile >= Tile.MIRROR && _tile < Tile.BACK_MIRROR){
 											board[l-1][t] = new Mirror(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
-										} else if(_tile >= Tile.BACK_MIRROR && _tile < Tile.BLOCK){
+										} else if(_tile >= Tile.BACK_MIRROR && _tile < 3){
 											board[l-1][t] = new BackMirror(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
-										}else if(_tile >= Tile.BLOCK && _tile < Tile.SOURCE){
-											board[l-1][t] = new Block(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
+										} else if (_tile == 3) {
+											trace("That is not a valid tile!");
 										} else if(_tile >= Tile.SOURCE && _tile < Tile.TARGET){
 											board[l-1][t] = new Source(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
 										} else if(_tile >= Tile.TARGET && _tile < Tile.MERGE){
 											board[l - 1][t] = new Target(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
 											particles.add(board[l - 1][t].particles);
-										} else if(_tile >= Tile.MERGE && _tile < Tile.PORTAL_IN){
+										} else if(_tile >= Tile.MERGE && _tile < Tile.BLOCK){
 											board[l - 1][t] = new Merge(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
+										} else if(_tile >= Tile.BLOCK && _tile < Tile.PORTAL_IN){
+											board[l - 1][t] = new Block(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
 										} else if (_tile >= Tile.PORTAL_IN && _tile < Tile.PORTAL_OUT) {
 											board[l - 1][t] = new PortalIn(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
 										} else if (_tile >= Tile.PORTAL_OUT && _tile < Tile.COLLECT_POINT) {
@@ -231,16 +233,16 @@ class PlayState extends FlxState {
 							a = new Blank(availableTilesBackground.x + 22 + i*58*2, availableTilesBackground.y + 22, _tile, Settings.TILE_DIRECTIONS[_tile], true, availableColors[i], -1, -1);
 						} else if(_tile >= Tile.MIRROR && _tile < Tile.BACK_MIRROR){
 							a = new Mirror(availableTilesBackground.x + 22 + i*58*2, availableTilesBackground.y + 22, _tile, Settings.TILE_DIRECTIONS[_tile], true, availableColors[i], -1, -1);
-						} else if(_tile >= Tile.BACK_MIRROR && _tile < Tile.BLOCK){
+						} else if(_tile >= Tile.BACK_MIRROR && _tile < Tile.SOURCE){
 							a = new BackMirror(availableTilesBackground.x + 22 + i*58*2, availableTilesBackground.y + 22, _tile, Settings.TILE_DIRECTIONS[_tile], true, availableColors[i], -1, -1);
-						}else if(_tile >= Tile.BLOCK && _tile < Tile.SOURCE){
+						}else if(_tile >= Tile.BLOCK && _tile < Tile.PORTAL_IN){
 							a = new Block(availableTilesBackground.x + 22 + i*58*2, availableTilesBackground.y + 22, _tile, Settings.TILE_DIRECTIONS[_tile], true, availableColors[i], -1, -1);
 						} else if(_tile >= Tile.SOURCE && _tile < Tile.TARGET){
 							a = new Source(availableTilesBackground.x + 22 + i*58*2, availableTilesBackground.y + 22, _tile, Settings.TILE_DIRECTIONS[_tile], true, availableColors[i], -1, -1);
 						} else if(_tile >= Tile.TARGET && _tile < Tile.MERGE){
 							a = new Target(availableTilesBackground.x + 22 + i * 58*2, availableTilesBackground.y + 22, _tile, Settings.TILE_DIRECTIONS[_tile], true, availableColors[i], -1, -1);
 							particles.add(a.particles);
-						} else if(_tile >= Tile.MERGE && _tile < Tile.PORTAL_IN){
+						} else if(_tile >= Tile.MERGE && _tile < Tile.BLOCK){
 							a = new Merge(availableTilesBackground.x + 22 + i*58*2, availableTilesBackground.y + 22, _tile, Settings.TILE_DIRECTIONS[_tile], true, availableColors[i], -1, -1);					
 						} else if (_tile >= Tile.PORTAL_IN && _tile < Tile.PORTAL_OUT) {
 							a = new PortalIn(availableTilesBackground.x + 22 + i*58*2, availableTilesBackground.y + 22, _tile, Settings.TILE_DIRECTIONS[_tile], true, availableColors[i], -1, -1);					

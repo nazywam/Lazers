@@ -26,7 +26,7 @@ class Tile extends FlxSprite {
 	public var direction:						Int = FlxObject.UP;
 	public var colorId:							Int;
 	public var connectedColors: 				Array<Int> = [];
-	public var completed:Bool = false;
+	public var completed:						Bool = false;
 
 	
 	public var bitmapDataMoveY: 				Int = 0;
@@ -48,10 +48,10 @@ class Tile extends FlxSprite {
 	public static inline var BLANK:				Int = 0;
 	public static inline var MIRROR:			Int = 1;
 	public static inline var BACK_MIRROR:		Int = 2;
-	public static inline var BLOCK:				Int = 3;
 	public static inline var SOURCE:			Int = 4;
 	public static inline var TARGET:			Int = 8;
 	public static inline var MERGE:				Int = 12;
+	public static inline var BLOCK:				Int = 16;
 	public static inline var PORTAL_IN:			Int = 20;
 	public static inline var PORTAL_OUT:		Int = 24;
 	public static inline var COLLECT_POINT: 	Int = 28;
