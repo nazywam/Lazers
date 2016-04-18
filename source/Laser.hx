@@ -26,20 +26,21 @@ class Laser extends FlxSprite {
 		animation.add("default", [0, 1, 2, 3, 4, 5, 6, 7], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("mirror", [8, 9, 10, 11, 12, 13 , 14, 15], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("sourceReverse", [24, 25, 26, 27], Std.int(4 / Settings.LASER_SPEED), false);
+		animation.add("teleport", [59, 60, 61], Std.int(3 / Settings.LASER_SPEED), false);
+		animation.add("stopAtTeleport", [56, 57, 58], Std.int(3 / Settings.LASER_SPEED), false);
 		animation.add("source", [28, 29, 30, 31], Std.int(4 / Settings.LASER_SPEED), false);
 		animation.add("merge", [40, 41, 42, 43,44 ,45 ,46 ,47], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("target", [0, 1, 2, 3, 4, 5, 6, 7], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("mergeSplit", [48, 49, 50, 51, 52, 53 ,54 ,55], Std.int(8 / Settings.LASER_SPEED), false);
 		animation.add("mergeStop", [24, 25, 26], Std.int(3 / Settings.LASER_SPEED), false);
 		animation.add("stopAtSource", [16, 17, 18], Std.int(3 / Settings.LASER_SPEED), false);
-		animation.add("disappear", [59], Std.int(1 / Settings.LASER_SPEED), false);
+		animation.add("disappear", [64], Std.int(1 / Settings.LASER_SPEED), false);
 		animation.play("default");
 
 		ID = _id;
 		color= Settings.AVAILABLE_COLORS[colorId];
 		
 		becomeHead = new FlxTimer();
-		
 		
 		var directionSum = tile.direction + direction;
 		

@@ -1,5 +1,6 @@
 package tiles;
 
+import flixel.FlxG;
 import flixel.effects.particles.FlxEmitter;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -7,9 +8,13 @@ import flixel.math.FlxPoint;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
+import openfl.Assets;
 import openfl.display.BitmapData;
+import openfl.display.Sprite;
 import openfl.geom.Point;
 import openfl.geom.Rectangle;
+import format.SVG;
+
 
 class Tile extends FlxSprite {
 
@@ -21,6 +26,10 @@ class Tile extends FlxSprite {
 	public var direction:						Int = FlxObject.UP;
 	public var colorId:							Int;
 	public var connectedColors: 				Array<Int> = [];
+	public var completed:						Bool = false;
+
+	
+	public var bitmapDataMoveY: 				Int = 0;
 	
 	public var boardX: 							Int;
 	public var boardY: 							Int;
@@ -31,17 +40,22 @@ class Tile extends FlxSprite {
 	public static var TURN_UP: 						Array<Int> = [0, -1, FlxObject.UP];
 	public static var TURN_RIGHT: 					Array<Int> = [1, 0, FlxObject.RIGHT];
 	public static var TURN_DOWN: 					Array<Int> = [0, 1, FlxObject.DOWN];
-	public static var TURN_LEFT: 					Array<Int> = [-1, 0, FlxObject.LEFT];
+	public static var TURN_LEFT: 					Array<Int> = [ -1, 0, FlxObject.LEFT];
+	public static var TELEPORT: 					Array<Int> = [-99, -99, 0x666];
 	public static var STOP: 						Array<Int> = [0, 0, FlxObject.UP];
 	
 	
 	public static inline var BLANK:				Int = 0;
 	public static inline var MIRROR:			Int = 1;
 	public static inline var BACK_MIRROR:		Int = 2;
-	public static inline var BLOCK:				Int = 3;
 	public static inline var SOURCE:			Int = 4;
 	public static inline var TARGET:			Int = 8;
 	public static inline var MERGE:				Int = 12;
+	public static inline var BLOCK:				Int = 16;
+	public static inline var PORTAL_IN:			Int = 20;
+	public static inline var PORTAL_OUT:		Int = 24;
+	public static inline var COLLECT_POINT: 	Int = 28;
+	
 	
 	override public function new(_x:Float, _y:Float, _t:Int, _d:Int, _m:Bool, _c:Int, _bx:Int, _by:Int){
 		super(_x, _y);
@@ -57,15 +71,23 @@ class Tile extends FlxSprite {
 		tileID = type;
 		
 		if(movable){
-			animation.add("default", [tileID + 20]);
+			animation.add("default", [tileID + 40]);
 		} else {
 			animation.add("default", [tileID]);
 		}
 		animation.play("default");
 
 		originalPosition = new FlxPoint(x, y);
+		
+		if (movable) {
+			bitmapDataMoveY = Settings.TILE_HEIGHT;
+		}
 	}	
 	
+	public function resetState(){
+		
+	}
+
 	public function nextMove(_d:Int):Array<Int>{ 
 		return [0, 0, FlxObject.UP, 0]; //moveX, moveY, direction, shouldFireOpositeLaser
 	}
@@ -83,14 +105,15 @@ class Tile extends FlxSprite {
 			FlxTween.tween(scale, {x:1, y:1}, .3, {ease:FlxEase.elasticOut});
 		});
 	} 
-	
 
 	public function complete() {
+
 		if (!particlesLaunched && Settings.PARTICLES_ON) {
 			particles.start(true, 0.1, 0);
 			particlesLaunched = true;	
 		}
 	}
+	
 	override public function update(elapsed) {
 		super.update(elapsed);
 		color = 0xFFFFFFFF;

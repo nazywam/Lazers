@@ -32,8 +32,13 @@ class LevelSelect extends FlxState {
 	
 	var howToVisible : Bool = true;
 	var toggleRunning : Bool = false;
+	
+	var heart : FlxSprite;
+	
 	override public function create(){
 		super.create();
+
+	//	FlxG.switchState(new PlayState(6, 4, false));
 		
 		if (Settings.SAVES == null) {		
 			Settings.SAVES = new FlxSave();
@@ -42,6 +47,9 @@ class LevelSelect extends FlxState {
 		
 		if (Settings.SAVES.data.completedLevels == null) {
 			Settings.SAVES.data.completedLevels = new Array<Bool>();
+			for(i in 0...Settings.LEVELS_IN_STAGE * 4){
+				Settings.SAVES.data.completedLevels.push(false);
+			}
 		} else {
 			howToVisible = false;
 		}
@@ -49,46 +57,48 @@ class LevelSelect extends FlxState {
 		scroll = Settings.SAVED_SCROLL;
 		FlxG.camera.scroll.y = scroll;
 		
-		logo = new FlxSprite(FlxG.width/2, 32);
-		logo.loadGraphic(Settings.FIRE_DEM_LAZERS, true, 240, 156);
-		logo.x -= logo.width/2;
-		logo.animation.add("default", [0,1,2,3,4, 4, 4, 4, 4, 4, 4, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0,], 12);
+		logo = new FlxSprite(0, 32);
+		logo.loadGraphic(Settings.FIRE_DEM_LAZERS, true, 720, 120);
+		logo.animation.add("default", [1,2,2, 3 ,3,4, 4, 4, 4, 4, 4, 4, 3,3 , 2, 2, 1, 1, 1, 1, 1, 1], 12);
 		logo.animation.play("default");
 		
-		howToPlayTitle = new Button(0, logo.y + logo.height + 32, "How To Play", FlxG.width, 36);
+		howToPlayTitle = new Button(0, logo.y + logo.height + 16, "How To Play", FlxG.width, 84);
 		
 		howTos = new FlxTypedGroup<FlxSprite>();
 		for (x in 0...Settings.AVAILABLE_HOW_TOS) {
 			
-			var posY = howToPlayTitle.y + howToPlayTitle.background.height + 180 * x - 10;
+			var posY = howToPlayTitle.y + howToPlayTitle.background.height + 360 * x - 10;
 			if (!howToVisible) {
-				posY = -180 * (Settings.AVAILABLE_HOW_TOS - x) - 10 + howToPlayTitle.y + howToPlayTitle.background.height;
+				posY = -720 * (Settings.AVAILABLE_HOW_TOS - x) - 20 + howToPlayTitle.y + howToPlayTitle.background.height;
 			}
 			var h = new FlxSprite(0, posY);
-			h.loadGraphic(Settings.HOW_TO_PLAY + Std.string(x) + ".png", true, 360, 180);
+			h.loadGraphic(Settings.HOW_TO_PLAY + Std.string(x) + ".png", true, 720, 360);
 			h.animation.add("default", [for (i in 0...Settings.HOW_TO_ANIMATIONS[x]) i], 3);
 			h.animation.play("default");
 			howTos.add(h);
 		}
-		
-		levelSelectTitle = new Button(0, howToPlayTitle.y + howToPlayTitle.background.height + 180 * Settings.AVAILABLE_HOW_TOS, "Select Level", FlxG.width, 36);
+
+		levelSelectTitle = new Button(0, howToPlayTitle.y + howToPlayTitle.background.height + 360 * Settings.AVAILABLE_HOW_TOS, "Select Level", FlxG.width, 84);
 		
 		stages = new FlxTypedGroup<Stage>();
-		pressedPoint = new FlxPoint(-1, -1);
+		pressedPoint = new FlxPoint( -1, -1);
 		
-		for(i in 0...5){
-			var s = new Stage(i, levelSelectTitle.y + levelSelectTitle.background.height);
+														
+
+		for (i in 0...Settings.AVAILABLE_STAGES) {
+			var s = new Stage(i, levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * i);
 			stages.add(s);
 		}
-		
-		credits = new Button(0, levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * 5 + 16, "By: Nazywam : )", FlxG.width, 36);
+
+
+		credits = new Button(0, levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * Settings.AVAILABLE_STAGES + 16, "By: Nazywam : )", FlxG.width, 72);
 		
 		transitionScreen = new TransitionScreen();
 		transitionScreen.startHalf();
 		
-		maxScrollY = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * 4;
+		maxScrollY = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * Settings.AVAILABLE_STAGES;
 		
-		var background = new FlxSprite(0, -FlxG.height, Settings.BACKGROUND);
+		var background = new FlxSprite(0, -FlxG.height - 96*2, Settings.BACKGROUND);
 		
 		add(howTos);
 		add(stages);
@@ -101,11 +111,18 @@ class LevelSelect extends FlxState {
 		
 		if (!howToVisible) {
 			howToVisible = true;
-			toggleHowTo();
+			toggleHowTo(0.1);
 		}
+
+		//heart = new FlxSprite(FlxG.width / 2, credits.y + credits.background.height * 3, Settings.HEART);
+		heart = new FlxSprite(FlxG.width / 2, 1500, Settings.HEART);
+		heart.alpha = 0;
+		heart.x -= heart.width / 2;
+		add(heart);
+		
 	}
 	
-	function toggleHowTo() {
+	function toggleHowTo(time:Float) {
 		if (!toggleRunning) {
 			toggleRunning = true;
 			howToVisible = !howToVisible;
@@ -114,14 +131,14 @@ class LevelSelect extends FlxState {
 				var h = howTos.members[i];
 				
 				if (howToVisible) {
-					FlxTween.tween(h, { y:howToPlayTitle.y + howToPlayTitle.background.height + 180 * i - 10}, 1, {ease:FlxEase.cubeInOut});
+				FlxTween.tween(h, { y:howToPlayTitle.y + howToPlayTitle.background.height + 360 * i - 20}, time, {ease:FlxEase.cubeInOut});
 				} else {
-					FlxTween.tween(h, { y:-180*(howTos.members.length - i) - 10 + howToPlayTitle.y + howToPlayTitle.background.height }, 1, {ease:FlxEase.cubeInOut});
+				FlxTween.tween(h, { y:-360*(howTos.members.length - i) - 20 + howToPlayTitle.y + howToPlayTitle.background.height }, time, {ease:FlxEase.cubeInOut});
 				}
 			}
 			
 			var t = new FlxTimer();
-			t.start(1, function(_) { toggleRunning = false; } );
+			t.start(time, function(_) { toggleRunning = false; } );
 		}
 	}
 	
@@ -147,7 +164,7 @@ class LevelSelect extends FlxState {
 			pressedPoint.set( -1, -1);
 			
 			if (pressedButton == howToPlayTitle && FlxG.mouse.overlaps(howToPlayTitle) && !scrolling) {
-				toggleHowTo();
+				toggleHowTo(1);
 			}
 			
 			if(pressedLevelIcon != null && FlxG.mouse.overlaps(pressedLevelIcon) && !scrolling){
@@ -174,26 +191,31 @@ class LevelSelect extends FlxState {
 				scrolling = true;
 			}
 		}
+		
 	}
 	
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
 		handleMouse();
+		heart.alpha += ( -heart.alpha) / 10;
 		if (scroll < 0) {
 			scroll += ( -scroll) / 4;
 		} else if (scroll + FlxG.height > maxScrollY) {
 			scroll += (maxScrollY - FlxG.height - scroll) / 4;
+			
+			if (scroll + FlxG.height/3 - maxScrollY > 1) {
+				heart.alpha += (1 - heart.alpha) / 9;
+			}
 		}
 		FlxG.camera.scroll.y += (scroll - FlxG.camera.scroll.y) / 3;
 		
 		
-		levelSelectTitle.y = howTos.members[howTos.members.length - 1].y + 180 + 24;
-		maxScrollY = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * 4;
+		levelSelectTitle.y = howTos.members[howTos.members.length - 1].y + 360 + 48;
+		maxScrollY = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * Settings.AVAILABLE_STAGES;
 		
 		for (s in 0...stages.members.length) {
 			stages.members[s].y = levelSelectTitle.y + levelSelectTitle.background.height + Settings.STAGE_HEIGHT * s;
 		}
-		credits.y = stages.members[stages.members.length-1].y +Settings.STAGE_HEIGHT + 32;
-		
+		credits.y = stages.members[stages.members.length - 1].y +Settings.STAGE_HEIGHT + 32;
 	}
 }

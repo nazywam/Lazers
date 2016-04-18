@@ -1,6 +1,7 @@
 package tiles;
 
 import flixel.FlxObject;
+import format.SVG;
 
 class BackMirror extends Tile {
 
@@ -8,6 +9,7 @@ class BackMirror extends Tile {
 		super(_x, _y, _t, _d, _m, _c, _bx, _by);
 		passable = true;
 		type = Tile.BACK_MIRROR;
+		
 	}
 
 	override public function nextMove(_d:Int){

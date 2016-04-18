@@ -2,19 +2,24 @@
 <project>
 	<!------------------------------APPLICATION SETTINGS---------------------------->
 	
-	<app title="Fire Dem Lazers" file="Fire Dem Lazers" main="Main" version="1.0.0" company="Nazywam" />
-	<meta title="Fire Dem Lazers" package="com.nazywam.Fire.Dem.Lazers"/>
+	<app title="Laser Hazard" file="Laser Hazard" main="Main" version="1.3.0" company="Nazywam" />
+	<meta title="Laser Hazard" package="com.nazywam.Lazer.Hazard"/>
 	
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 	<!--or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"!-->
 	<app preloader="flixel.system.FlxPreloader" />
 	
+	<config:hxtelemetry host="192.168.2.21" allocations="true" />
+
+
+
 	<!--Minimum without FLX_NO_GAMEPAD: 11.8, without FLX_NO_NATIVE_CURSOR: 11.2 -->
 	<android target-sdk-version="19" /> 
 	<set name="SWF_VERSION" value="11.8" />
 	
 	<!--------------------------------WINDOW SETTINGS------------------------------->
-	
+	<certificate path="RGBlocks.keystore" alias="RGBlocks" if="android" ></certificate>
+
 	<!--These window settings apply to all targets-->
 	<window width="360" height="640" fps="30" background="#000000" hardware="true" vsync="true" />
 	
@@ -25,7 +30,7 @@
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" />
 	
 	<!--Mobile-specific-->
-	<window if="mobile" orientation="portrait" fullscreen="true" fps="30" width="0" height="0"/>
+	<window if="mobile" orientation="portrait" fullscreen="true" fps="30" width="360" height="640"/>
 	
 	<!--------------------------------PATHS SETTINGS-------------------------------->
 	
@@ -36,8 +41,7 @@
 	<!--------------------------------LIBRARIES------------------------------------->
 
 	<haxelib name="flixel"/>
-	
-	<!--In case you want to use the addons package-->
+	<haxelib name="svg" />
 	<haxelib name="flixel-addons" />
 	
 	<!--In case you want to use the ui package-->

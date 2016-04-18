@@ -10,18 +10,18 @@ class Settings {
 	public static var PARTICLES_ON		:Bool =		true;
 	public static var FUN				:Bool = 	false;
 	
-	public static var BOARD_OFFSET_X	:Int = 		3;
-	public static var BOARD_OFFSET_Y	:Int =		3;
-	public static var GRID_WIDTH		:Int =		3;
+	public static var BOARD_OFFSET_X	:Int = 		6;
+	public static var BOARD_OFFSET_Y	:Int =		6;
+	public static var GRID_WIDTH		:Int =		6;
 	
 	public static var BOARD_WIDTH 		:Int = 		7;
 	public static var BOARD_HEIGHT 		:Int = 		7;
 
-	public static var TILE_WIDTH 		:Int = 		48;
-	public static var TILE_HEIGHT 		:Int = 		48;
+	public static var TILE_WIDTH 		:Int = 		96;
+	public static var TILE_HEIGHT 		:Int = 		96;
 	
-	public static var LASER_WIDTH 		:Int = 		48;
-	public static var LASER_HEIGHT 		:Int = 		48;
+	public static var LASER_WIDTH 		:Int = 		96;
+	public static var LASER_HEIGHT 		:Int = 		96;
 	public static var LASER_SPEED		:Float = 	4/60;
 
 	
@@ -30,11 +30,14 @@ class Settings {
 	
 	public static var STRIPE_SPEED	 	:Int =		30;
 	
-	public static var STAGE_HEIGHT	 	:Int =		180;
+	public static var STAGE_HEIGHT	 	:Int =		360;
 	public static var LEVELS_IN_STAGE	:Int =		8;
 
-	public static var AVAILABLE_HOW_TOS: Int = 4;
-	public static var HOW_TO_ANIMATIONS:		Array<Int> = [6, 10, 8, 9];
+	public static var AVAILABLE_HOW_TOS: Int = 6;
+	public static var AVAILABLE_STAGES : Int = 7;
+	public static var HOW_TO_ANIMATIONS:		Array<Int> = [6, 10, 8, 9, 6, 11];
+	
+
 	
 	public static var RED : Int = 				0;
 	public static var GREEN : Int = 			1;
@@ -64,14 +67,14 @@ class Settings {
 		0xFFFFFFFF	//white				
 	];
 	
-	public static var TILE_DIRECTIONS : Array<Int> = [FlxObject.UP, FlxObject.UP, FlxObject.UP, FlxObject.UP, FlxObject.UP, FlxObject.RIGHT, FlxObject.DOWN, FlxObject.LEFT, FlxObject.UP, FlxObject.RIGHT, FlxObject.DOWN, FlxObject.LEFT, FlxObject.UP, FlxObject.RIGHT, FlxObject.DOWN, FlxObject.LEFT];
+	public static var TILE_DIRECTIONS : Array<Int> = [FlxObject.UP, FlxObject.UP, FlxObject.UP, FlxObject.UP, FlxObject.UP, FlxObject.RIGHT, FlxObject.DOWN, FlxObject.LEFT, FlxObject.UP, FlxObject.RIGHT, FlxObject.DOWN, FlxObject.LEFT, FlxObject.UP, FlxObject.RIGHT, FlxObject.DOWN, FlxObject.LEFT, FlxObject.UP, FlxObject.UP, FlxObject.UP, FlxObject.UP, FlxObject.UP, FlxObject.RIGHT, FlxObject.DOWN, FlxObject.LEFT, FlxObject.UP, FlxObject.RIGHT, FlxObject.DOWN, FlxObject.LEFT];
 	
 	public static var OPPOSITE_DIRECTIONS : Array<Array<Int>> = [
 	[FlxObject.LEFT + FlxObject.RIGHT, FlxObject.UP + FlxObject.DOWN],
 	[FlxObject.LEFT + FlxObject.UP, FlxObject.RIGHT + FlxObject.DOWN],
 	[FlxObject.LEFT + FlxObject.DOWN, FlxObject.UP + FlxObject.RIGHT]];
 	
-	public static inline var FONT :				String = "assets/edunline.ttf";
+	public static inline var FONT :				String = "assets/kenpixel_high_square.ttf";
 	public static inline var TILES_IMAGE : 		String = "assets/images/Tiles.png";
 	public static inline var GRID : 			String = "assets/images/Grid.png";
 	public static inline var AVAILABLE_TILES : 	String = "assets/images/AvailableTiles.png";
@@ -83,8 +86,7 @@ class Settings {
 	public static inline var HOW_TO_PLAY	: 	String = "assets/images/HowTo";
 	public static inline var STAGES : 			String = "assets/images/Stages.png";
 	public static inline var BACKGROUND : 		String = "assets/images/Background.png";
+	public static inline var HEART : 			String = "assets/images/Heart.png";
 	public static inline var LOGO_SCREEN : 		String = "assets/images/LogoScreen.png";
-	
-	
-	
+	public static inline var INNER_CIRCLE : 	String = "assets/images/InnerCircle.png";
 }

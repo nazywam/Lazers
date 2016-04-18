@@ -19,21 +19,21 @@ class Stage extends FlxGroup {
 		y = _y + Settings.STAGE_HEIGHT * _s;
 
 		background = new FlxSprite(0, y);
-		background.loadGraphic(Settings.STAGES, true, FlxG.width, 180);
+		background.loadGraphic(Settings.STAGES, true, 720, 360);
 		background.animation.add("default", [stageNumber]);
 		background.animation.play("default");
 		add(background);
-
+		
 		levelIcons = new FlxTypedGroup<LevelIcon>();
 		add(levelIcons);
 
 		for(i in 0...Settings.LEVELS_IN_STAGE){
 			var moveY = 0;
 			if(i % 2 == 1){
-				moveY = 60;
+				moveY = 120;
 			}
 			
-			var l = new LevelIcon(16 + i*38, y + 64 + moveY, stageNumber, i, Settings.SAVES.data.completedLevels[i + stageNumber * Settings.LEVELS_IN_STAGE]);
+			var l = new LevelIcon(32 + i*38*2, y + 128 + moveY, stageNumber, i, Settings.SAVES.data.completedLevels[i + stageNumber * Settings.LEVELS_IN_STAGE]);
 			levelIcons.add(l);
 		}
 	}
@@ -46,10 +46,10 @@ class Stage extends FlxGroup {
 		for (i in 0...levelIcons.members.length) {
 			var moveY = 0;
 			if(i % 2 == 1){
-				moveY = 60;
+				moveY = 120;
 			}
 			
-			levelIcons.members[i].y = y + 64 + moveY;
+			levelIcons.members[i].y = y + 128 + moveY;
 		}
 	}
 }

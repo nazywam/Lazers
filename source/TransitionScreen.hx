@@ -25,9 +25,9 @@ class TransitionScreen extends FlxGroup {
 		for (y in 0...16) {
 			board[y] = new Array<FlxSprite>();
 			for (x in 0...9) {
-				var s = new FlxSprite(48 * x, 48 * y);
+				var s = new FlxSprite(96 * x, 96 * y);
 				s.scrollFactor.x = s.scrollFactor.y = 0;
-				s.loadGraphic(Settings.TILES_IMAGE, true, 48, 48);
+				s.loadGraphic(Settings.TILES_IMAGE, true, 96, 96);
 				s.animation.add("default", [Tile.BLOCK]);
 				s.animation.play("default");
 				s.color = Settings.AVAILABLE_COLORS[((x+y)*(x+y) + x - y) % Settings.AVAILABLE_COLORS.length];

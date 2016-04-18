@@ -31,7 +31,8 @@ class PlayState extends FlxState {
 	
 	var availableTiles:FlxTypedGroup<Tile>;
 	var availableTilesBackground:FlxSprite;
-
+	var availableColors:Array<Int>;
+	
 	var pressedTile:Tile;
 	var pressed:Bool=false;
 
@@ -45,6 +46,8 @@ class PlayState extends FlxState {
 	
 	var grid:FlxSprite;
 
+	
+	
 	override public function new(_s:Int, _c:Int, _r:Bool) {
 
 		currentLevel = _c;
@@ -78,6 +81,7 @@ class PlayState extends FlxState {
 	override public function create():Void {
 		super.create();
 		
+		
 		grid = new FlxSprite(0, 0, Settings.GRID);
 		add(grid);
 		
@@ -97,9 +101,9 @@ class PlayState extends FlxState {
 		laserHeads = new FlxTypedGroup<Laser>();
 		add(lasers);
 	
-		fireButton = new Button(0, availableTilesBackground.y + availableTilesBackground.height, "Fire lasers", FlxG.width, 48);
-		resetButton = new Button(0, fireButton.y + fireButton.background.height + 24, "Reset Board", FlxG.width, 48); 
-		menuButton = new Button(0, resetButton.y + resetButton.background.height + 25, "Menu", FlxG.width, 48);
+		fireButton = new Button(0, availableTilesBackground.y + availableTilesBackground.height, "Fire lasers", FlxG.width, 96);
+		resetButton = new Button(0, fireButton.y + fireButton.background.height + 24, "Reset Board", FlxG.width, 96); 
+		menuButton = new Button(0, resetButton.y + resetButton.background.height + 25, "Menu", FlxG.width, 96);
 		add(fireButton);
 		add(menuButton);
 		add(resetButton);
@@ -144,7 +148,7 @@ class PlayState extends FlxState {
 									var tile = line.split(',')[t];
 
 									if (isNumeric(tile)) {
-										boardColors[l - 1][t] = Std.parseInt(tile) - 41;
+										boardColors[l - 1][t] = Std.parseInt(tile) - 81;
 									}
 								}
 							case "Tiles":
@@ -162,17 +166,27 @@ class PlayState extends FlxState {
 											board[l-1][t] = new Blank(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
 										} else if(_tile >= Tile.MIRROR && _tile < Tile.BACK_MIRROR){
 											board[l-1][t] = new Mirror(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
-										} else if(_tile >= Tile.BACK_MIRROR && _tile < Tile.BLOCK){
+										} else if(_tile >= Tile.BACK_MIRROR && _tile < 3){
 											board[l-1][t] = new BackMirror(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
-										}else if(_tile >= Tile.BLOCK && _tile < Tile.SOURCE){
-											board[l-1][t] = new Block(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
+										} else if (_tile == 3) {
+											trace("That is not a valid tile!");
 										} else if(_tile >= Tile.SOURCE && _tile < Tile.TARGET){
 											board[l-1][t] = new Source(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l-1][t], t, l-1);
 										} else if(_tile >= Tile.TARGET && _tile < Tile.MERGE){
 											board[l - 1][t] = new Target(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
 											particles.add(board[l - 1][t].particles);
-										} else if(_tile >= Tile.MERGE){
+										} else if(_tile >= Tile.MERGE && _tile < Tile.BLOCK){
 											board[l - 1][t] = new Merge(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
+										} else if(_tile >= Tile.BLOCK && _tile < Tile.PORTAL_IN){
+											board[l - 1][t] = new Block(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
+										} else if (_tile >= Tile.PORTAL_IN && _tile < Tile.PORTAL_OUT) {
+											board[l - 1][t] = new PortalIn(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
+										} else if (_tile >= Tile.PORTAL_OUT && _tile < Tile.COLLECT_POINT) {
+											board[l - 1][t] = new PortalOut(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
+										} else if (_tile == Tile.COLLECT_POINT) {
+											var c = new CollectPoint(t * (Settings.TILE_WIDTH + Settings.GRID_WIDTH) +  Settings.BOARD_OFFSET_X, (l - 1) * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH) + Settings.BOARD_OFFSET_Y, Std.parseInt(tile) - 1, Settings.TILE_DIRECTIONS[Std.parseInt(tile) -1], false, boardColors[l - 1][t], t, l - 1);
+											board[l - 1][t] = c;
+											add(c.innerCircle);
 										} else {
 											trace("Unidetified block on the grid!!!");
 										}
@@ -195,42 +209,56 @@ class PlayState extends FlxState {
 	    }
 
 		availableTiles = new FlxTypedGroup<Tile>();
+		availableColors = new Array<Int>();
 		add(availableTiles);
+		
+		for (i in 0...6) {
+			availableColors.push(0);
+		}
 		
 		for (props in xml.elementsNamed("properties")) {
 			for (p in props.elementsNamed("property")) {
 				var avail = p.get("value").split(',');
 				
+				
 				for (i in 0...avail.length) {
-					var _tile = Std.parseInt(avail[i]);
-					
-					var a:Dynamic;
-					
-					if(_tile >= Tile.BLANK && _tile < Tile.MIRROR){
-						a = new Blank(availableTilesBackground.x + 11 + i*58, availableTilesBackground.y + 11, _tile, Settings.TILE_DIRECTIONS[_tile], true, 0, -1, -1);
-					} else if(_tile >= Tile.MIRROR && _tile < Tile.BACK_MIRROR){
-						a = new Mirror(availableTilesBackground.x + 11 + i*58, availableTilesBackground.y + 11, _tile, Settings.TILE_DIRECTIONS[_tile], true, 0, -1, -1);
-					} else if(_tile >= Tile.BACK_MIRROR && _tile < Tile.BLOCK){
-						a = new BackMirror(availableTilesBackground.x + 11 + i*58, availableTilesBackground.y + 11, _tile, Settings.TILE_DIRECTIONS[_tile], true, 0, -1, -1);
-					}else if(_tile >= Tile.BLOCK && _tile < Tile.SOURCE){
-						a = new Block(availableTilesBackground.x + 11 + i*58, availableTilesBackground.y + 11, _tile, Settings.TILE_DIRECTIONS[_tile], true, 0, -1, -1);
-					} else if(_tile >= Tile.SOURCE && _tile < Tile.TARGET){
-						a = new Source(availableTilesBackground.x + 11 + i*58, availableTilesBackground.y + 11, _tile, Settings.TILE_DIRECTIONS[_tile], true, 0, -1, -1);
-					} else if(_tile >= Tile.TARGET && _tile < Tile.MERGE){
-						a = new Target(availableTilesBackground.x + 11 + i * 58, availableTilesBackground.y + 11, _tile, Settings.TILE_DIRECTIONS[_tile], true, 0, -1, -1);
-						particles.add(a.particles);
+					if (p.get("name") == "AvailableColors") {						
+						availableColors[i] = Std.parseInt(avail[i]);
 					} else {
-						a = new Merge(availableTilesBackground.x + 11 + i*58, availableTilesBackground.y + 11, _tile, Settings.TILE_DIRECTIONS[_tile], true, 0, -1, -1);					
-					}
+						var _tile = Std.parseInt(avail[i]);
+						
+						var a:Dynamic;
+						
+						if(_tile >= Tile.BLANK && _tile < Tile.MIRROR){
+							a = new Blank(availableTilesBackground.x + 22 + i*58*2, availableTilesBackground.y + 22, _tile, Settings.TILE_DIRECTIONS[_tile], true, availableColors[i], -1, -1);
+						} else if(_tile >= Tile.MIRROR && _tile < Tile.BACK_MIRROR){
+							a = new Mirror(availableTilesBackground.x + 22 + i*58*2, availableTilesBackground.y + 22, _tile, Settings.TILE_DIRECTIONS[_tile], true, availableColors[i], -1, -1);
+						} else if(_tile >= Tile.BACK_MIRROR && _tile < Tile.SOURCE){
+							a = new BackMirror(availableTilesBackground.x + 22 + i*58*2, availableTilesBackground.y + 22, _tile, Settings.TILE_DIRECTIONS[_tile], true, availableColors[i], -1, -1);
+						}else if(_tile >= Tile.BLOCK && _tile < Tile.PORTAL_IN){
+							a = new Block(availableTilesBackground.x + 22 + i*58*2, availableTilesBackground.y + 22, _tile, Settings.TILE_DIRECTIONS[_tile], true, availableColors[i], -1, -1);
+						} else if(_tile >= Tile.SOURCE && _tile < Tile.TARGET){
+							a = new Source(availableTilesBackground.x + 22 + i*58*2, availableTilesBackground.y + 22, _tile, Settings.TILE_DIRECTIONS[_tile], true, availableColors[i], -1, -1);
+						} else if(_tile >= Tile.TARGET && _tile < Tile.MERGE){
+							a = new Target(availableTilesBackground.x + 22 + i * 58*2, availableTilesBackground.y + 22, _tile, Settings.TILE_DIRECTIONS[_tile], true, availableColors[i], -1, -1);
+							particles.add(a.particles);
+						} else if(_tile >= Tile.MERGE && _tile < Tile.BLOCK){
+							a = new Merge(availableTilesBackground.x + 22 + i*58*2, availableTilesBackground.y + 22, _tile, Settings.TILE_DIRECTIONS[_tile], true, availableColors[i], -1, -1);					
+						} else if (_tile >= Tile.PORTAL_IN && _tile < Tile.PORTAL_OUT) {
+							a = new PortalIn(availableTilesBackground.x + 22 + i*58*2, availableTilesBackground.y + 22, _tile, Settings.TILE_DIRECTIONS[_tile], true, availableColors[i], -1, -1);					
+						} else {
+							a = new PortalOut(availableTilesBackground.x + 22 + i*58*2, availableTilesBackground.y + 22, _tile, Settings.TILE_DIRECTIONS[_tile], true, availableColors[i], -1, -1);						
+						}
 
-					if (Settings.FUN) {
-						var t = new FlxWaveSprite(a);
-						t.strength = 35;
-						t.speed = 15;
-						waveSprites.add(t);
-						a.visible = false;
+						if (Settings.FUN) {
+							var t = new FlxWaveSprite(a);
+							t.strength = 35;
+							t.speed = 15;
+							waveSprites.add(t);
+							a.visible = false;
+						}
+						availableTiles.add(a);
 					}
-					availableTiles.add(a);
 				}
 			}
 		}
@@ -273,12 +301,7 @@ class PlayState extends FlxState {
 
 		for (j in 0...board.length) {
 			for (i in 0...board[j].length) {
-				if (board[j][i].type == Tile.TARGET) {
-					while (board[j][i].connectedColors.length > 0) {
-						board[j][i].connectedColors.pop();	
-						board[j][i].particlesLaunched = false;	
-					}
-				}
+				board[j][i].resetState();
 			}
 		}
 	}
@@ -303,7 +326,8 @@ class PlayState extends FlxState {
 	
 	
  	function handleMouse() {
-		if(FlxG.mouse.justPressed){
+		if (FlxG.mouse.justPressed) {
+		
 			var pressedX:Int = Std.int(FlxG.mouse.x/Settings.TILE_WIDTH);
 			var pressedY:Int = Std.int(FlxG.mouse.y/Settings.TILE_HEIGHT);
 			
@@ -331,7 +355,6 @@ class PlayState extends FlxState {
 			}
 			
 			if (FlxG.mouse.overlaps(fireButton)) {
-				fireButton.blink(false);
 				if (levelComplete) {
 					startNextLevel();
 				} else {
@@ -339,7 +362,6 @@ class PlayState extends FlxState {
 				}
 			}
 			if (FlxG.mouse.overlaps(menuButton)) {
-				menuButton.blink(false);
 	
 				transitionScreen.running = false;
 				transitionScreen.start();
@@ -350,7 +372,6 @@ class PlayState extends FlxState {
 				});
 			}
 			if (FlxG.mouse.overlaps(resetButton)) {
-				resetButton.blink(false);
 				
 				FlxG.switchState(new PlayState(currentStage, currentLevel, false));
 			}
@@ -409,6 +430,12 @@ class PlayState extends FlxState {
 		l.becomeHead.start(Settings.LASER_SPEED, function(_){
 			laserHeads.add(l);
 		});
+
+		if (hoverTile.type == Tile.COLLECT_POINT) {
+			hoverTile.connectedColors.push(l.colorId);
+			hoverTile.update(0);
+			checkLevelComplete();
+		}
  	}
 
  	function generateLasers(){
@@ -433,8 +460,9 @@ class PlayState extends FlxState {
 		
 		for(j in 0...board.length){
  			for (i in 0...board[j].length) {
+				var target = board[j][i];
+
 				if (board[j][i].type == Tile.TARGET) {
-					var target = board[j][i];
 					
 					switch(target.connectedColors.length) {
 						case 0:
@@ -447,12 +475,17 @@ class PlayState extends FlxState {
 							}
 						case 2:
 							if (target.colorId != Settings.MIXED_COLORS[target.connectedColors[0]][target.connectedColors[1]]) {
-								c = false;	
+								c = false;
 							} else {
 								target.complete();
 							}
 						default:
 							c = false;
+
+					}
+				} else if (board[j][i].type == Tile.COLLECT_POINT) {
+					if (!target.completed) {
+						c = false;
 					}
 				}
 			}
@@ -481,7 +514,6 @@ class PlayState extends FlxState {
 			}
 		}
 
-
 		if (FlxG.keys.justPressed.ESCAPE) {
 				transitionScreen.running = false;
 				transitionScreen.start();
@@ -493,71 +525,90 @@ class PlayState extends FlxState {
 		}	
 		
 		for (l in laserHeads) {
-				var currentTile = getTile(board, l.x, l.y);
-				var tmp = currentTile.nextMove(l.direction);
-				
-				var _moveX:Int = tmp[0];
-				var _moveY:Int = tmp[1];
-				var nextDirection:Int  = tmp[2];		
-
-				if (tmp[3] == 1) {
-					var spawnLaserDirection:Int = FlxObject.UP;
-					switch(nextDirection) {
-						case FlxObject.UP:	
-							spawnLaserDirection = FlxObject.DOWN;
-						case FlxObject.RIGHT:
-							spawnLaserDirection = FlxObject.LEFT;
-						case FlxObject.DOWN:
-							spawnLaserDirection = FlxObject.UP;
-						case FlxObject.LEFT:
-							spawnLaserDirection = FlxObject.RIGHT;
-					}
-					
-					var spawnLaserHoverTile = getTile(board, currentTile.x - _moveX * (Settings.TILE_WIDTH + Settings.GRID_WIDTH), currentTile.y - _moveY * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH));
-					if (spawnLaserHoverTile != null && spawnLaserHoverTile.passable) {
-						var laser = new Laser(spawnLaserHoverTile.x, spawnLaserHoverTile.y, spawnLaserDirection, l.ID, l.colorId, spawnLaserHoverTile, l.laserNumber);
-						laser.becomeHead.start(Settings.LASER_SPEED, function(_){
-							laserHeads.add(laser);
-						});
-						lasers.add(laser);
-					}
-					
-				}
-				
-				
-				var hoverTile = getTile(board, l.x + _moveX * (Settings.TILE_WIDTH + Settings.GRID_WIDTH), l.y + _moveY * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH));
-				
-				if (hoverTile != null && hoverTile != currentTile) {
-					
-					var uniqueLaser:Bool = true;
+			var currentTile = getTile(board, l.x, l.y);
+			var tmp = currentTile.nextMove(l.direction);
 			
-					for (laser in lasers) {
-						if (laser.x == l.x && laser.y == l.y && laser.direction == l.direction && laser != l) {
-							if (l.ID == laser.ID) {
-								uniqueLaser = false;	
-							}
-						}
-						  
-					}
-					if (hoverTile.type == Tile.BLOCK || (!currentTile.passable && l.laserNumber != 0)) {
-						uniqueLaser = false;
-					}
-					
-					if (uniqueLaser && !(hoverTile.type == Tile.SOURCE && hoverTile.direction == nextDirection)) {
-						var laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, l.colorId, hoverTile, l.laserNumber + 1);		
-						lasers.add(laser);								
-						laser.becomeHead.start(Settings.LASER_SPEED, function(_){
-							laserHeads.add(laser);
-						});
-						
-						if (hoverTile.type == Tile.TARGET) {
-							checkLevelComplete();	
-						}
-					} 
+			var _moveX:Int = tmp[0];
+			var _moveY:Int = tmp[1];
+			var nextDirection:Int  = tmp[2];		
+
+			if (tmp[3] == 1) {
+				var spawnLaserDirection:Int = FlxObject.UP;
+				switch(nextDirection) {
+					case FlxObject.UP:	
+						spawnLaserDirection = FlxObject.DOWN;
+					case FlxObject.RIGHT:
+						spawnLaserDirection = FlxObject.LEFT;
+					case FlxObject.DOWN:
+						spawnLaserDirection = FlxObject.UP;
+					case FlxObject.LEFT:
+						spawnLaserDirection = FlxObject.RIGHT;
 				}
 				
-				laserHeads.remove(l);
-				 
+				var spawnLaserHoverTile = getTile(board, currentTile.x - _moveX * (Settings.TILE_WIDTH + Settings.GRID_WIDTH), currentTile.y - _moveY * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH));
+				if (spawnLaserHoverTile != null && spawnLaserHoverTile.passable) {
+					var laser = new Laser(spawnLaserHoverTile.x, spawnLaserHoverTile.y, spawnLaserDirection, l.ID, l.colorId, spawnLaserHoverTile, l.laserNumber);
+					laser.becomeHead.start(Settings.LASER_SPEED, function(_){
+						laserHeads.add(laser);
+					});
+					lasers.add(laser);
+
+					if(spawnLaserHoverTile.type == Tile.COLLECT_POINT){
+						spawnLaserHoverTile.connectedColors.push(l.colorId);
+						spawnLaserHoverTile.update(0);
+						checkLevelComplete();
+					}
+				}
 			}
+			
+			
+			var hoverTile = getTile(board, l.x + _moveX * (Settings.TILE_WIDTH + Settings.GRID_WIDTH), l.y + _moveY * (Settings.TILE_HEIGHT + Settings.GRID_WIDTH));
+			
+			if (tmp == Tile.TELEPORT) {
+				for (y in 0...board.length) {
+					for (x in 0...board[y].length) {
+						if (board[y][x].type == Tile.PORTAL_OUT && board[y][x].colorId == currentTile.colorId) {
+							hoverTile = board[y][x]; 
+						}
+					}
+				}
+			}
+			
+			if (hoverTile != null && hoverTile != currentTile) {
+				var uniqueLaser:Bool = true;
+		
+				for (laser in lasers) {
+					if (laser.x == l.x && laser.y == l.y && laser.direction == l.direction && laser != l) {
+						if (l.ID == laser.ID) {
+							uniqueLaser = false;	
+						}
+					}
+					  
+				}
+				if (hoverTile.type == Tile.BLOCK || (!currentTile.passable && l.laserNumber != 0)) {
+					uniqueLaser = false;
+				}
+				
+				if (uniqueLaser && !(hoverTile.type == Tile.SOURCE && hoverTile.direction == nextDirection)) {
+					var laser = new Laser(hoverTile.x, hoverTile.y, nextDirection, l.ID, l.colorId, hoverTile, l.laserNumber + 1);		
+					lasers.add(laser);								
+					laser.becomeHead.start(Settings.LASER_SPEED, function(_){
+						laserHeads.add(laser);
+					});
+					
+					if (hoverTile.type == Tile.TARGET) {
+						checkLevelComplete();	
+					}
+				}
+				
+				if (hoverTile.type == Tile.COLLECT_POINT) {
+
+					hoverTile.connectedColors.push(l.colorId);
+					hoverTile.update(elapsed);
+					checkLevelComplete();
+				}
+			}
+			laserHeads.remove(l);
 		}
+	}
 }
