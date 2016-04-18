@@ -1,4 +1,4 @@
-![alt][img/feature.png]
+![alt](img/feature.png)
 
 # Lazers
 
@@ -14,5 +14,6 @@ Praca na [Interaktywny produkt IT](http://informatyka.am.szczecin.pl/ipit/o-konk
 ![scr1](img/1.png)
 ![scr2](img/2.png)
 ![scr3](img/3.png)
+![scr4](img/4.png)
 
 
